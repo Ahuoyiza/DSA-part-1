@@ -121,34 +121,76 @@
 /* ── Real-world Cards ── */
 .rw-card {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 22px;
-  box-shadow: var(--shadow-card);
+  border: 1.5px solid var(--border);
+  border-radius: 22px;
+  padding: 28px 22px 22px;
+  box-shadow: 0 2px 14px rgba(10,22,40,0.06);
   position: relative;
   overflow: hidden;
-  transition: box-shadow var(--transition), transform var(--transition);
+  transition: box-shadow 0.22s ease, transform 0.22s ease, border-color 0.22s ease;
   cursor: default;
 }
 
-/* Teal left accent line */
+/* Colourful top stripe — each card gets a unique hue */
 .rw-card::before {
   content: '';
   position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: linear-gradient(180deg, var(--teal), #00E5CC);
-  border-radius: 3px 0 0 3px;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  border-radius: 22px 22px 0 0;
+  background: linear-gradient(90deg, #00bfa5, #34d399); /* fallback */
 }
+
+.rw-card:nth-child(1)::before { background: linear-gradient(90deg, #ff6b9d, #ff8fab); }
+.rw-card:nth-child(2)::before { background: linear-gradient(90deg, #6c63ff, #a78bfa); }
+.rw-card:nth-child(3)::before { background: linear-gradient(90deg, #00bfa5, #34d399); }
+.rw-card:nth-child(4)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.rw-card:nth-child(5)::before { background: linear-gradient(90deg, #06b6d4, #38bdf8); }
+.rw-card:nth-child(6)::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
 
 .rw-card:hover {
-  box-shadow: 0 8px 28px rgba(10,22,40,0.12), 0 0 0 1px rgba(0,191,165,0.2);
-  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(10,22,40,0.13);
+  transform: translateY(-5px) scale(1.015);
+  border-color: rgba(108,99,255,0.2);
 }
 
-.rw-card-icon  { color: var(--teal); margin-bottom: 12px; display: block; }
-.rw-card-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-.rw-card-desc  { font-family: var(--font-body); font-size: 13px; color: var(--text-muted); line-height: 1.55; margin: 0; max-width: none; }
+/* Icon — rendered as a coloured pill badge */
+.rw-card-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 11px;
+  box-sizing: content-box;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  color: var(--teal);
+  background: rgba(0,191,165,0.1); /* fallback */
+}
+
+.rw-card:nth-child(1) .rw-card-icon { color: #ff6b9d; background: #fff0f6; }
+.rw-card:nth-child(2) .rw-card-icon { color: #6c63ff; background: #f1f0ff; }
+.rw-card:nth-child(3) .rw-card-icon { color: #00a88f; background: #edfdf9; }
+.rw-card:nth-child(4) .rw-card-icon { color: #d97706; background: #fffbeb; }
+.rw-card:nth-child(5) .rw-card-icon { color: #0891b2; background: #ecfeff; }
+.rw-card:nth-child(6) .rw-card-icon { color: #db2777; background: #fdf2f8; }
+
+.rw-card-title {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.2px;
+}
+
+.rw-card-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0;
+  max-width: none;
+}
 
 /* ── Pseudocode Block ── */
 .pseudo-wrap { margin: 32px 0; }

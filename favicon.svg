@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background pill -->
+  <rect width="32" height="32" rx="8" fill="#12143a"/>
+  <!-- Top node -->
+  <circle cx="16" cy="8.5" r="3.8" fill="#00bfa5"/>
+  <!-- Sparkle highlight on top node -->
+  <circle cx="14.5" cy="7" r="1.1" fill="rgba(255,255,255,0.45)"/>
+  <!-- Bottom-left node -->
+  <circle cx="8" cy="23" r="3.2" fill="#ff6b9d"/>
+  <circle cx="6.8" cy="21.7" r="0.9" fill="rgba(255,255,255,0.4)"/>
+  <!-- Bottom-right node -->
+  <circle cx="24" cy="23" r="3.2" fill="#ffd166"/>
+  <circle cx="22.8" cy="21.7" r="0.9" fill="rgba(255,255,255,0.4)"/>
+  <!-- Connecting edges -->
+  <line x1="16" y1="12.3" x2="8.9" y2="19.8" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="16" y1="12.3" x2="23.1" y2="19.8" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" stroke-linecap="round"/>
+</svg>

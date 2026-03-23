@@ -105,6 +105,15 @@ ${indent(content, 6)}
   }).join('\n');
 }
 
+// ── Build favicon data URI ────────────────────────────────────────────────────
+
+function buildFavicon() {
+  const svg = read('favicon.svg');
+  if (!svg) return '';
+  const b64 = Buffer.from(svg).toString('base64');
+  return `  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,${b64}" />`;
+}
+
 // ── Build SVG sprite ──────────────────────────────────────────────────────────
 
 function buildSVGSprite() {
@@ -115,10 +124,11 @@ function buildSVGSprite() {
 // ── Assemble ──────────────────────────────────────────────────────────────────
 
 function buildHTML() {
-  const css    = buildCSS();
-  const js     = buildJS();
-  const pages  = buildPages();
-  const sprite = buildSVGSprite();
+  const css     = buildCSS();
+  const js      = buildJS();
+  const pages   = buildPages();
+  const sprite  = buildSVGSprite();
+  const favicon = buildFavicon();
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -127,6 +137,7 @@ function buildHTML() {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rise Academy — Lesson 11: DSA Foundations</title>
   <meta name="description" content="A comprehensive, interactive guide to Data Structures and Algorithms fundamentals." />
+${favicon}
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -207,6 +218,21 @@ ${sprite}
     <div id="page-container" data-built="true">
 ${pages}
     </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p class="site-footer__credit">Created by <strong>Sophia Abubakar</strong> for Rise Academy &mdash; 2026</p>
+      <div class="site-footer__socials">
+        <a href="https://x.com/ahuoyiza_" target="_blank" rel="noopener noreferrer" class="site-footer__social-link" aria-label="Twitter / X">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L2.25 2.25h6.998l4.256 5.629 5.74-5.629Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg>
+          <span>@ahuoyiza_</span>
+        </a>
+        <a href="https://www.instagram.com/sophiaoyiza?igsh=MXhxMmc4ZjVoNXkxcw==" target="_blank" rel="noopener noreferrer" class="site-footer__social-link" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          <span>@sophiaoyiza</span>
+        </a>
+      </div>
+    </footer>
   </main>
 
   <script>
