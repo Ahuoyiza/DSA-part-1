@@ -1,0 +1,425 @@
+<!-- ══════════════════════════════════════════
+     PAGE 04 — Big O Notation
+══════════════════════════════════════════ -->
+
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+    Lesson 04
+  </div>
+  <h1 class="page-title">Big O Notation</h1>
+  <div class="page-definition">
+    <p>"Big O notation is the universal language engineers use to describe how an algorithm's resource usage grows as input size grows."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Analogy ── -->
+  <div class="content-section">
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">Imagine searching for a book in a library. <strong>O(1)</strong> — you know the exact shelf and slot, you walk straight to it. <strong>O(log n)</strong> — you use the card catalogue: open to the middle, go left or right, halve again, find it in a few steps. <strong>O(n)</strong> — the catalogue is broken, you walk every aisle checking each spine. <strong>O(n²)</strong> — you compare every book against every other book to find duplicates. Same library, wildly different costs.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Hero Diagram ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      The Big O Growth Chart
+    </h2>
+
+    <div class="diagram-wrap">
+      <span class="diagram-fig-label">fig. 04 — All major complexity classes on one chart</span>
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 720 580" xmlns="http://www.w3.org/2000/svg" style="min-width:340px;width:100%;max-width:720px;min-height:300px" aria-label="Growth chart showing O(1), O(log n), O(n), O(n log n), O(n squared) and O(2 to the n) curves">
+          <defs>
+            <filter id="roughen-p04-hero" x="-5%" y="-5%" width="110%" height="110%">
+              <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="2" seed="5" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <marker id="arr-p04" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+              <path d="M 0 1 L 8 4 L 0 7" stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+            <clipPath id="chart-clip-p04">
+              <rect x="78" y="20" width="570" height="500"/>
+            </clipPath>
+          </defs>
+
+          <!-- ── Zone backgrounds ── -->
+          <!-- SWEET SPOT: left region O(1) and O(log n) -->
+          <rect x="80" y="20" width="190" height="500" fill="rgba(0,191,165,0.05)" rx="2"/>
+          <!-- DANGER ZONE: right-upper region O(n²) and O(2ⁿ) -->
+          <rect x="340" y="20" width="308" height="500" fill="rgba(255,82,82,0.04)" rx="2"/>
+
+          <!-- Zone labels -->
+          <text x="175" y="46" text-anchor="middle" font-family="Caveat, cursive" font-size="14" font-weight="700" fill="#00BFA5">SWEET SPOT</text>
+          <text x="494" y="46" text-anchor="middle" font-family="Caveat, cursive" font-size="14" font-weight="700" fill="#FF5252">DANGER ZONE</text>
+
+          <!-- Divider lines for zones (subtle) -->
+          <line x1="270" y1="20" x2="270" y2="520" stroke="#2A3050" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="340" y1="20" x2="340" y2="520" stroke="#2A3050" stroke-width="1" stroke-dasharray="4,4"/>
+
+          <!-- ── Axes ── -->
+          <g filter="url(#roughen-p04-hero)">
+            <!-- Y axis -->
+            <path d="M 80 528 C 80 380, 79 180, 80 18" stroke="#E8E0D0" stroke-width="2.2" fill="none" stroke-linecap="round" marker-end="url(#arr-p04)"/>
+            <!-- X axis -->
+            <path d="M 78 525 C 250 526, 480 525, 656 525" stroke="#E8E0D0" stroke-width="2.2" fill="none" stroke-linecap="round" marker-end="url(#arr-p04)"/>
+            <!-- Y ticks -->
+            <path d="M 70 440 L 88 440" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 70 355 L 88 355" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 70 270 L 88 270" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 70 185 L 88 185" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 70 100 L 88 100" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- X ticks -->
+            <path d="M 200 516 L 200 534" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 340 516 L 340 534" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 480 516 L 480 534" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 620 516 L 620 534" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          </g>
+
+          <!-- Axis labels -->
+          <text x="370" y="558" text-anchor="middle" font-family="Caveat, cursive" font-size="16" fill="#64748B">n (input size) →</text>
+          <text x="30" y="275" text-anchor="middle" font-family="Caveat, cursive" font-size="16" fill="#64748B" transform="rotate(-90,30,275)">operations →</text>
+
+          <!-- ── Curves (clipped) ── -->
+          <g clip-path="url(#chart-clip-p04)">
+
+            <!-- O(2ⁿ) — #FF5252 — essentially vertical, exits very early -->
+            <path d="M 88 524 C 110 522, 140 512, 168 480 C 188 456, 208 410, 224 350 C 238 290, 250 220, 258 150 C 262 110, 265 70, 268 30"
+                  stroke="#FF5252" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- O(n²) — #FF7043 — steep, exits near middle of chart -->
+            <path d="M 88 524 C 150 520, 220 500, 280 458 C 330 420, 370 360, 400 290 C 425 225, 445 155, 460 90 C 466 62, 470 38, 474 20"
+                  stroke="#FF7043" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- O(n log n) — #F5A623 — steeper than linear -->
+            <path d="M 88 524 C 200 510, 340 460, 450 390 C 530 335, 590 260, 648 170"
+                  stroke="#F5A623" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- O(n) — #82AAFF — clean diagonal -->
+            <path d="M 88 524 C 230 490, 420 400, 648 265"
+                  stroke="#82AAFF" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- O(log n) — #00BFA5 — gentle logarithmic rise -->
+            <path d="M 88 520 C 170 490, 280 462, 400 445 C 500 430, 580 422, 648 416"
+                  stroke="#00BFA5" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- O(1) — #4CAF7D — flat -->
+            <path d="M 88 510 C 280 509, 480 510, 648 509"
+                  stroke="#4CAF7D" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- ── Curve labels (right side, outside clip) ── -->
+          <text x="658" y="168" font-family="Caveat, cursive" font-size="15" font-weight="700" fill="#F5A623">O(n log n)</text>
+          <text x="658" y="263" font-family="Caveat, cursive" font-size="15" font-weight="700" fill="#82AAFF">O(n)</text>
+          <text x="658" y="419" font-family="Caveat, cursive" font-size="15" font-weight="700" fill="#00BFA5">O(log n)</text>
+          <text x="658" y="512" font-family="Caveat, cursive" font-size="15" font-weight="700" fill="#4CAF7D">O(1)</text>
+
+          <!-- O(n²) and O(2ⁿ) labels at top of their curves -->
+          <text x="476" y="18" font-family="Caveat, cursive" font-size="15" font-weight="700" fill="#FF7043">O(n²)</text>
+          <text x="270" y="28" font-family="Caveat, cursive" font-size="15" font-weight="700" fill="#FF5252">O(2ⁿ)</text>
+
+          <!-- ── Annotation: O(1) explanation ── -->
+          <path d="M 200 506 C 200 492, 195 480, 188 472" stroke="#4CAF7D" stroke-width="1" fill="none" stroke-linecap="round" stroke-dasharray="3,2"/>
+          <text x="190" y="468" text-anchor="middle" font-family="Caveat, cursive" font-size="12" fill="#4CAF7D">never grows</text>
+
+          <!-- ── Annotation: O(2ⁿ) danger ── -->
+          <path d="M 240 200 C 230 180, 218 165, 205 158" stroke="#FF5252" stroke-width="1" fill="none" stroke-linecap="round" stroke-dasharray="3,2"/>
+          <text x="200" y="153" text-anchor="end" font-family="Caveat, cursive" font-size="12" fill="#FF5252">exits chart</text>
+          <text x="200" y="167" text-anchor="end" font-family="Caveat, cursive" font-size="12" fill="#FF5252">very fast!</text>
+        </svg>
+      </div>
+      <span class="diagram-caption">Fig. 4 — The gap between complexity classes is not a gradual slope — it is an exponential cliff</span>
+    </div>
+  </div>
+
+  <!-- ── Teaching Content ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Understanding Big O
+    </h2>
+
+    <h3 class="subsection-title">What Does the "O" Stand For?</h3>
+    <p>The "O" stands for <em>Ordnung</em>, the German word for "order of magnitude." It was introduced by the mathematician Paul Bachmann in 1894. Big O notation gives us the <strong>order of growth</strong> of a function — not its exact value, but the shape of how it scales. O(n²) does not mean exactly n² operations. It means that as n grows, the operations grow <em>proportionally to</em> n².</p>
+
+    <h3 class="subsection-title">How to Read O(n²) Aloud</h3>
+    <p>Say: <strong>"Order n squared"</strong> or <strong>"Big O of n squared"</strong>. Never "O n 2" or "oh en squared". The phrasing matters in interviews and team discussions because it signals you understand it as a growth relationship, not a formula. Similarly: O(log n) is "order log n", O(1) is "order 1" or "constant time".</p>
+
+    <h3 class="subsection-title">The Three Rules of Big O</h3>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="concept-card-title">Rule 1 — Drop Constants</div>
+        <p class="concept-card-body">O(2n) simplifies to O(n). O(500) simplifies to O(1). Constants are irrelevant because we care about growth shape, not exact counts. A constant factor never changes the order of magnitude.</p>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card-title">Rule 2 — Drop Non-Dominant Terms</div>
+        <p class="concept-card-body">O(n² + n) simplifies to O(n²). At large n, the n term becomes negligible next to n². Keep only the term that grows fastest — it will dominate all others.</p>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card-title">Rule 3 — Different Inputs, Different Variables</div>
+        <p class="concept-card-body">A function that loops through array A then array B is O(a + b), not O(n). Use different variable names for different inputs. Only combine them if the arrays are the same input.</p>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">How to Calculate Big O by Counting Loops</h3>
+    <p>The fastest way to estimate complexity is to count your loops. A single loop over n elements is O(n). A loop inside a loop, both running over n elements, is O(n²). Three nested loops: O(n³). A loop that halves the problem each iteration (like binary search) is O(log n). Each loop you add multiplies the complexity; each halving adds a log factor.</p>
+
+    <div class="callout callout-tip">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Pro Tip</div>
+        <p class="callout-text">When you see code that loops n times inside a function that is called n times, the total is O(n²) — even if the outer repetition is not an explicit loop. Watch for recursive calls, map/filter chains, and nested array methods hiding quadratic complexity.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Pseudocode ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      Pseudocode — O(n) vs O(n²)
+    </h2>
+    <div class="pseudo-wrap">
+      <span class="pseudo-label">Pseudocode</span>
+      <div class="pseudo"><span class="pc">// ── O(n) — one loop ─────────────────────────────</span>
+<span class="pk">FUNCTION</span> printAll(list):
+    <span class="pk">FOR EACH</span> item in list:     <span class="pc">// runs n times</span>
+        PRINT item             <span class="pc">// O(1) each → total O(n)</span>
+
+<span class="pc">// ── O(n²) — loop inside a loop ──────────────────</span>
+<span class="pk">FUNCTION</span> printPairs(list):
+    <span class="pk">FOR EACH</span> a in list:        <span class="pc">// runs n times</span>
+        <span class="pk">FOR EACH</span> b in list:    <span class="pc">// runs n times for each a</span>
+            PRINT a, b         <span class="pc">// O(1) each → total n × n = O(n²)</span>
+
+<span class="pc">// With n=1,000: printAll → 1,000 ops</span>
+<span class="pc">//               printPairs → 1,000,000 ops</span></div>
+    </div>
+  </div>
+
+  <!-- ── Code Tabs ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Implementation — Four Complexity Classes
+    </h2>
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="p04-js">JavaScript</button>
+        <button class="tab-btn" data-pane="p04-ts">TypeScript</button>
+      </div>
+
+      <div class="tab-pane" id="p04-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body">
+<pre><span class="cm">// ── O(1) — Constant Time ──────────────────────────────────</span>
+<span class="cm">// Does exactly the same number of operations regardless of n.</span>
+<span class="kw">function</span> <span class="fn">getFirst</span>(arr) {
+  <span class="kw">return</span> arr[<span class="num">0</span>];  <span class="cm">// 1 operation always — index access is O(1)</span>
+}
+<span class="fn">getFirst</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]);              <span class="cm">// 1 op</span>
+<span class="fn">getFirst</span>(<span class="kw">new</span> <span class="fn">Array</span>(<span class="num">1_000_000</span>)); <span class="cm">// still 1 op</span>
+
+<span class="cm">// ── O(n) — Linear Time ───────────────────────────────────</span>
+<span class="cm">// One operation per element. Doubles when n doubles.</span>
+<span class="kw">function</span> <span class="fn">sumAll</span>(arr) {
+  <span class="kw">let</span> total <span class="op">=</span> <span class="num">0</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> arr.length; i<span class="op">++</span>) { <span class="cm">// loops n times</span>
+    total <span class="op">+=</span> arr[i];                        <span class="cm">// O(1) per iteration</span>
+  }
+  <span class="kw">return</span> total;
+}
+
+<span class="cm">// ── O(n²) — Quadratic Time ───────────────────────────────</span>
+<span class="cm">// Every element compared to every other element.</span>
+<span class="cm">// Watch for this pattern — it is the most common bug at scale.</span>
+<span class="kw">function</span> <span class="fn">printPairs</span>(arr) {
+  <span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> arr.length; i<span class="op">++</span>) {      <span class="cm">// n iterations</span>
+    <span class="kw">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="num">0</span>; j <span class="op">&lt;</span> arr.length; j<span class="op">++</span>) {    <span class="cm">// n iterations each</span>
+      console.<span class="fn">log</span>(arr[i], arr[j]);            <span class="cm">// n × n = n² total</span>
+    }
+  }
+}
+
+<span class="cm">// ── O(log n) — Logarithmic Time ──────────────────────────</span>
+<span class="cm">// Halves the search space each iteration.</span>
+<span class="cm">// Requires a SORTED array. n=1,000,000 → max 20 comparisons.</span>
+<span class="kw">function</span> <span class="fn">binarySearch</span>(arr, target) {
+  <span class="kw">let</span> left  <span class="op">=</span> <span class="num">0</span>;
+  <span class="kw">let</span> right <span class="op">=</span> arr.length <span class="op">-</span> <span class="num">1</span>;
+
+  <span class="kw">while</span> (left <span class="op">&lt;=</span> right) {
+    <span class="kw">const</span> mid <span class="op">=</span> Math.<span class="fn">floor</span>((left <span class="op">+</span> right) <span class="op">/</span> <span class="num">2</span>); <span class="cm">// find midpoint</span>
+
+    <span class="kw">if</span>      (arr[mid] <span class="op">===</span> target) <span class="kw">return</span> mid;  <span class="cm">// found it</span>
+    <span class="kw">else if</span> (arr[mid] <span class="op">&lt;</span>  target) left  <span class="op">=</span> mid <span class="op">+</span> <span class="num">1</span>; <span class="cm">// target is right half</span>
+    <span class="kw">else</span>                           right <span class="op">=</span> mid <span class="op">-</span> <span class="num">1</span>; <span class="cm">// target is left half</span>
+    <span class="cm">// Each iteration: search space halves → log₂(n) steps total</span>
+  }
+  <span class="kw">return</span> <span class="op">-</span><span class="num">1</span>;
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="p04-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body">
+<pre><span class="cm">// ── O(1) — Constant Time ──────────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">getFirst</span>&lt;<span class="tp">T</span>&gt;(arr<span class="op">:</span> <span class="tp">T</span>[])<span class="op">:</span> <span class="tp">T</span> <span class="op">|</span> <span class="kw">undefined</span> {
+  <span class="kw">return</span> arr[<span class="num">0</span>]; <span class="cm">// 1 operation always</span>
+}
+
+<span class="cm">// ── O(n) — Linear Time ───────────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">sumAll</span>(arr<span class="op">:</span> <span class="tp">number</span>[])<span class="op">:</span> <span class="tp">number</span> {
+  <span class="kw">let</span> total<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">0</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> arr.length; i<span class="op">++</span>) {
+    total <span class="op">+=</span> arr[i];
+  }
+  <span class="kw">return</span> total;
+}
+
+<span class="cm">// ── O(n²) — Quadratic Time ───────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">printPairs</span>&lt;<span class="tp">T</span>&gt;(arr<span class="op">:</span> <span class="tp">T</span>[])<span class="op">:</span> <span class="tp">void</span> {
+  <span class="kw">for</span> (<span class="kw">let</span> i<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> arr.length; i<span class="op">++</span>) {
+    <span class="kw">for</span> (<span class="kw">let</span> j<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">0</span>; j <span class="op">&lt;</span> arr.length; j<span class="op">++</span>) {
+      console.<span class="fn">log</span>(arr[i], arr[j]); <span class="cm">// n × n = n² ops</span>
+    }
+  }
+}
+
+<span class="cm">// ── O(log n) — Logarithmic Time ──────────────────────────</span>
+<span class="kw">function</span> <span class="fn">binarySearch</span>(arr<span class="op">:</span> <span class="tp">number</span>[], target<span class="op">:</span> <span class="tp">number</span>)<span class="op">:</span> <span class="tp">number</span> {
+  <span class="kw">let</span> left<span class="op">:</span>  <span class="tp">number</span> <span class="op">=</span> <span class="num">0</span>;
+  <span class="kw">let</span> right<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> arr.length <span class="op">-</span> <span class="num">1</span>;
+
+  <span class="kw">while</span> (left <span class="op">&lt;=</span> right) {
+    <span class="kw">const</span> mid<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> Math.<span class="fn">floor</span>((left <span class="op">+</span> right) <span class="op">/</span> <span class="num">2</span>);
+
+    <span class="kw">if</span>      (arr[mid] <span class="op">===</span> target) <span class="kw">return</span> mid;
+    <span class="kw">else if</span> (arr[mid] <span class="op">&lt;</span>  target) left  <span class="op">=</span> mid <span class="op">+</span> <span class="num">1</span>;
+    <span class="kw">else</span>                           right <span class="op">=</span> mid <span class="op">-</span> <span class="num">1</span>;
+  }
+  <span class="kw">return</span> <span class="op">-</span><span class="num">1</span>;
+}
+
+<span class="cm">// TypeScript prevents passing unsorted arrays accidentally</span>
+<span class="cm">// by using opaque types (advanced pattern):</span>
+<span class="kw">type</span> <span class="tp">SortedArray</span> <span class="op">=</span> <span class="tp">number</span>[] <span class="op">&</span> { <span class="kw">readonly</span> __sorted<span class="op">:</span> <span class="kw">true</span> };</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Complexity Table ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Big O Reference Table
+    </h2>
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Notation</th><th>Name</th><th>Common Example</th><th>n = 100</th><th>n = 1,000</th><th>Rating</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td>Constant</td>
+            <td>Hash map lookup, array index</td>
+            <td>1</td>
+            <td>1</td>
+            <td style="color:var(--green)">Excellent</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-ologn">O(log n)</span></td>
+            <td>Logarithmic</td>
+            <td>Binary search, balanced BST</td>
+            <td>7</td>
+            <td>10</td>
+            <td style="color:var(--teal)">Excellent</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-on">O(n)</span></td>
+            <td>Linear</td>
+            <td>Array scan, linear search</td>
+            <td>100</td>
+            <td>1,000</td>
+            <td style="color:var(--gold)">Good</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-on">O(n log n)</span></td>
+            <td>Log-linear</td>
+            <td>Merge sort, heap sort</td>
+            <td>664</td>
+            <td>9,966</td>
+            <td style="color:var(--gold)">Fair</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-on2">O(n²)</span></td>
+            <td>Quadratic</td>
+            <td>Bubble sort, nested loops</td>
+            <td>10,000</td>
+            <td>1,000,000</td>
+            <td style="color:var(--red)">Poor</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-o2n">O(2ⁿ)</span></td>
+            <td>Exponential</td>
+            <td>Recursive Fibonacci, subsets</td>
+            <td>10³⁰</td>
+            <td>10³⁰¹</td>
+            <td style="color:var(--red)">Unusable</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Real-world Cards ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Where You'll See This in the Real World
+    </h2>
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <div class="rw-card-title">Search Engines</div>
+        <p class="rw-card-desc">Google's inverted index enables O(1) keyword lookup across trillions of pages. Without it, every search would be O(n) over the entire web — physically impossible.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        <div class="rw-card-title">Large Dataset Sorting</div>
+        <p class="rw-card-desc">JavaScript's Array.sort() uses TimSort — an O(n log n) hybrid algorithm. Choosing bubble sort instead for 1M records would be 150,000x slower.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+        <div class="rw-card-title">Network Routing</div>
+        <p class="rw-card-desc">BGP routing tables use prefix tries for O(log n) route lookups. Routers handle millions of packets per second — O(n) lookup per packet would collapse the internet.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-3.333 5.204-3.333 6.99 0"/><path d="M9 2c1.798 3.333 5.204 3.333 6.99 0"/><path d="M2 9c6.667 6 13.333 0 20 6"/></svg>
+        <div class="rw-card-title">DNA / Genomics Matching</div>
+        <p class="rw-card-desc">Sequence alignment algorithms like Smith-Waterman are O(mn). Researchers optimize aggressively — naive O(n²) on a 3-billion-base genome would take centuries.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

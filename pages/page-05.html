@@ -1,0 +1,419 @@
+<!-- ══════════════════════════════════════════
+     PAGE 05 — Space vs Time
+══════════════════════════════════════════ -->
+
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+    Lesson 05
+  </div>
+  <h1 class="page-title">Space vs Time</h1>
+  <div class="page-definition">
+    <p>"Every algorithm consumes two resources: time (operations) and space (memory). Optimising one often costs the other — this is the fundamental trade-off of algorithm design."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Analogy ── -->
+  <div class="content-section">
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">Two chefs prepare dinner. Chef A has memorised every recipe — ask them anything and they answer instantly, O(1). But their brain holds a finite amount. Chef B reads from a cookbook each time — no memory overhead, but every dish requires a full read, O(n). One trades memory for speed. The other trades speed for memory. Same kitchen, same menu, fundamentally different resource profiles.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Sketch Diagram — THE SEESAW ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/></svg>
+      The Trade-off Seesaw
+    </h2>
+
+    <div class="diagram-wrap">
+      <span class="diagram-fig-label">fig. 05 — Two states of the time-space trade-off</span>
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" style="min-width:320px;width:100%;max-width:680px" aria-label="Seesaw diagram showing time-space trade-off in two states: caching and streaming">
+          <defs>
+            <filter id="roughen-p05" x="-5%" y="-5%" width="110%" height="110%">
+              <feTurbulence type="turbulence" baseFrequency="0.025" numOctaves="2" seed="9" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.6" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <marker id="arr-p05" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+              <path d="M 0 1 L 8 4 L 0 7" stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+
+          <!-- ══ STATE 1 — CACHING (left side, x 10–310) ══ -->
+
+          <!-- State label -->
+          <text x="160" y="22" text-anchor="middle" font-family="Caveat, cursive" font-size="18" font-weight="700" fill="#00BFA5">CACHING</text>
+          <text x="160" y="40" text-anchor="middle" font-family="Caveat, cursive" font-size="13" fill="#64748B">use more memory → go faster</text>
+
+          <g filter="url(#roughen-p05)">
+            <!-- Beam: left end lower (Speed/Time wins — left pan down) -->
+            <!-- Left end at (32, 180), right end at (288, 148), pivot at (160, 164) -->
+            <path d="M 32 180 C 80 174, 140 169, 160 164 C 200 158, 250 152, 288 148"
+                  stroke="#E8E0D0" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+            <!-- Fulcrum triangle at (160, 164) pointing down to base at y=218 -->
+            <path d="M 148 218 C 151 215, 156 195, 160 164 C 164 195, 169 215, 172 218 Z"
+                  stroke="#E8E0D0" stroke-width="1.5" fill="rgba(232,224,208,0.08)" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Fulcrum base line -->
+            <path d="M 140 218 C 148 217, 172 218, 180 218"
+                  stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Stand post -->
+            <path d="M 160 218 C 160 224, 160 228, 160 232"
+                  stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Ground -->
+            <path d="M 130 232 C 148 231, 172 232, 190 232"
+                  stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+            <!-- Left pan strings (from beam left end x=32, y=180) -->
+            <path d="M 20 180 C 18 185, 16 192, 16 198" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 44 180 C 46 185, 48 192, 48 198" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- Left pan platform (lower = heavier) -->
+            <path d="M 10 198 C 22 197, 38 198, 54 198"
+                  stroke="#00BFA5" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Left pan box -->
+            <rect x="10" y="200" width="44" height="30" rx="2" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.1)"/>
+
+            <!-- Right pan strings (from beam right end x=288, y=148) -->
+            <path d="M 276 148 C 274 156, 272 164, 272 170" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 300 148 C 302 156, 304 164, 304 170" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- Right pan platform (higher = lighter) -->
+            <path d="M 266 170 C 278 169, 296 170, 310 170"
+                  stroke="#F5A623" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Right pan box -->
+            <rect x="266" y="172" width="44" height="30" rx="2" stroke="#F5A623" stroke-width="1.5" fill="rgba(245,166,35,0.08)"/>
+          </g>
+
+          <!-- Left pan label: SPEED -->
+          <text x="32"  y="221" text-anchor="middle" font-family="Caveat, cursive" font-size="13" font-weight="700" fill="#00BFA5">SPEED</text>
+          <!-- Lightning bolt sketch inside left pan -->
+          <path d="M 36 207 L 31 214 L 34 214 L 29 221" stroke="#00BFA5" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- Right pan label: MEMORY -->
+          <text x="288" y="191" text-anchor="middle" font-family="Caveat, cursive" font-size="13" font-weight="700" fill="#F5A623">MEMORY</text>
+          <!-- Cylinder sketch inside right pan -->
+          <ellipse cx="288" cy="205" rx="10" ry="3" stroke="#F5A623" stroke-width="1.2" fill="none"/>
+          <path d="M 278 205 L 278 215 M 298 205 L 298 215" stroke="#F5A623" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M 278 215 C 282 218, 294 218, 298 215" stroke="#F5A623" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+          <!-- TRADE-OFF label at fulcrum -->
+          <text x="160" y="246" text-anchor="middle" font-family="Caveat, cursive" font-size="12" fill="#64748B">TRADE-OFF</text>
+
+          <!-- Down arrow under left pan -->
+          <text x="32" y="246" text-anchor="middle" font-family="Caveat, cursive" font-size="18" fill="#00BFA5">↓ fast</text>
+
+          <!-- ══ CENTER DIVIDER ══ -->
+          <path d="M 340 15 L 340 248" stroke="#2A3050" stroke-width="1.5" stroke-dasharray="6,4" fill="none"/>
+
+          <!-- ══ STATE 2 — STREAMING (right side, x 370–670) ══ -->
+
+          <!-- State label -->
+          <text x="520" y="22" text-anchor="middle" font-family="Caveat, cursive" font-size="18" font-weight="700" fill="#F5A623">STREAMING</text>
+          <text x="520" y="40" text-anchor="middle" font-family="Caveat, cursive" font-size="13" fill="#64748B">use less memory → go slower</text>
+
+          <g filter="url(#roughen-p05)">
+            <!-- Beam: right end lower (Memory side down = memory constrained) -->
+            <!-- Left end at (392, 148), right end at (648, 180), pivot at (520, 164) -->
+            <path d="M 392 148 C 430 152, 490 158, 520 164 C 560 170, 610 174, 648 180"
+                  stroke="#E8E0D0" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+            <!-- Fulcrum triangle at (520, 164) -->
+            <path d="M 508 218 C 511 215, 516 195, 520 164 C 524 195, 529 215, 532 218 Z"
+                  stroke="#E8E0D0" stroke-width="1.5" fill="rgba(232,224,208,0.08)" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 500 218 C 508 217, 532 218, 540 218"
+                  stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M 520 218 C 520 224, 520 228, 520 232"
+                  stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M 490 232 C 508 231, 532 232, 550 232"
+                  stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+            <!-- Left pan strings (from x=392, y=148) — higher side -->
+            <path d="M 380 148 C 378 155, 376 163, 376 170" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 404 148 C 406 155, 408 163, 408 170" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- Left pan platform (higher = lighter) -->
+            <path d="M 370 170 C 382 169, 400 170, 414 170"
+                  stroke="#00BFA5" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <rect x="370" y="172" width="44" height="30" rx="2" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.06)"/>
+
+            <!-- Right pan strings (from x=648, y=180) — lower side -->
+            <path d="M 636 180 C 634 186, 632 194, 632 200" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 660 180 C 662 186, 664 194, 664 200" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- Right pan platform (lower = heavier) -->
+            <path d="M 626 200 C 638 199, 656 200, 670 200"
+                  stroke="#F5A623" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <rect x="626" y="202" width="44" height="30" rx="2" stroke="#F5A623" stroke-width="1.5" fill="rgba(245,166,35,0.1)"/>
+          </g>
+
+          <!-- Left pan label: SPEED (raised/lighter) -->
+          <text x="392" y="191" text-anchor="middle" font-family="Caveat, cursive" font-size="13" font-weight="700" fill="#00BFA5">SPEED</text>
+          <path d="M 396 179 L 391 186 L 394 186 L 389 193" stroke="#00BFA5" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- Right pan label: MEMORY (lowered/heavier) -->
+          <text x="648" y="221" text-anchor="middle" font-family="Caveat, cursive" font-size="13" font-weight="700" fill="#F5A623">MEMORY</text>
+          <ellipse cx="648" cy="209" rx="10" ry="3" stroke="#F5A623" stroke-width="1.2" fill="none"/>
+          <path d="M 638 209 L 638 219 M 658 209 L 658 219" stroke="#F5A623" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M 638 219 C 642 222, 654 222, 658 219" stroke="#F5A623" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+          <text x="520" y="246" text-anchor="middle" font-family="Caveat, cursive" font-size="12" fill="#64748B">TRADE-OFF</text>
+          <text x="648" y="246" text-anchor="middle" font-family="Caveat, cursive" font-size="18" fill="#F5A623">↓ lean</text>
+        </svg>
+      </div>
+      <span class="diagram-caption">Fig. 5 — Every optimisation is a seesaw. Pushing one side down always lifts the other.</span>
+    </div>
+  </div>
+
+  <!-- ── Teaching Content ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      The Two Dimensions of Every Algorithm
+    </h2>
+
+    <h3 class="subsection-title">Time Complexity</h3>
+    <p><strong>Time complexity</strong> measures how the number of operations grows as the input size grows. It is what most engineers think of first when they say "Big O." An O(n) time complexity means the algorithm does approximately n operations. An O(n²) means roughly n² operations. Time is the resource that users notice directly — slow algorithms mean slow apps.</p>
+
+    <h3 class="subsection-title">Space Complexity</h3>
+    <p><strong>Space complexity</strong> measures how much memory the algorithm allocates as the input size grows. Crucially, we only count the <em>extra</em> memory — not the input itself. If you pass in an array of 1,000 elements, that memory belongs to the caller, not the algorithm. Space complexity counts what your algorithm <em>additionally</em> creates: new arrays, hash maps, recursive call stack frames, auxiliary variables.</p>
+
+    <div class="callout callout-insight">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Key Insight — Auxiliary Space</div>
+        <p class="callout-text">When we say an algorithm has O(1) space complexity, we mean it uses a <strong>constant amount of extra memory</strong> — a few variables — regardless of input size. The input array itself is not counted. This distinction is called <strong>auxiliary space</strong>, and it is what space complexity always refers to.</p>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">The Trade-off in Practice</h3>
+    <p>The most classic trade-off is <strong>memoisation</strong>: storing the result of expensive function calls so you never recompute them. A recursive Fibonacci function is O(2ⁿ) time and O(n) space. Add a cache (a hash map of previous results) and it becomes O(n) time and O(n) space. You spent memory to buy time — and the deal was worth it by several orders of magnitude.</p>
+    <p>The reverse trade-off appears in <strong>streaming algorithms</strong>. Processing a file too large to fit in memory means you must handle one chunk at a time — O(1) or O(k) space — but you cannot take shortcuts that require seeing the full dataset, so time suffers. Choosing which direction to optimise is a judgment call based on your system constraints.</p>
+
+    <h3 class="subsection-title">When Memory Is the Bottleneck</h3>
+    <p>On mobile devices, embedded systems, or services with strict memory limits, space complexity is not secondary to time complexity — it is often the primary constraint. A function that builds an O(n) lookup table might be the right answer on a server with 32GB RAM, and completely unacceptable on a device with 128MB. Good engineers always ask: what is the memory budget for this context?</p>
+  </div>
+
+  <!-- ── Pseudocode ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      Pseudocode — Same Problem, Two Trade-offs
+    </h2>
+    <div class="pseudo-wrap">
+      <span class="pseudo-label">Pseudocode</span>
+      <div class="pseudo"><span class="pc">// APPROACH 1: Save memory, sacrifice time — O(n²) time, O(1) space</span>
+<span class="pk">FUNCTION</span> hasDuplicateSlow(arr):
+    <span class="pk">FOR</span> i <span class="pk">FROM</span> 0 <span class="pk">TO</span> len(arr):
+        <span class="pk">FOR</span> j <span class="pk">FROM</span> i+1 <span class="pk">TO</span> len(arr):
+            <span class="pk">IF</span> arr[i] == arr[j]:
+                <span class="pk">RETURN</span> true
+    <span class="pk">RETURN</span> false
+<span class="pc">// No extra memory, but checks every pair → O(n²)</span>
+
+<span class="pc">// APPROACH 2: Spend memory, buy time — O(n) time, O(n) space</span>
+<span class="pk">FUNCTION</span> hasDuplicateFast(arr):
+    seen <span class="op">←</span> empty set           <span class="pc">// O(n) space — the trade-off cost</span>
+    <span class="pk">FOR EACH</span> item in arr:
+        <span class="pk">IF</span> seen contains item:
+            <span class="pk">RETURN</span> true         <span class="pc">// O(1) lookup every time</span>
+        ADD item to seen
+    <span class="pk">RETURN</span> false
+<span class="pc">// One pass, O(1) lookup → O(n) time</span></div>
+    </div>
+  </div>
+
+  <!-- ── Code Tabs ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Implementation — hasDuplicate Two Ways
+    </h2>
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="p05-js">JavaScript</button>
+        <button class="tab-btn" data-pane="p05-ts">TypeScript</button>
+      </div>
+
+      <div class="tab-pane" id="p05-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body">
+<pre><span class="cm">// ─────────────────────────────────────────────────────────────</span>
+<span class="cm">// VERSION 1 — O(n²) time | O(1) space</span>
+<span class="cm">// No extra memory. Compares every pair. Slow at scale.</span>
+<span class="cm">// ─────────────────────────────────────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">hasDuplicateSlow</span>(arr) {
+  <span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> arr.length; i<span class="op">++</span>) {       <span class="cm">// n iterations</span>
+    <span class="kw">for</span> (<span class="kw">let</span> j <span class="op">=</span> i <span class="op">+</span> <span class="num">1</span>; j <span class="op">&lt;</span> arr.length; j<span class="op">++</span>) { <span class="cm">// n-i iterations each</span>
+      <span class="kw">if</span> (arr[i] <span class="op">===</span> arr[j]) <span class="kw">return</span> <span class="kw">true</span>;      <span class="cm">// found a pair</span>
+    }
+  }
+  <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="cm">// Space: O(1) — only i and j variables</span>
+  <span class="cm">// Time:  O(n²) — n(n-1)/2 pairs checked</span>
+}
+
+<span class="cm">// ─────────────────────────────────────────────────────────────</span>
+<span class="cm">// VERSION 2 — O(n) time | O(n) space</span>
+<span class="cm">// Trade memory for speed. One pass. Fast at scale.</span>
+<span class="cm">// ─────────────────────────────────────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">hasDuplicateFast</span>(arr) {
+  <span class="kw">const</span> seen <span class="op">=</span> <span class="kw">new</span> <span class="fn">Set</span>();  <span class="cm">// O(n) space — grows with input</span>
+
+  <span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> arr) {
+    <span class="kw">if</span> (seen.<span class="fn">has</span>(item)) <span class="kw">return</span> <span class="kw">true</span>; <span class="cm">// O(1) lookup — hash set</span>
+    seen.<span class="fn">add</span>(item);
+  }
+  <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="cm">// Space: O(n) — set stores up to n elements</span>
+  <span class="cm">// Time:  O(n) — single pass, O(1) per lookup</span>
+}
+
+<span class="cm">// ── The trade-off in numbers ────────────────────────────</span>
+<span class="kw">const</span> arr1k <span class="op">=</span> Array.<span class="fn">from</span>({ length<span class="op">:</span> <span class="num">1000</span> }, (_, i) <span class="op">=&gt;</span> i);
+
+<span class="cm">// hasDuplicateSlow: ~500,000 comparisons</span>
+<span class="cm">// hasDuplicateFast: ~1,000 comparisons  ← 500x fewer</span>
+
+<span class="cm">// At n=100,000:</span>
+<span class="cm">// hasDuplicateSlow: ~5,000,000,000 comparisons (~5s)</span>
+<span class="cm">// hasDuplicateFast: ~100,000 comparisons        (~0.1ms)</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="p05-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body">
+<pre><span class="cm">// ─────────────────────────────────────────────────────────────</span>
+<span class="cm">// VERSION 1 — O(n²) time | O(1) space</span>
+<span class="cm">// ─────────────────────────────────────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">hasDuplicateSlow</span>&lt;<span class="tp">T</span>&gt;(arr<span class="op">:</span> <span class="tp">T</span>[])<span class="op">:</span> <span class="tp">boolean</span> {
+  <span class="kw">for</span> (<span class="kw">let</span> i<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> arr.length; i<span class="op">++</span>) {
+    <span class="kw">for</span> (<span class="kw">let</span> j<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> i <span class="op">+</span> <span class="num">1</span>; j <span class="op">&lt;</span> arr.length; j<span class="op">++</span>) {
+      <span class="kw">if</span> (arr[i] <span class="op">===</span> arr[j]) <span class="kw">return</span> <span class="kw">true</span>;
+    }
+  }
+  <span class="kw">return</span> <span class="kw">false</span>;
+}
+
+<span class="cm">// ─────────────────────────────────────────────────────────────</span>
+<span class="cm">// VERSION 2 — O(n) time | O(n) space</span>
+<span class="cm">// ─────────────────────────────────────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">hasDuplicateFast</span>&lt;<span class="tp">T</span>&gt;(arr<span class="op">:</span> <span class="tp">T</span>[])<span class="op">:</span> <span class="tp">boolean</span> {
+  <span class="kw">const</span> seen<span class="op">:</span> <span class="tp">Set</span>&lt;<span class="tp">T</span>&gt; <span class="op">=</span> <span class="kw">new</span> <span class="fn">Set</span>&lt;<span class="tp">T</span>&gt;();
+
+  <span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> arr) {
+    <span class="kw">if</span> (seen.<span class="fn">has</span>(item)) <span class="kw">return</span> <span class="kw">true</span>;
+    seen.<span class="fn">add</span>(item);
+  }
+  <span class="kw">return</span> <span class="kw">false</span>;
+}
+
+<span class="cm">// ── Complexity comparison object ────────────────────────</span>
+<span class="kw">interface</span> <span class="tp">ComplexityProfile</span> {
+  time<span class="op">:</span>  <span class="tp">string</span>;
+  space<span class="op">:</span> <span class="tp">string</span>;
+  tradeoff<span class="op">:</span> <span class="tp">string</span>;
+}
+
+<span class="kw">const</span> profiles<span class="op">:</span> <span class="tp">Record</span>&lt;<span class="tp">string</span>, <span class="tp">ComplexityProfile</span>&gt; <span class="op">=</span> {
+  slow<span class="op">:</span> { time<span class="op">:</span> <span class="str">'O(n²)'</span>, space<span class="op">:</span> <span class="str">'O(1)'</span>, tradeoff<span class="op">:</span> <span class="str">'memory-lean, slow'</span> },
+  fast<span class="op">:</span> { time<span class="op">:</span> <span class="str">'O(n)'</span>,  space<span class="op">:</span> <span class="str">'O(n)'</span>, tradeoff<span class="op">:</span> <span class="str">'memory-heavy, fast'</span> },
+};</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Complexity Table ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Common Trade-off Patterns
+    </h2>
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Pattern</th><th>Time</th><th>Space</th><th>When to use</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Brute force</td>
+            <td><span class="badge badge-on2">O(n²)</span></td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td>Tiny datasets, memory is severely constrained</td>
+          </tr>
+          <tr>
+            <td>Hash set / map cache</td>
+            <td><span class="badge badge-on">O(n)</span></td>
+            <td><span class="badge badge-on">O(n)</span></td>
+            <td>General case — trading memory for speed is almost always worth it</td>
+          </tr>
+          <tr>
+            <td>Sorting + two pointers</td>
+            <td><span class="badge badge-on">O(n log n)</span></td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td>When sort cost is acceptable and memory is limited</td>
+          </tr>
+          <tr>
+            <td>Memoisation (top-down DP)</td>
+            <td><span class="badge badge-on">O(n)</span></td>
+            <td><span class="badge badge-on">O(n)</span></td>
+            <td>Recursive problems with overlapping subproblems</td>
+          </tr>
+          <tr>
+            <td>Tabulation (bottom-up DP)</td>
+            <td><span class="badge badge-on">O(n)</span></td>
+            <td><span class="badge badge-o1">O(1)</span>–<span class="badge badge-on">O(n)</span></td>
+            <td>When you can reduce the table to a rolling window</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Real-world Cards ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Where You'll See This in the Real World
+    </h2>
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><ellipse cx="12" cy="6" rx="8" ry="2.5"/><path d="M4 6v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5V6"/><path d="M4 11v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5v-5"/></svg>
+        <div class="rw-card-title">Redis Caching</div>
+        <p class="rw-card-desc">Redis sits entirely in RAM — the ultimate space-for-time trade. A database query that takes 80ms becomes a 0.2ms cache hit. The cost: memory is expensive.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        <div class="rw-card-title">Browser localStorage</div>
+        <p class="rw-card-desc">Browsers cache computed results (CSS layout, compiled JS) in localStorage to avoid recomputing. The trade: startup cost drops, disk usage rises.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <div class="rw-card-title">CDN Edge Caching</div>
+        <p class="rw-card-desc">CDNs store copies of content at edge nodes worldwide — massive space cost — so every user request is O(1) local retrieval instead of a cross-continental round trip.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 7 9 12 12 14"/></svg>
+        <div class="rw-card-title">Mobile Memory Limits</div>
+        <p class="rw-card-desc">iOS terminates apps that consume too much RAM. Mobile algorithms often prefer O(n log n) time with O(1) space over O(n) time with O(n) space — the trade-off flips.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

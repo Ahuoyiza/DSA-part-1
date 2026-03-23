@@ -1,0 +1,343 @@
+<!-- PAGE 06 — Arrays -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+    Lesson 06
+  </div>
+  <h1 class="page-title">Arrays</h1>
+  <div class="page-definition">
+    <p>"An array is a contiguous block of memory storing elements of the same type — accessed in O(1) by index, but costly to resize or insert in the middle."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Section 1: What is an Array ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+      What is an Array?
+    </h2>
+
+    <p>An array stores items in <strong>consecutive memory slots</strong>. Because each slot is the same size, the computer can jump directly to any element using simple arithmetic: <code>address = base + index × size</code>. No searching required — that's why index access is always O(1).</p>
+
+    <!-- Memory layout diagram -->
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 200" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Array memory layout diagram">
+        <defs>
+          <filter id="arr-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="7" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="arr-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#00BFA5"/>
+          </marker>
+        </defs>
+
+        <!-- Title -->
+        <text x="320" y="22" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 6A — Contiguous memory: each cell is the same width</text>
+
+        <!-- Base address label -->
+        <text x="40" y="65" font-family="Caveat,cursive" font-size="13" fill="#F5A623">base: 0x1000</text>
+
+        <!-- Cells -->
+        <g filter="url(#arr-rough)">
+          <!-- cell 0 -->
+          <rect x="40" y="75" width="80" height="56" rx="3" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+          <!-- cell 1 -->
+          <rect x="120" y="75" width="80" height="56" rx="3" fill="rgba(0,191,165,0.07)" stroke="#00BFA5" stroke-width="1.5"/>
+          <!-- cell 2 -->
+          <rect x="200" y="75" width="80" height="56" rx="3" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+          <!-- cell 3 -->
+          <rect x="280" y="75" width="80" height="56" rx="3" fill="rgba(0,191,165,0.07)" stroke="#00BFA5" stroke-width="1.5"/>
+          <!-- cell 4 -->
+          <rect x="360" y="75" width="80" height="56" rx="3" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+          <!-- cell 5 — highlighted (being accessed) -->
+          <rect x="440" y="72" width="80" height="62" rx="3" fill="rgba(245,166,35,0.18)" stroke="#F5A623" stroke-width="2"/>
+          <!-- cell 6 -->
+          <rect x="520" y="75" width="80" height="56" rx="3" fill="rgba(0,191,165,0.07)" stroke="#00BFA5" stroke-width="1.5"/>
+        </g>
+
+        <!-- Values -->
+        <text x="80"  y="110" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">14</text>
+        <text x="160" y="110" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">32</text>
+        <text x="240" y="110" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">7</text>
+        <text x="320" y="110" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">91</text>
+        <text x="400" y="110" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">55</text>
+        <text x="480" y="110" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="18" font-weight="bold" fill="#F5A623">23</text>
+        <text x="560" y="110" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">8</text>
+
+        <!-- Index labels -->
+        <text x="80"  y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[0]</text>
+        <text x="160" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[1]</text>
+        <text x="240" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[2]</text>
+        <text x="320" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[3]</text>
+        <text x="400" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[4]</text>
+        <text x="480" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#F5A623" font-weight="bold">[5]</text>
+        <text x="560" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[6]</text>
+
+        <!-- Access arrow -->
+        <line x1="480" y1="175" x2="480" y2="140" stroke="#F5A623" stroke-width="1.5" marker-end="url(#arr-arrow)" stroke-dasharray="4 3"/>
+        <text x="480" y="192" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#F5A623">arr[5] → O(1)</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">An array is like a numbered row of lockers. You know locker #47 is exactly 47 steps from the start — you don't check every locker to find it. That's what O(1) access feels like.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 2: Insert & Delete ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+      Insert & Delete — The Expensive Part
+    </h2>
+
+    <p>The price of contiguous memory: when you insert at position <code>i</code>, every element from <code>i</code> to the end must <strong>shift one slot right</strong>. In the worst case (inserting at index 0) that's n shifts — O(n).</p>
+
+    <!-- Insert diagram -->
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 230" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Array insertion shift diagram">
+        <defs>
+          <filter id="arr-rough2" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="12" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="arr-shift" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#EF4444"/>
+          </marker>
+          <marker id="arr-insert" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#00BFA5"/>
+          </marker>
+        </defs>
+
+        <text x="320" y="20" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 6B — Inserting at index 2: everything after must shift →</text>
+
+        <!-- BEFORE row -->
+        <text x="20" y="60" font-family="Caveat,cursive" font-size="13" fill="#4A6080">Before:</text>
+        <g filter="url(#arr-rough2)">
+          <rect x="90"  y="44" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="160" y="44" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="230" y="44" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="300" y="44" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="370" y="44" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="440" y="44" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+        </g>
+        <text x="125" y="71" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">A</text>
+        <text x="195" y="71" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">B</text>
+        <text x="265" y="71" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">C</text>
+        <text x="335" y="71" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">D</text>
+        <text x="405" y="71" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">E</text>
+        <text x="475" y="71" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">F</text>
+
+        <!-- Shift arrows -->
+        <line x1="270" y1="104" x2="338" y2="104" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-shift)" stroke-dasharray="4 3"/>
+        <line x1="340" y1="104" x2="408" y2="104" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-shift)" stroke-dasharray="4 3"/>
+        <line x1="410" y1="104" x2="478" y2="104" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-shift)" stroke-dasharray="4 3"/>
+        <line x1="480" y1="104" x2="548" y2="104" stroke="#EF4444" stroke-width="1.5" marker-end="url(#arr-shift)" stroke-dasharray="4 3"/>
+        <text x="400" y="120" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#EF4444">shift right →</text>
+
+        <!-- AFTER row -->
+        <text x="20" y="170" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">After:</text>
+        <g filter="url(#arr-rough2)">
+          <rect x="90"  y="152" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="160" y="152" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <!-- inserted slot -->
+          <rect x="230" y="149" width="70" height="50" rx="3" fill="rgba(0,191,165,0.22)" stroke="#00BFA5" stroke-width="2"/>
+          <rect x="300" y="152" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="370" y="152" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="440" y="152" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="510" y="152" width="70" height="44" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+        </g>
+        <text x="125" y="179" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">A</text>
+        <text x="195" y="179" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">B</text>
+        <text x="265" y="179" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#00BFA5" font-weight="bold">X</text>
+        <text x="335" y="179" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">C</text>
+        <text x="405" y="179" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">D</text>
+        <text x="475" y="179" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">E</text>
+        <text x="545" y="179" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#E8E0D0">F</text>
+
+        <text x="265" y="218" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#00BFA5">inserted X</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-warning">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Watch out</div>
+        <p class="callout-text">Arrays have a <strong>fixed capacity</strong>. When you "push" to a dynamic array (like JavaScript's) and it runs out of space, it secretly allocates a new array 2× the size and copies everything over — that copy is O(n).</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 3: Code ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Common Array Operations
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="arr-js">JavaScript</button>
+        <button class="tab-btn" data-pane="arr-ts">TypeScript</button>
+        <button class="tab-btn" data-pane="arr-py">Python</button>
+      </div>
+
+      <div class="tab-pane" id="arr-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">const</span> arr <span class="op">=</span> [<span class="num">14</span>, <span class="num">32</span>, <span class="num">7</span>, <span class="num">91</span>, <span class="num">55</span>];
+
+<span class="cm">// O(1) — direct index access</span>
+<span class="kw">const</span> val <span class="op">=</span> arr[<span class="num">2</span>];                   <span class="cm">// 7</span>
+
+<span class="cm">// O(1) amortised — push to end</span>
+arr.<span class="fn">push</span>(<span class="num">99</span>);                         <span class="cm">// [14,32,7,91,55,99]</span>
+
+<span class="cm">// O(n) — insert at position 1 (shifts right)</span>
+arr.<span class="fn">splice</span>(<span class="num">1</span>, <span class="num">0</span>, <span class="num">100</span>);               <span class="cm">// [14,100,32,7,91,55,99]</span>
+
+<span class="cm">// O(n) — remove from middle</span>
+arr.<span class="fn">splice</span>(<span class="num">3</span>, <span class="num">1</span>);                    <span class="cm">// removes index 3</span>
+
+<span class="cm">// O(n) — linear search</span>
+<span class="kw">const</span> idx <span class="op">=</span> arr.<span class="fn">indexOf</span>(<span class="num">91</span>);         <span class="cm">// 3 (or -1 if not found)</span>
+
+<span class="cm">// O(n log n) — sort</span>
+arr.<span class="fn">sort</span>((<span class="tp">a</span>, <span class="tp">b</span>) <span class="op">=></span> <span class="tp">a</span> <span class="op">-</span> <span class="tp">b</span>);           <span class="cm">// ascending</span></pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="arr-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">const</span> arr<span class="op">:</span> <span class="tp">number</span>[] <span class="op">=</span> [<span class="num">14</span>, <span class="num">32</span>, <span class="num">7</span>, <span class="num">91</span>, <span class="num">55</span>];
+
+<span class="cm">// O(1) — direct index access</span>
+<span class="kw">const</span> val<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> arr[<span class="num">2</span>];            <span class="cm">// 7</span>
+
+<span class="cm">// O(1) amortised — push to end</span>
+arr.<span class="fn">push</span>(<span class="num">99</span>);
+
+<span class="cm">// O(n) — insert at middle</span>
+arr.<span class="fn">splice</span>(<span class="num">1</span>, <span class="num">0</span>, <span class="num">100</span>);
+
+<span class="cm">// Type-safe search with find</span>
+<span class="kw">const</span> found <span class="op">=</span> arr.<span class="fn">find</span>((<span class="tp">x</span>) <span class="op">=></span> <span class="tp">x</span> <span class="op">></span> <span class="num">50</span>); <span class="cm">// first >50</span>
+
+<span class="cm">// Typed tuple for fixed-length arrays</span>
+<span class="kw">const</span> pair<span class="op">:</span> [<span class="tp">string</span>, <span class="tp">number</span>] <span class="op">=</span> [<span class="str">'age'</span>, <span class="num">30</span>];</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="arr-py">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">Python</span>
+          </div>
+          <div class="code-body"><pre>arr <span class="op">=</span> [<span class="num">14</span>, <span class="num">32</span>, <span class="num">7</span>, <span class="num">91</span>, <span class="num">55</span>]
+
+<span class="cm"># O(1) — index access</span>
+val <span class="op">=</span> arr[<span class="num">2</span>]                          <span class="cm"># 7</span>
+last <span class="op">=</span> arr[<span class="op">-</span><span class="num">1</span>]                        <span class="cm"># 55 (negative index)</span>
+
+<span class="cm"># O(1) amortised — append to end</span>
+arr.<span class="fn">append</span>(<span class="num">99</span>)
+
+<span class="cm"># O(n) — insert at position</span>
+arr.<span class="fn">insert</span>(<span class="num">1</span>, <span class="num">100</span>)
+
+<span class="cm"># Slicing — O(k) where k = slice size</span>
+sub <span class="op">=</span> arr[<span class="num">1</span><span class="op">:</span><span class="num">4</span>]                        <span class="cm"># [100, 32, 7]</span>
+
+<span class="cm"># List comprehension — O(n)</span>
+evens <span class="op">=</span> [x <span class="kw">for</span> x <span class="kw">in</span> arr <span class="kw">if</span> x <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span>]</pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 4: Complexity ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Complexity Summary
+    </h2>
+
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr>
+            <th>Operation</th>
+            <th>Time</th>
+            <th>Space</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Access by index</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>base + offset arithmetic</td></tr>
+          <tr><td>Search (unsorted)</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>must check every element</td></tr>
+          <tr><td>Search (sorted)</td><td><span class="badge badge-ologn">O(log n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>binary search</td></tr>
+          <tr><td>Insert at end</td><td><span class="badge badge-o1">O(1)*</span></td><td><span class="badge badge-o1">O(1)</span></td><td>amortised; resize is O(n)</td></tr>
+          <tr><td>Insert at middle</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>shift elements right</td></tr>
+          <tr><td>Delete at end</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>just shrink length</td></tr>
+          <tr><td>Delete at middle</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>shift elements left</td></tr>
+          <tr><td>Sort</td><td><span class="badge badge-on">O(n log n)</span></td><td><span class="badge badge-ologn">O(log n)</span></td><td>typical comparison sort</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 5: Real world ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      Where Arrays Show Up
+    </h2>
+
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <div class="rw-card-title">Image pixels</div>
+        <p class="rw-card-desc">Every image is a 2D array of pixels (RGBA values). GPU shaders iterate it in parallel — O(1) access per pixel is what makes real-time rendering possible.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+        <div class="rw-card-title">Git history</div>
+        <p class="rw-card-desc">Git stores commit lists as arrays (with linked pointers). Log traversal is O(n); accessing a specific commit by index in a reflog is O(1).</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <div class="rw-card-title">Database rows</div>
+        <p class="rw-card-desc">SQL tables store rows in pages — essentially arrays on disk. Sequential scans are O(n); indexed lookups reduce it to O(log n) via B-tree.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
+        <div class="rw-card-title">Audio buffers</div>
+        <p class="rw-card-desc">Audio samples are stored in Float32Arrays. Web Audio API's processing nodes read them frame-by-frame — contiguous layout ensures cache-friendly O(1) reads per sample.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

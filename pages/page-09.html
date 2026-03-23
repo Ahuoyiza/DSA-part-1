@@ -1,0 +1,340 @@
+<!-- PAGE 09 — Stacks -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    Lesson 09
+  </div>
+  <h1 class="page-title">Stacks</h1>
+  <div class="page-definition">
+    <p>"A stack is a Last-In, First-Out (LIFO) structure — like a stack of plates. You can only add or remove from the top. Both operations are O(1)."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Section 1: What is a Stack ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      LIFO — Last In, First Out
+    </h2>
+
+    <p>A stack enforces a strict access rule: the <strong>last item pushed is the first item popped</strong>. Think of a stack of plates — you can only take from the top. This constraint is actually a superpower: it makes stacks perfect for tracking "what came most recently."</p>
+
+    <!-- Stack push/pop diagram -->
+    <div class="sketch-wrap" style="margin:32px 0;">
+      <svg viewBox="0 0 580 260" width="100%" style="max-width:580px;display:block;margin:0 auto;" role="img" aria-label="Stack push and pop operations">
+        <defs>
+          <filter id="stk-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="11" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="stk-down" markerWidth="8" markerHeight="8" refX="4" refY="6" orient="auto">
+            <path d="M0,0 L4,8 L8,0 z" fill="#00BFA5"/>
+          </marker>
+          <marker id="stk-up" markerWidth="8" markerHeight="8" refX="4" refY="2" orient="auto">
+            <path d="M0,8 L4,0 L8,8 z" fill="#EF4444"/>
+          </marker>
+        </defs>
+
+        <text x="290" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 9A — Stack: push adds to top, pop removes from top (LIFO)</text>
+
+        <!-- Stack container -->
+        <g filter="url(#stk-rough)">
+          <!-- walls -->
+          <line x1="160" y1="50" x2="160" y2="230" stroke="#4A6080" stroke-width="2"/>
+          <line x1="320" y1="50" x2="320" y2="230" stroke="#4A6080" stroke-width="2"/>
+          <line x1="158" y1="230" x2="322" y2="230" stroke="#4A6080" stroke-width="2"/>
+
+          <!-- stack items (bottom to top) -->
+          <rect x="163" y="185" width="154" height="42" rx="4" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="163" y="140" width="154" height="42" rx="4" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="163" y="95" width="154" height="42" rx="4" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <!-- top item (highlighted) -->
+          <rect x="161" y="50" width="158" height="42" rx="4" fill="rgba(245,166,35,0.18)" stroke="#F5A623" stroke-width="2"/>
+        </g>
+
+        <!-- Values -->
+        <text x="240" y="209" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">10</text>
+        <text x="240" y="165" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">25</text>
+        <text x="240" y="120" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">7</text>
+        <text x="240" y="75"  text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" font-weight="bold" fill="#F5A623">42</text>
+
+        <!-- Labels -->
+        <text x="355" y="75" font-family="Caveat,cursive" font-size="13" fill="#F5A623">← TOP</text>
+        <text x="355" y="213" font-family="Caveat,cursive" font-size="13" fill="#4A6080">← BOTTOM</text>
+
+        <!-- PUSH arrow (left side) -->
+        <line x1="90" y1="95" x2="90" y2="62" stroke="#00BFA5" stroke-width="2" marker-end="url(#stk-down)"/>
+        <text x="90" y="110" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#00BFA5">push(42)</text>
+        <text x="90" y="130" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">O(1)</text>
+
+        <!-- POP arrow (right side) -->
+        <line x1="490" y1="62" x2="490" y2="95" stroke="#EF4444" stroke-width="2" marker-end="url(#stk-up)"/>
+        <text x="490" y="115" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#EF4444">pop() → 42</text>
+        <text x="490" y="135" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">O(1)</text>
+
+        <text x="290" y="252" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">peek() returns top without removing — also O(1)</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">A stack of plates at a restaurant. The chef places clean plates on top (push). Servers always take from the top (pop). A plate on the bottom might wait a long time — it was the first in, but last out.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 2: Call Stack ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      The Call Stack — Stacks in Your Runtime
+    </h2>
+
+    <p>Every time your code calls a function, the runtime <strong>pushes a stack frame</strong> onto the call stack. When the function returns, its frame is popped. This is why recursive functions can cause a "stack overflow" — too many nested calls exhaust the stack's fixed memory.</p>
+
+    <!-- Call stack diagram -->
+    <div class="sketch-wrap" style="margin:32px 0;">
+      <svg viewBox="0 0 580 240" width="100%" style="max-width:580px;display:block;margin:0 auto;" role="img" aria-label="Call stack showing nested function frames">
+        <defs>
+          <filter id="cs-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="6" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+
+        <text x="290" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 9B — Call stack when main() calls factorial(3) calls factorial(2)…</text>
+
+        <!-- Stack container -->
+        <g filter="url(#cs-rough)">
+          <line x1="140" y1="38" x2="140" y2="220" stroke="#4A6080" stroke-width="2"/>
+          <line x1="440" y1="38" x2="440" y2="220" stroke="#4A6080" stroke-width="2"/>
+          <line x1="138" y1="220" x2="442" y2="220" stroke="#4A6080" stroke-width="2"/>
+
+          <!-- frames bottom to top -->
+          <rect x="143" y="178" width="294" height="40" rx="4" fill="rgba(0,191,165,0.06)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="143" y="135" width="294" height="40" rx="4" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="143" y="92" width="294" height="40" rx="4" fill="rgba(0,191,165,0.14)" stroke="#00BFA5" stroke-width="1.5"/>
+          <!-- current frame -->
+          <rect x="141" y="48" width="298" height="42" rx="4" fill="rgba(245,166,35,0.18)" stroke="#F5A623" stroke-width="2"/>
+        </g>
+
+        <!-- Frame labels -->
+        <text x="290" y="196" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#4A6080">main()</text>
+        <text x="290" y="196" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#4A6080">main()</text>
+        <text x="290" y="159" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#8A9FBF">factorial(3)  →  waiting…</text>
+        <text x="290" y="116" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#A0B8D0">factorial(2)  →  waiting…</text>
+        <text x="290" y="72" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" font-weight="bold" fill="#F5A623">factorial(1)  →  executing ←</text>
+
+        <!-- TOP label -->
+        <text x="460" y="72" font-family="Caveat,cursive" font-size="13" fill="#F5A623">TOP</text>
+
+        <!-- Stack overflow warning -->
+        <text x="290" y="235" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#EF4444">Too many recursions → stack overflow (max depth ~10,000 in most runtimes)</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-warning">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Watch out</div>
+        <p class="callout-text">Infinite recursion without a base case will overflow the call stack. JavaScript throws <code>RangeError: Maximum call stack size exceeded</code>. Always define your base case first — it's the equivalent of the <code>null</code> at the bottom of the stack.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 3: Code ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Implementing a Stack
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="stk-js">JavaScript</button>
+        <button class="tab-btn" data-pane="stk-ts">TypeScript</button>
+        <button class="tab-btn" data-pane="stk-py">Python</button>
+      </div>
+
+      <div class="tab-pane" id="stk-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body"><pre><span class="cm">// Stack backed by an array — all ops O(1)</span>
+<span class="kw">class</span> <span class="tp">Stack</span> {
+  <span class="fn">constructor</span>() { <span class="kw">this</span>.data <span class="op">=</span> []; }
+
+  <span class="fn">push</span>(item) { <span class="kw">this</span>.data.<span class="fn">push</span>(item); }          <span class="cm">// O(1)</span>
+  <span class="fn">pop</span>()       { <span class="kw">return</span> <span class="kw">this</span>.data.<span class="fn">pop</span>(); }        <span class="cm">// O(1)</span>
+  <span class="fn">peek</span>()      { <span class="kw">return</span> <span class="kw">this</span>.data.<span class="fn">at</span>(<span class="op">-</span><span class="num">1</span>); }      <span class="cm">// O(1)</span>
+  <span class="fn">isEmpty</span>()   { <span class="kw">return</span> <span class="kw">this</span>.data.length <span class="op">===</span> <span class="num">0</span>; }
+  <span class="kw">get</span> <span class="fn">size</span>()  { <span class="kw">return</span> <span class="kw">this</span>.data.length; }
+}
+
+<span class="cm">// ── Classic use: balanced brackets ─────────────────</span>
+<span class="kw">function</span> <span class="fn">isBalanced</span>(s) {
+  <span class="kw">const</span> stack <span class="op">=</span> <span class="kw">new</span> <span class="fn">Stack</span>();
+  <span class="kw">const</span> pairs <span class="op">=</span> { <span class="str">')'</span><span class="op">:</span><span class="str">'('</span>, <span class="str">']'</span><span class="op">:</span><span class="str">'['</span>, <span class="str">'}'</span><span class="op">:</span><span class="str">'{'</span> };
+
+  <span class="kw">for</span> (<span class="kw">const</span> ch <span class="kw">of</span> s) {
+    <span class="kw">if</span> (<span class="str">'([{'</span>.<span class="fn">includes</span>(ch))  { stack.<span class="fn">push</span>(ch); }
+    <span class="kw">else</span> <span class="kw">if</span> (ch <span class="kw">in</span> pairs) {
+      <span class="kw">if</span> (stack.<span class="fn">pop</span>() <span class="op">!==</span> pairs[ch]) <span class="kw">return</span> <span class="kw">false</span>;
+    }
+  }
+  <span class="kw">return</span> stack.<span class="fn">isEmpty</span>();
+}
+
+<span class="fn">isBalanced</span>(<span class="str">'({[]})'</span>);  <span class="cm">// true</span>
+<span class="fn">isBalanced</span>(<span class="str">'([)'</span>);     <span class="cm">// false</span></pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="stk-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> <span class="tp">Stack</span>&lt;<span class="tp">T</span>&gt; {
+  <span class="kw">private</span> data<span class="op">:</span> <span class="tp">T</span>[] <span class="op">=</span> [];
+
+  <span class="fn">push</span>(item<span class="op">:</span> <span class="tp">T</span>)<span class="op">:</span> <span class="tp">void</span>       { <span class="kw">this</span>.data.<span class="fn">push</span>(item); }
+  <span class="fn">pop</span>()<span class="op">:</span> <span class="tp">T</span> <span class="op">|</span> <span class="kw">undefined</span>    { <span class="kw">return</span> <span class="kw">this</span>.data.<span class="fn">pop</span>(); }
+  <span class="fn">peek</span>()<span class="op">:</span> <span class="tp">T</span> <span class="op">|</span> <span class="kw">undefined</span>   { <span class="kw">return</span> <span class="kw">this</span>.data.<span class="fn">at</span>(<span class="op">-</span><span class="num">1</span>); }
+  <span class="fn">isEmpty</span>()<span class="op">:</span> <span class="tp">boolean</span>      { <span class="kw">return</span> <span class="kw">this</span>.data.length <span class="op">===</span> <span class="num">0</span>; }
+  <span class="kw">get</span> <span class="fn">size</span>()<span class="op">:</span> <span class="tp">number</span>      { <span class="kw">return</span> <span class="kw">this</span>.data.length; }
+}
+
+<span class="cm">// Evaluate postfix expression — O(n)</span>
+<span class="kw">function</span> <span class="fn">evalPostfix</span>(tokens<span class="op">:</span> <span class="tp">string</span>[])<span class="op">:</span> <span class="tp">number</span> {
+  <span class="kw">const</span> stack <span class="op">=</span> <span class="kw">new</span> <span class="tp">Stack</span>&lt;<span class="tp">number</span>&gt;();
+  <span class="kw">for</span> (<span class="kw">const</span> tok <span class="kw">of</span> tokens) {
+    <span class="kw">if</span> (<span class="op">!</span><span class="fn">isNaN</span>(<span class="fn">Number</span>(tok))) {
+      stack.<span class="fn">push</span>(<span class="fn">Number</span>(tok));
+    } <span class="kw">else</span> {
+      <span class="kw">const</span> b <span class="op">=</span> stack.<span class="fn">pop</span>()!;
+      <span class="kw">const</span> a <span class="op">=</span> stack.<span class="fn">pop</span>()!;
+      <span class="kw">if</span>      (tok <span class="op">===</span> <span class="str">'+'</span>) stack.<span class="fn">push</span>(a <span class="op">+</span> b);
+      <span class="kw">else if</span> (tok <span class="op">===</span> <span class="str">'-'</span>) stack.<span class="fn">push</span>(a <span class="op">-</span> b);
+      <span class="kw">else if</span> (tok <span class="op">===</span> <span class="str">'*'</span>) stack.<span class="fn">push</span>(a <span class="op">*</span> b);
+      <span class="kw">else</span>                   stack.<span class="fn">push</span>(a <span class="op">/</span> b);
+    }
+  }
+  <span class="kw">return</span> stack.<span class="fn">pop</span>()!;
+}
+<span class="cm">// ["3","4","+","2","*"] → (3+4)*2 = 14</span></pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="stk-py">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">Python</span>
+          </div>
+          <div class="code-body"><pre><span class="cm"># Python list as a stack — O(1) append/pop from end</span>
+stack <span class="op">=</span> []
+stack.<span class="fn">append</span>(<span class="num">10</span>)         <span class="cm"># push</span>
+stack.<span class="fn">append</span>(<span class="num">25</span>)
+top <span class="op">=</span> stack.<span class="fn">pop</span>()         <span class="cm"># pop  → 25</span>
+peek <span class="op">=</span> stack[<span class="op">-</span><span class="num">1</span>]         <span class="cm"># peek → 10</span>
+
+<span class="cm"># DFS with an explicit stack (avoids recursion limit)</span>
+<span class="kw">def</span> <span class="fn">dfs_iterative</span>(graph, start):
+    visited <span class="op">=</span> <span class="fn">set</span>()
+    stack   <span class="op">=</span> [start]
+    <span class="kw">while</span> stack:
+        node <span class="op">=</span> stack.<span class="fn">pop</span>()
+        <span class="kw">if</span> node <span class="kw">in</span> visited:
+            <span class="kw">continue</span>
+        visited.<span class="fn">add</span>(node)
+        <span class="kw">for</span> neighbour <span class="kw">in</span> graph[node]:
+            <span class="kw">if</span> neighbour <span class="kw">not in</span> visited:
+                stack.<span class="fn">append</span>(neighbour)
+    <span class="kw">return</span> visited
+
+<span class="cm"># Balanced parentheses — O(n)</span>
+<span class="kw">def</span> <span class="fn">is_balanced</span>(s):
+    stack, pairs <span class="op">=</span> [], {<span class="str">')'</span><span class="op">:</span><span class="str">'('</span>, <span class="str">']'</span><span class="op">:</span><span class="str">'['</span>, <span class="str">'}'</span><span class="op">:</span><span class="str">'{'</span>}
+    <span class="kw">for</span> ch <span class="kw">in</span> s:
+        <span class="kw">if</span> ch <span class="kw">in</span> <span class="str">'([{'</span>: stack.<span class="fn">append</span>(ch)
+        <span class="kw">elif</span> ch <span class="kw">in</span> pairs:
+            <span class="kw">if not</span> stack <span class="kw">or</span> stack.<span class="fn">pop</span>() <span class="op">!=</span> pairs[ch]:
+                <span class="kw">return</span> <span class="kw">False</span>
+    <span class="kw">return not</span> stack</pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 4: Complexity ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Complexity Summary
+    </h2>
+
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Operation</th><th>Time</th><th>Space</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>push</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>add to top</td></tr>
+          <tr><td>pop</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>remove from top</td></tr>
+          <tr><td>peek / top</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>read top without removing</td></tr>
+          <tr><td>isEmpty</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>check size === 0</td></tr>
+          <tr><td>Search</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>must pop to search</td></tr>
+          <tr><td>Space (n items)</td><td>—</td><td><span class="badge badge-on">O(n)</span></td><td>one slot per item</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 5: Real world ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      Where Stacks Show Up
+    </h2>
+
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <div class="rw-card-title">Function call stack</div>
+        <p class="rw-card-desc">Every language runtime uses a stack to track function calls, local variables, and return addresses. It's why recursion works — and why it breaks when too deep.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <div class="rw-card-title">Ctrl+Z (Undo)</div>
+        <p class="rw-card-desc">Every keystroke is pushed onto an undo stack. Ctrl+Z pops the last action and reverses it. Ctrl+Y pushes it onto a redo stack — two stacks, infinite undo/redo.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+        <div class="rw-card-title">Git stash</div>
+        <p class="rw-card-desc"><code>git stash</code> is literally a stack. Each <code>git stash push</code> saves your current changes on top. <code>git stash pop</code> restores the most recent — LIFO behaviour built into version control.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+        <div class="rw-card-title">Expression parsers</div>
+        <p class="rw-card-desc">Compilers and calculators use stacks to parse and evaluate expressions — matching brackets, handling operator precedence, and converting infix to postfix notation.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

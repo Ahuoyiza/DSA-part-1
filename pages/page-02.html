@@ -1,0 +1,384 @@
+<!-- ══════════════════════════════════════════
+     PAGE 02 — Why DSA Matters
+══════════════════════════════════════════ -->
+
+<!-- Hero -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+    Lesson 02
+  </div>
+  <h1 class="page-title">Why DSA Matters</h1>
+  <div class="page-definition">
+    <p>"The difference between a program that works and a program that scales is almost always a question of data structures and algorithms."</p>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="page-content">
+
+  <!-- ── Analogy ── -->
+  <div class="content-section">
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">Picture two cashiers. The first checks every item against a handwritten list — scanning line by line until they find a match. That's <strong>O(n)</strong>. The second scans a barcode and gets an instant database lookup — same result, regardless of how large the inventory is. That's <strong>O(1)</strong>. With 10 items, both cashiers seem fine. With 10,000 items, only one can keep the queue moving.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Sketch Diagram ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Growth Rates at a Glance
+    </h2>
+
+    <div class="diagram-wrap">
+      <span class="diagram-fig-label">fig. 02 — How different Big O complexities grow as n increases</span>
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 580 360" xmlns="http://www.w3.org/2000/svg" style="min-width:320px;width:100%;max-width:580px" aria-label="Bar chart showing growth rates of O(1), O(log n), O(n), O(n squared), and O(2 to the n)">
+          <defs>
+            <filter id="roughen-p02-d1" x="-5%" y="-5%" width="110%" height="110%">
+              <feTurbulence type="turbulence" baseFrequency="0.025" numOctaves="2" seed="7" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <marker id="arr-p02" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+              <path d="M 0 1 L 8 4 L 0 7" stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+            <marker id="arr-red-p02" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+              <path d="M 0 1 L 8 4 L 0 7" stroke="#FF5252" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+
+          <!-- ── DANGER ZONE background (before axes so it sits behind) ── -->
+          <rect x="332" y="22" width="220" height="248" fill="rgba(255,82,82,0.05)" rx="2"/>
+          <!-- SWEET SPOT background -->
+          <rect x="72" y="22" width="170" height="248" fill="rgba(0,191,165,0.04)" rx="2"/>
+
+          <!-- ── Axes ── -->
+          <g filter="url(#roughen-p02-d1)">
+            <!-- Y axis -->
+            <path d="M 68 18 C 68 80, 69 180, 68 272" stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#arr-p02)"/>
+            <!-- X axis -->
+            <path d="M 66 270 C 180 271, 380 270, 554 270" stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#arr-p02)"/>
+
+            <!-- Y axis ticks -->
+            <path d="M 60 220 C 64 220, 68 220, 72 220" stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M 60 170 C 64 170, 68 170, 72 170" stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M 60 120 C 64 120, 68 120, 72 120" stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M 60 70  C 64 70,  68 70,  72 70"  stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+            <!-- Bars -->
+            <!-- O(1): h=16, color green -->
+            <rect x="98"  y="254" width="56" height="16"  rx="2" fill="rgba(76,175,125,0.25)"  stroke="#4CAF7D" stroke-width="1.5"/>
+            <!-- O(log n): h=48, color teal -->
+            <rect x="178" y="222" width="56" height="48"  rx="2" fill="rgba(0,191,165,0.2)"    stroke="#00BFA5" stroke-width="1.5"/>
+            <!-- O(n): h=110, color gold -->
+            <rect x="258" y="160" width="56" height="110" rx="2" fill="rgba(245,166,35,0.2)"   stroke="#F5A623" stroke-width="1.5"/>
+            <!-- O(n²): h=200, color orange -->
+            <rect x="338" y="70"  width="56" height="200" rx="2" fill="rgba(255,112,67,0.2)"   stroke="#FF7043" stroke-width="1.5"/>
+            <!-- O(2ⁿ): h=244, color red -->
+            <rect x="418" y="26"  width="56" height="244" rx="2" fill="rgba(255,82,82,0.2)"    stroke="#FF5252" stroke-width="2"/>
+          </g>
+
+          <!-- Zone labels (outside filter for clarity) -->
+          <text x="155" y="42" text-anchor="middle" font-family="Caveat, cursive" font-size="13" fill="#00BFA5" font-weight="700">SWEET SPOT</text>
+          <text x="442" y="42" text-anchor="middle" font-family="Caveat, cursive" font-size="13" fill="#FF5252" font-weight="700">DANGER ZONE</text>
+
+          <!-- Bar value labels (top of each bar) -->
+          <text x="126" y="248" text-anchor="middle" font-family="Caveat, cursive" font-size="13" fill="#4CAF7D">flat</text>
+          <text x="206" y="216" text-anchor="middle" font-family="Caveat, cursive" font-size="13" fill="#00BFA5">slow</text>
+          <text x="286" y="153" text-anchor="middle" font-family="Caveat, cursive" font-size="13" fill="#F5A623">linear</text>
+          <text x="366" y="62"  text-anchor="middle" font-family="Caveat, cursive" font-size="13" fill="#FF7043">bad</text>
+          <text x="446" y="19"  text-anchor="middle" font-family="Caveat, cursive" font-size="13" fill="#FF5252">run!</text>
+
+          <!-- X axis labels (notation under each bar) -->
+          <text x="126" y="292" text-anchor="middle" font-family="Caveat, cursive" font-size="16" fill="#E8E0D0">O(1)</text>
+          <text x="206" y="292" text-anchor="middle" font-family="Caveat, cursive" font-size="16" fill="#E8E0D0">O(log n)</text>
+          <text x="286" y="292" text-anchor="middle" font-family="Caveat, cursive" font-size="16" fill="#E8E0D0">O(n)</text>
+          <text x="366" y="292" text-anchor="middle" font-family="Caveat, cursive" font-size="16" fill="#E8E0D0">O(n²)</text>
+          <text x="446" y="292" text-anchor="middle" font-family="Caveat, cursive" font-size="16" fill="#E8E0D0">O(2ⁿ)</text>
+
+          <!-- Axis labels -->
+          <text x="310" y="320" text-anchor="middle" font-family="Caveat, cursive" font-size="14" fill="#64748B">n = 1,000 inputs</text>
+          <text x="28"  y="155" text-anchor="middle" font-family="Caveat, cursive" font-size="14" fill="#64748B" transform="rotate(-90, 28, 155)">Operations</text>
+
+          <!-- Stick figure panicking next to O(2ⁿ) bar -->
+          <g>
+            <!-- Head -->
+            <circle cx="500" cy="46" r="8" fill="none" stroke="#FF5252" stroke-width="1.5"/>
+            <!-- Body -->
+            <line x1="500" y1="54" x2="500" y2="80" stroke="#FF5252" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Arms up (panicking) -->
+            <path d="M 488 62 L 500 68 L 512 58" stroke="#FF5252" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Legs -->
+            <path d="M 492 92 L 500 80 L 508 92" stroke="#FF5252" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Panic lines -->
+            <path d="M 514 40 L 520 36" stroke="#FF5252" stroke-width="1" stroke-linecap="round"/>
+            <path d="M 516 47 L 523 46" stroke="#FF5252" stroke-width="1" stroke-linecap="round"/>
+            <path d="M 513 54 L 520 56" stroke="#FF5252" stroke-width="1" stroke-linecap="round"/>
+          </g>
+          <text x="510" y="100" text-anchor="middle" font-family="Caveat, cursive" font-size="12" fill="#FF5252">help!</text>
+
+          <!-- Annotation: O(1) stays flat -->
+          <path d="M 126 242 C 126 230, 130 218, 145 210" stroke="#4CAF7D" stroke-width="1" fill="none" stroke-linecap="round" stroke-dasharray="3,2"/>
+          <text x="150" y="207" font-family="Caveat, cursive" font-size="12" fill="#4CAF7D">stays flat forever</text>
+        </svg>
+      </div>
+      <span class="diagram-caption">Fig. 2 — At n=1,000, the difference between O(1) and O(2ⁿ) is the difference between instant and heat-death-of-the-universe</span>
+    </div>
+  </div>
+
+  <!-- ── Teaching Content ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Why This Is Not Academic
+    </h2>
+
+    <h3 class="subsection-title">What Happens at Scale</h3>
+    <p>When you have 10 users, almost any code works. A nested loop that checks every user against every other user runs 100 operations — imperceptible. Scale to 10,000 users and that same loop runs 100,000,000 operations. Your server is now melting for no reason other than a bad algorithmic choice made when the dataset was small.</p>
+    <p>This is not a theoretical problem. It is the most common reason why startups hit a wall after their first viral moment. The code that got you to product-market fit will betray you the moment it needs to handle real load. DSA is what you reach for when that moment arrives.</p>
+
+    <h3 class="subsection-title">The Knight Capital Story</h3>
+    <p>In August 2012, Knight Capital Group — one of the largest US equity dealers — lost <strong>$440 million in 45 minutes</strong> due to a software deployment error that activated a dormant trading algorithm. The algorithm began executing thousands of erroneous trades per second. Because there was no circuit breaker — no algorithmic check on the rate and volume of operations — the system ran unchecked until human operators physically shut it down.</p>
+    <p>This is an extreme example, but it illustrates that algorithms are not just about elegance. They are about control, predictability, and knowing exactly what your code will do under every condition. Engineers who deeply understand algorithms build systems that fail gracefully. Engineers who don't build systems that fail expensively.</p>
+
+    <div class="callout callout-warning">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Watch Out</div>
+        <p class="callout-text">An O(n²) algorithm on a dataset of 1 million records will perform 1 trillion operations. At 1 billion operations per second, that is <strong>16 minutes</strong> for a single query. The same operation with an O(n log n) algorithm takes under 20 milliseconds. The code "works" either way. Only one of them works in production.</p>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Why Tech Companies Test DSA in Interviews</h3>
+    <p>The technical interview — with its whiteboard problems and Big O questions — is often criticised as disconnected from daily work. In many ways it is. But the underlying reason it exists is sound: companies with billion-user scale cannot afford engineers who write working-but-slow code. When a single backend endpoint serves 50,000 requests per second, an O(n²) function that takes 10ms on your laptop takes 10 seconds at that scale. DSA interviews are a proxy test for "can this person reason about what their code will do under load?"</p>
+
+    <h3 class="subsection-title">Working Code vs Efficient Code</h3>
+    <p>The most important mindset shift in becoming a senior engineer is moving from <em>"does it work?"</em> to <em>"does it work, at scale, with minimal resources?"</em> A junior engineer celebrates when tests pass. A senior engineer asks: what is the time complexity of this solution? Can it be improved? What happens if this collection grows to 10 million items? DSA is the vocabulary and the tools that make those conversations possible.</p>
+  </div>
+
+  <!-- ── Pseudocode ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      Pseudocode — O(n) vs O(1) Lookup
+    </h2>
+    <div class="pseudo-wrap">
+      <span class="pseudo-label">Pseudocode</span>
+      <div class="pseudo"><span class="pc">// SLOW: check every item in a list — O(n)</span>
+<span class="pk">FUNCTION</span> slowContains(list, target):
+    <span class="pk">FOR EACH</span> item in list:
+        <span class="pk">IF</span> item == target:
+            <span class="pk">RETURN</span> true
+    <span class="pk">RETURN</span> false
+<span class="pc">// 1,000 items → up to 1,000 checks</span>
+<span class="pc">// 1,000,000 items → up to 1,000,000 checks</span>
+
+<span class="pk">FUNCTION</span> fastContains(hashSet, target):
+    <span class="pk">RETURN</span> hashSet.has(target)
+<span class="pc">// 1 check — always, regardless of size → O(1)</span></div>
+    </div>
+  </div>
+
+  <!-- ── Code Tabs ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Implementation — Slow vs Fast Lookup
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="p02-js">JavaScript</button>
+        <button class="tab-btn" data-pane="p02-ts">TypeScript</button>
+      </div>
+
+      <!-- JS Tab -->
+      <div class="tab-pane" id="p02-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body">
+<pre><span class="cm">// ─────────────────────────────────────────────────────────</span>
+<span class="cm">// SLOW: Linear search through an array — O(n)</span>
+<span class="cm">// Every additional item = one more potential check</span>
+<span class="cm">// ─────────────────────────────────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">slowContains</span>(list, target) {
+  <span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> list.length; i<span class="op">++</span>) {
+    <span class="kw">if</span> (list[i] <span class="op">===</span> target) <span class="kw">return</span> <span class="kw">true</span>;
+  }
+  <span class="kw">return</span> <span class="kw">false</span>;
+}
+
+<span class="cm">// ─────────────────────────────────────────────────────────</span>
+<span class="cm">// FAST: Set lookup — O(1)</span>
+<span class="cm">// JavaScript Set uses a hash table internally.</span>
+<span class="cm">// .has() is always one operation, regardless of size.</span>
+<span class="cm">// ─────────────────────────────────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">fastContains</span>(set, target) {
+  <span class="kw">return</span> set.<span class="fn">has</span>(target);
+}
+
+<span class="cm">// ── Benchmark comparison ────────────────────────────────</span>
+<span class="kw">const</span> N <span class="op">=</span> <span class="num">1_000_000</span>;
+<span class="kw">const</span> bigArray <span class="op">=</span> Array.<span class="fn">from</span>({ length<span class="op">:</span> N }, (_, i) <span class="op">=&gt;</span> i);
+<span class="kw">const</span> bigSet   <span class="op">=</span> <span class="kw">new</span> <span class="fn">Set</span>(bigArray);
+<span class="kw">const</span> target   <span class="op">=</span> <span class="num">999_999</span>;            <span class="cm">// worst case: last element</span>
+
+console.<span class="fn">time</span>(<span class="str">'array O(n)'</span>);
+<span class="fn">slowContains</span>(bigArray, target);     <span class="cm">// scans up to 1,000,000 items</span>
+console.<span class="fn">timeEnd</span>(<span class="str">'array O(n)'</span>);     <span class="cm">// ~5–12ms</span>
+
+console.<span class="fn">time</span>(<span class="str">'set O(1)'</span>);
+<span class="fn">fastContains</span>(bigSet, target);       <span class="cm">// always 1 hash lookup</span>
+console.<span class="fn">timeEnd</span>(<span class="str">'set O(1)'</span>);       <span class="cm">// ~0.001ms</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- TS Tab -->
+      <div class="tab-pane" id="p02-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body">
+<pre><span class="cm">// ─────────────────────────────────────────────────────────</span>
+<span class="cm">// SLOW: Linear search through an array — O(n)</span>
+<span class="cm">// ─────────────────────────────────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">slowContains</span>&lt;<span class="tp">T</span>&gt;(list<span class="op">:</span> <span class="tp">T</span>[], target<span class="op">:</span> <span class="tp">T</span>)<span class="op">:</span> <span class="tp">boolean</span> {
+  <span class="kw">for</span> (<span class="kw">let</span> i<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> list.length; i<span class="op">++</span>) {
+    <span class="kw">if</span> (list[i] <span class="op">===</span> target) <span class="kw">return</span> <span class="kw">true</span>;
+  }
+  <span class="kw">return</span> <span class="kw">false</span>;
+}
+
+<span class="cm">// ─────────────────────────────────────────────────────────</span>
+<span class="cm">// FAST: Set lookup — O(1)</span>
+<span class="cm">// ─────────────────────────────────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">fastContains</span>&lt;<span class="tp">T</span>&gt;(set<span class="op">:</span> <span class="tp">Set</span>&lt;<span class="tp">T</span>&gt;, target<span class="op">:</span> <span class="tp">T</span>)<span class="op">:</span> <span class="tp">boolean</span> {
+  <span class="kw">return</span> set.<span class="fn">has</span>(target);
+}
+
+<span class="cm">// ── Benchmark comparison ────────────────────────────────</span>
+<span class="kw">const</span> N<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">1_000_000</span>;
+<span class="kw">const</span> bigArray<span class="op">:</span> <span class="tp">number</span>[] <span class="op">=</span> Array.<span class="fn">from</span>({ length<span class="op">:</span> N }, (<span class="op">_</span>, i) <span class="op">=&gt;</span> i);
+<span class="kw">const</span> bigSet<span class="op">:</span> <span class="tp">Set</span>&lt;<span class="tp">number</span>&gt; <span class="op">=</span> <span class="kw">new</span> <span class="fn">Set</span>(bigArray);
+<span class="kw">const</span> target<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">999_999</span>;
+
+console.<span class="fn">time</span>(<span class="str">'array O(n)'</span>);
+<span class="fn">slowContains</span>(bigArray, target);     <span class="cm">// scans up to 1,000,000 items</span>
+console.<span class="fn">timeEnd</span>(<span class="str">'array O(n)'</span>);     <span class="cm">// ~5–12ms</span>
+
+console.<span class="fn">time</span>(<span class="str">'set O(1)'</span>);
+<span class="fn">fastContains</span>(bigSet, target);       <span class="cm">// always 1 hash lookup</span>
+console.<span class="fn">timeEnd</span>(<span class="str">'set O(1)'</span>);       <span class="cm">// ~0.001ms</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Complexity Table ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      The Real Cost at Scale
+    </h2>
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr>
+            <th>Complexity</th>
+            <th>n = 10</th>
+            <th>n = 1,000</th>
+            <th>n = 1,000,000</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td>1 op</td>
+            <td>1 op</td>
+            <td>1 op</td>
+            <td style="color:var(--green)">Always instant</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-ologn">O(log n)</span></td>
+            <td>3 ops</td>
+            <td>10 ops</td>
+            <td>20 ops</td>
+            <td style="color:var(--teal)">Excellent</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-on">O(n)</span></td>
+            <td>10 ops</td>
+            <td>1,000 ops</td>
+            <td>1,000,000 ops</td>
+            <td style="color:var(--gold)">Acceptable</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-on2">O(n²)</span></td>
+            <td>100 ops</td>
+            <td>1,000,000 ops</td>
+            <td>10¹² ops</td>
+            <td style="color:var(--red)">Dangerous at scale</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-o2n">O(2ⁿ)</span></td>
+            <td>1,024 ops</td>
+            <td>10³⁰¹ ops</td>
+            <td>10³⁰¹⁰⁰⁰ ops</td>
+            <td style="color:var(--red)">Unusable</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-insight" style="margin-top:16px">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Key Insight</div>
+        <p class="callout-text">At n=1,000, O(n²) performs <strong>one million operations</strong>. At 1 billion ops/sec, that is 1ms — still fine. But at n=100,000, it is 10 billion operations — <strong>10 seconds</strong> per request. One order-of-magnitude growth in data causes a thousand-fold slowdown. This is why scale-up is the moment bad algorithmic choices become catastrophic.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Real-world Cards ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Where You'll See This in the Real World
+    </h2>
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg>
+        <div class="rw-card-title">Ride-hailing Dispatch</div>
+        <p class="rw-card-desc">Matching riders to drivers across a city requires spatial data structures (k-d trees) and greedy algorithms — brute-force pairing would be impossibly slow.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="2.5"/><path d="M4 6v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5V6"/><path d="M4 11v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5v-5"/></svg>
+        <div class="rw-card-title">Database Indexing</div>
+        <p class="rw-card-desc">Without an index, every query is O(n). A B-tree index makes the same query O(log n) — the entire concept of database performance rests on this trade-off.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+        <div class="rw-card-title">Video Streaming Buffer</div>
+        <p class="rw-card-desc">Adaptive bitrate algorithms (like used by Netflix) continuously select optimal video quality using time-series data — O(n) scan on every frame would stall playback.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <div class="rw-card-title">Compiler Optimisation</div>
+        <p class="rw-card-desc">A compiler analyses your code's data flow graph to eliminate redundant operations. It applies algorithmic transformations to make your program faster before it ever runs.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

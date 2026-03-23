@@ -1,0 +1,371 @@
+<!-- PAGE 07 — Strings -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+    Lesson 07
+  </div>
+  <h1 class="page-title">Strings</h1>
+  <div class="page-definition">
+    <p>"A string is a sequence of characters — under the hood, an array of bytes. Immutability, encoding, and the hidden cost of concatenation define most string performance traps."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Section 1: Strings are arrays ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      Strings Are Character Arrays
+    </h2>
+
+    <p>At the memory level, a string is just an array of character codes. <code>"hello"</code> is stored as five bytes: <code>[104, 101, 108, 108, 111]</code>. Every array operation from Lesson 06 applies — but most languages make strings <strong>immutable</strong>, meaning any "modification" creates a brand new string in memory.</p>
+
+    <!-- Memory layout -->
+    <div class="sketch-wrap" style="margin:32px 0;">
+      <svg viewBox="0 0 620 190" width="100%" style="max-width:620px;display:block;margin:0 auto;" role="img" aria-label="String memory layout — hello">
+        <defs>
+          <filter id="str-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="21" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+
+        <text x="310" y="22" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 7A — "hello" as bytes in memory (UTF-8)</text>
+
+        <!-- cells -->
+        <g filter="url(#str-rough)">
+          <rect x="60"  y="38" width="90" height="56" rx="3" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="150" y="38" width="90" height="56" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="240" y="38" width="90" height="56" rx="3" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="330" y="38" width="90" height="56" rx="3" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="420" y="38" width="90" height="56" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <!-- null terminator -->
+          <rect x="510" y="38" width="60" height="56" rx="3" fill="rgba(239,68,68,0.08)" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4 3"/>
+        </g>
+
+        <!-- chars -->
+        <text x="105" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="22" fill="#00BFA5">'h'</text>
+        <text x="195" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="22" fill="#00BFA5">'e'</text>
+        <text x="285" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="22" fill="#00BFA5">'l'</text>
+        <text x="375" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="22" fill="#00BFA5">'l'</text>
+        <text x="465" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="22" fill="#00BFA5">'o'</text>
+        <text x="540" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#EF4444">'\0'</text>
+
+        <!-- byte values -->
+        <text x="105" y="86" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">104</text>
+        <text x="195" y="86" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">101</text>
+        <text x="285" y="86" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">108</text>
+        <text x="375" y="86" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">108</text>
+        <text x="465" y="86" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">111</text>
+        <text x="540" y="86" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#EF4444">0</text>
+
+        <!-- index labels -->
+        <text x="105" y="113" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[0]</text>
+        <text x="195" y="113" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[1]</text>
+        <text x="285" y="113" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[2]</text>
+        <text x="375" y="113" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[3]</text>
+        <text x="465" y="113" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[4]</text>
+        <text x="540" y="113" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#EF4444">null</text>
+
+        <!-- immutable lock icon area -->
+        <text x="310" y="150" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#F5A623">⚠ Immutable — "modification" = allocate new string + copy</text>
+        <text x="310" y="170" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">str[0] = 'H'  ← throws error in most languages</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-insight">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Key insight</div>
+        <p class="callout-text">In Python and JavaScript, strings are <strong>immutable</strong>. Every <code>+</code> operator creates a brand new string. Concatenating n strings in a loop is O(n²) total — not O(n). Use array joins or string builders instead.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 2: The concatenation trap ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      The Concatenation Trap
+    </h2>
+
+    <p>Each concatenation allocates a <em>new</em> string and copies both halves into it. Doing this n times means copying 1+2+3+…+n characters = <strong>O(n²)</strong> total work.</p>
+
+    <!-- Growing string diagram -->
+    <div class="sketch-wrap" style="margin:32px 0;">
+      <svg viewBox="0 0 620 220" width="100%" style="max-width:620px;display:block;margin:0 auto;" role="img" aria-label="String concatenation growing cost diagram">
+        <defs>
+          <filter id="str-rough2" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="5" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="str-arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#EF4444"/>
+          </marker>
+        </defs>
+
+        <text x="310" y="20" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 7B — Each + copies ALL previous characters (growing cost)</text>
+
+        <!-- Step 1 -->
+        <text x="20" y="52" font-family="Caveat,cursive" font-size="12" fill="#4A6080">step 1</text>
+        <g filter="url(#str-rough2)">
+          <rect x="65" y="38" width="36" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.5"/>
+        </g>
+        <text x="83" y="56" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">A</text>
+        <text x="120" y="56" font-family="Caveat,cursive" font-size="11" fill="#4A6080">copy: 1</text>
+
+        <!-- Step 2 -->
+        <text x="20" y="90" font-family="Caveat,cursive" font-size="12" fill="#4A6080">step 2</text>
+        <g filter="url(#str-rough2)">
+          <rect x="65" y="76" width="36" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="101" y="76" width="36" height="26" rx="2" fill="rgba(245,166,35,0.15)" stroke="#F5A623" stroke-width="1.5"/>
+        </g>
+        <text x="83" y="94" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">A</text>
+        <text x="119" y="94" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#F5A623">B</text>
+        <text x="160" y="94" font-family="Caveat,cursive" font-size="11" fill="#4A6080">copy: 2 (A + B)</text>
+
+        <!-- Step 3 -->
+        <text x="20" y="128" font-family="Caveat,cursive" font-size="12" fill="#4A6080">step 3</text>
+        <g filter="url(#str-rough2)">
+          <rect x="65" y="114" width="36" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="101" y="114" width="36" height="26" rx="2" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="137" y="114" width="36" height="26" rx="2" fill="rgba(245,166,35,0.15)" stroke="#F5A623" stroke-width="1.5"/>
+        </g>
+        <text x="83" y="132" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">A</text>
+        <text x="119" y="132" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">B</text>
+        <text x="155" y="132" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#F5A623">C</text>
+        <text x="196" y="132" font-family="Caveat,cursive" font-size="11" fill="#4A6080">copy: 3 (A+B + C)</text>
+
+        <!-- Step n -->
+        <text x="20" y="166" font-family="Caveat,cursive" font-size="12" fill="#4A6080">step n</text>
+        <g filter="url(#str-rough2)">
+          <rect x="65" y="152" width="200" height="26" rx="2" fill="rgba(239,68,68,0.10)" stroke="#EF4444" stroke-width="1.5"/>
+        </g>
+        <text x="165" y="170" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#EF4444">A B C D … N  (copy all n chars)</text>
+
+        <!-- Total -->
+        <text x="310" y="205" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#EF4444">Total work: 1+2+3+…+n = n(n+1)/2 = O(n²)</text>
+      </svg>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-col-title bad">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          O(n²) — naive loop
+        </div>
+        <ul>
+          <li>String concat in a loop (<code>s += word</code>)</li>
+          <li>Each iteration copies all previous characters</li>
+          <li>Kills performance at n > 10,000</li>
+          <li>Common interview trap in Python/JS</li>
+        </ul>
+      </div>
+      <div class="compare-col">
+        <div class="compare-col-title good">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+          O(n) — array join
+        </div>
+        <ul>
+          <li>Collect parts in array, call <code>.join('')</code> once</li>
+          <li>Single allocation for the final string</li>
+          <li>Python: <code>''.join(parts)</code></li>
+          <li>Java: <code>StringBuilder.append()</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 3: Code ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      String Patterns in Code
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="str-js">JavaScript</button>
+        <button class="tab-btn" data-pane="str-ts">TypeScript</button>
+        <button class="tab-btn" data-pane="str-py">Python</button>
+      </div>
+
+      <div class="tab-pane" id="str-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body"><pre><span class="cm">// ── Common string operations ──────────────────────</span>
+<span class="kw">const</span> s <span class="op">=</span> <span class="str">'Hello, World!'</span>;
+
+<span class="cm">// O(1) — length, index access</span>
+s.<span class="fn">length</span>;                            <span class="cm">// 13</span>
+s[<span class="num">0</span>];                                <span class="cm">// 'H'</span>
+
+<span class="cm">// O(n) — includes, indexOf</span>
+s.<span class="fn">includes</span>(<span class="str">'World'</span>);                <span class="cm">// true</span>
+s.<span class="fn">indexOf</span>(<span class="str">'o'</span>);                     <span class="cm">// 4</span>
+
+<span class="cm">// O(k) — slice, substring</span>
+s.<span class="fn">slice</span>(<span class="num">7</span>, <span class="num">12</span>);                      <span class="cm">// 'World'</span>
+
+<span class="cm">// ── O(n²) trap ────────────────────────────────────</span>
+<span class="kw">let</span> result <span class="op">=</span> <span class="str">''</span>;
+<span class="kw">for</span> (<span class="kw">const</span> word <span class="kw">of</span> words) {
+  result <span class="op">+=</span> word <span class="op">+</span> <span class="str">' '</span>;            <span class="cm">// copies grow each time</span>
+}
+
+<span class="cm">// ── O(n) fix ──────────────────────────────────────</span>
+<span class="kw">const</span> result2 <span class="op">=</span> words.<span class="fn">join</span>(<span class="str">' '</span>);    <span class="cm">// single allocation</span>
+
+<span class="cm">// ── Reverse a string (interview classic) ──────────</span>
+<span class="kw">const</span> reversed <span class="op">=</span> s.<span class="fn">split</span>(<span class="str">''</span>).<span class="fn">reverse</span>().<span class="fn">join</span>(<span class="str">''</span>); <span class="cm">// O(n)</span></pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="str-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body"><pre><span class="cm">// Check if string is palindrome — O(n)</span>
+<span class="kw">function</span> <span class="fn">isPalindrome</span>(s<span class="op">:</span> <span class="tp">string</span>)<span class="op">:</span> <span class="tp">boolean</span> {
+  <span class="kw">let</span> left <span class="op">=</span> <span class="num">0</span>, right <span class="op">=</span> s.<span class="fn">length</span> <span class="op">-</span> <span class="num">1</span>;
+  <span class="kw">while</span> (left <span class="op">&lt;</span> right) {
+    <span class="kw">if</span> (s[left] <span class="op">!==</span> s[right]) <span class="kw">return</span> <span class="kw">false</span>;
+    left<span class="op">++</span>;
+    right<span class="op">--</span>;
+  }
+  <span class="kw">return</span> <span class="kw">true</span>;
+}
+
+<span class="cm">// Count character frequency — O(n)</span>
+<span class="kw">function</span> <span class="fn">charFreq</span>(s<span class="op">:</span> <span class="tp">string</span>)<span class="op">:</span> <span class="tp">Map</span>&lt;<span class="tp">string</span>, <span class="tp">number</span>&gt; {
+  <span class="kw">const</span> freq <span class="op">=</span> <span class="kw">new</span> <span class="fn">Map</span>&lt;<span class="tp">string</span>, <span class="tp">number</span>&gt;();
+  <span class="kw">for</span> (<span class="kw">const</span> ch <span class="kw">of</span> s) {
+    freq.<span class="fn">set</span>(ch, (freq.<span class="fn">get</span>(ch) <span class="op">??</span> <span class="num">0</span>) <span class="op">+</span> <span class="num">1</span>);
+  }
+  <span class="kw">return</span> freq;
+}
+
+<span class="cm">// Anagram check — O(n)</span>
+<span class="kw">function</span> <span class="fn">isAnagram</span>(a<span class="op">:</span> <span class="tp">string</span>, b<span class="op">:</span> <span class="tp">string</span>)<span class="op">:</span> <span class="tp">boolean</span> {
+  <span class="kw">if</span> (a.<span class="fn">length</span> <span class="op">!==</span> b.<span class="fn">length</span>) <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="kw">const</span> freq <span class="op">=</span> <span class="fn">charFreq</span>(a);
+  <span class="kw">for</span> (<span class="kw">const</span> ch <span class="kw">of</span> b) {
+    <span class="kw">const</span> count <span class="op">=</span> freq.<span class="fn">get</span>(ch);
+    <span class="kw">if</span> (<span class="op">!</span>count) <span class="kw">return</span> <span class="kw">false</span>;
+    freq.<span class="fn">set</span>(ch, count <span class="op">-</span> <span class="num">1</span>);
+  }
+  <span class="kw">return</span> <span class="kw">true</span>;
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="str-py">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">Python</span>
+          </div>
+          <div class="code-body"><pre>s <span class="op">=</span> <span class="str">"Hello, World!"</span>
+
+<span class="cm"># O(1) — index access</span>
+s[<span class="num">0</span>]                              <span class="cm"># 'H'</span>
+s[<span class="op">-</span><span class="num">1</span>]                             <span class="cm"># '!'</span>
+
+<span class="cm"># O(k) — slice</span>
+s[<span class="num">7</span><span class="op">:</span><span class="num">12</span>]                           <span class="cm"># 'World'</span>
+
+<span class="cm"># O(n) — reverse</span>
+s[<span class="op">::</span><span class="op">-</span><span class="num">1</span>]                           <span class="cm"># '!dlroW ,olleH'</span>
+
+<span class="cm"># O(n²) trap — avoid this</span>
+result <span class="op">=</span> <span class="str">""</span>
+<span class="kw">for</span> word <span class="kw">in</span> words<span class="op">:</span>
+    result <span class="op">+=</span> word                 <span class="cm"># copies grow</span>
+
+<span class="cm"># O(n) fix — join</span>
+result <span class="op">=</span> <span class="str">" "</span>.<span class="fn">join</span>(words)           <span class="cm"># single alloc</span>
+
+<span class="cm"># Counter for frequency map — O(n)</span>
+<span class="kw">from</span> collections <span class="kw">import</span> Counter
+freq <span class="op">=</span> <span class="fn">Counter</span>(<span class="str">"banana"</span>)          <span class="cm"># {'a':3,'n':2,'b':1}</span>
+
+<span class="cm"># Palindrome check — O(n)</span>
+<span class="kw">def</span> <span class="fn">is_palindrome</span>(s)<span class="op">:</span>
+    <span class="kw">return</span> s <span class="op">==</span> s[<span class="op">::</span><span class="op">-</span><span class="num">1</span>]</pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 4: Complexity ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Complexity Summary
+    </h2>
+
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Operation</th><th>Time</th><th>Space</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Length</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>stored as metadata</td></tr>
+          <tr><td>Index access</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>pointer + offset</td></tr>
+          <tr><td>Substring / slice</td><td><span class="badge badge-on">O(k)</span></td><td><span class="badge badge-on">O(k)</span></td><td>k = slice length</td></tr>
+          <tr><td>Search (contains)</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>naive; KMP is O(n)</td></tr>
+          <tr><td>Concatenation (+)</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-on">O(n)</span></td><td>new allocation + copy</td></tr>
+          <tr><td>Concat in a loop</td><td><span class="badge badge-on2">O(n²)</span></td><td><span class="badge badge-on">O(n)</span></td><td>use join instead!</td></tr>
+          <tr><td>Reverse</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-on">O(n)</span></td><td>must create new string</td></tr>
+          <tr><td>Split</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-on">O(n)</span></td><td>allocates array of parts</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 5: Real world ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      Where String Perf Matters
+    </h2>
+
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <div class="rw-card-title">Search engines</div>
+        <p class="rw-card-desc">Indexing and querying trillions of strings. Inverted indexes, prefix tries, and n-gram models all depend on efficient string operations to respond in milliseconds.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="rw-card-title">Security & hashing</div>
+        <p class="rw-card-desc">Password hashing (bcrypt, Argon2) converts string inputs into fixed-length digests. Timing-safe comparison prevents leaking length information via early exit.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <div class="rw-card-title">Code editors</div>
+        <p class="rw-card-desc">VS Code uses a "piece tree" to represent file content as a series of string segments — avoiding O(n²) edits when you insert characters in large files.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        <div class="rw-card-title">DNS & routing</div>
+        <p class="rw-card-desc">DNS lookups match domain strings using trie data structures. Prefix matching is O(m) where m is the domain length — independent of how many domains exist.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

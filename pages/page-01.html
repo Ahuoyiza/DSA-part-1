@@ -1,0 +1,371 @@
+<!-- ══════════════════════════════════════════
+     PAGE 01 — What is DSA?
+══════════════════════════════════════════ -->
+
+<!-- Hero -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14.5"/></svg>
+    Lesson 01
+  </div>
+  <h1 class="page-title">What is DSA?</h1>
+  <div class="page-definition">
+    <p>"DSA — Data Structures and Algorithms — is the study of how to organise data and the step-by-step methods we use to process it."</p>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="page-content">
+
+  <!-- ── Analogy ── -->
+  <div class="content-section">
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">Think of a supermarket. The shelves are a <strong>data structure</strong> — they organise products so you can find them quickly. Your shopping strategy is an <strong>algorithm</strong> — whether you zigzag randomly or follow the aisle layout systematically determines how efficiently you finish. Same goal, very different performance.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Sketch Diagram ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      The Two Halves of DSA
+    </h2>
+
+    <div class="diagram-wrap">
+      <span class="diagram-fig-label">fig. 01 — Data Structure vs Algorithm</span>
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 640 330" xmlns="http://www.w3.org/2000/svg" style="min-width:320px;width:100%;max-width:640px" aria-label="Diagram showing data structure as shelves on the left and algorithm as a flowchart on the right">
+          <defs>
+            <filter id="roughen-p01-d1" x="-5%" y="-5%" width="110%" height="110%">
+              <feTurbulence type="turbulence" baseFrequency="0.025" numOctaves="2" seed="3" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <marker id="arr-p01" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+              <path d="M 0 1 L 8 4 L 0 7" stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+            <marker id="arr-gold-p01" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+              <path d="M 0 1 L 8 4 L 0 7" stroke="#F5A623" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+
+          <!-- ── Left: Shelves (DATA STRUCTURE) ── -->
+          <g filter="url(#roughen-p01-d1)">
+            <!-- Support posts -->
+            <path d="M 32 60 C 31 130, 32 200, 31 268" stroke="#E8E0D0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M 278 60 C 279 130, 278 200, 279 268" stroke="#E8E0D0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Floor -->
+            <path d="M 30 268 C 90 267, 210 269, 280 268" stroke="#E8E0D0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Shelf 1 -->
+            <path d="M 30 118 C 85 116, 200 119, 280 118" stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Shelf 2 -->
+            <path d="M 30 188 C 90 187, 205 189, 280 188" stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+            <!-- Products — row 1 (y: 68–118) -->
+            <rect x="44"  y="74"  width="20" height="40" rx="1" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.12)"/>
+            <rect x="70"  y="80"  width="26" height="34" rx="1" stroke="#E8E0D0" stroke-width="1.5" fill="rgba(255,255,255,0.04)"/>
+            <rect x="102" y="72"  width="18" height="42" rx="1" stroke="#F5A623" stroke-width="1.5" fill="rgba(245,166,35,0.08)"/>
+            <rect x="126" y="78"  width="24" height="36" rx="1" stroke="#E8E0D0" stroke-width="1.5" fill="rgba(255,255,255,0.04)"/>
+            <rect x="156" y="74"  width="20" height="40" rx="1" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.12)"/>
+            <rect x="183" y="80"  width="16" height="34" rx="1" stroke="#E8E0D0" stroke-width="1.5" fill="rgba(255,255,255,0.04)"/>
+            <rect x="205" y="70"  width="28" height="44" rx="1" stroke="#F5A623" stroke-width="1.5" fill="rgba(245,166,35,0.08)"/>
+            <rect x="240" y="76"  width="22" height="38" rx="1" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.12)"/>
+
+            <!-- Products — row 2 (y: 124–188) -->
+            <rect x="44"  y="128" width="30" height="54" rx="1" stroke="#E8E0D0" stroke-width="1.5" fill="rgba(255,255,255,0.04)"/>
+            <rect x="80"  y="132" width="22" height="50" rx="1" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.12)"/>
+            <rect x="108" y="126" width="34" height="56" rx="1" stroke="#F5A623" stroke-width="1.5" fill="rgba(245,166,35,0.08)"/>
+            <rect x="148" y="130" width="24" height="52" rx="1" stroke="#E8E0D0" stroke-width="1.5" fill="rgba(255,255,255,0.04)"/>
+            <rect x="178" y="128" width="28" height="54" rx="1" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.12)"/>
+            <rect x="213" y="132" width="20" height="50" rx="1" stroke="#E8E0D0" stroke-width="1.5" fill="rgba(255,255,255,0.04)"/>
+            <rect x="239" y="126" width="26" height="56" rx="1" stroke="#F5A623" stroke-width="1.5" fill="rgba(245,166,35,0.08)"/>
+
+            <!-- Products — row 3 (y: 194–268) -->
+            <rect x="44"  y="198" width="24" height="64" rx="1" stroke="#F5A623" stroke-width="1.5" fill="rgba(245,166,35,0.08)"/>
+            <rect x="74"  y="202" width="20" height="60" rx="1" stroke="#E8E0D0" stroke-width="1.5" fill="rgba(255,255,255,0.04)"/>
+            <rect x="100" y="196" width="30" height="66" rx="1" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.12)"/>
+            <rect x="136" y="200" width="22" height="62" rx="1" stroke="#E8E0D0" stroke-width="1.5" fill="rgba(255,255,255,0.04)"/>
+            <rect x="164" y="198" width="28" height="64" rx="1" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.12)"/>
+            <rect x="198" y="202" width="20" height="60" rx="1" stroke="#F5A623" stroke-width="1.5" fill="rgba(245,166,35,0.08)"/>
+            <rect x="224" y="196" width="32" height="66" rx="1" stroke="#E8E0D0" stroke-width="1.5" fill="rgba(255,255,255,0.04)"/>
+          </g>
+
+          <!-- Left labels -->
+          <text x="155" y="32" text-anchor="middle" font-family="Caveat, cursive" font-size="19" font-weight="700" fill="#00BFA5">DATA STRUCTURE</text>
+          <text x="155" y="52" text-anchor="middle" font-family="Caveat, cursive" font-size="14" fill="#64748B">how we organise</text>
+          <text x="155" y="295" text-anchor="middle" font-family="Caveat, cursive" font-size="13" fill="#64748B">shelves = ordered, instantly findable</text>
+
+          <!-- ── Center divider ── -->
+          <path d="M 313 18 L 313 308" stroke="#2A3050" stroke-width="1.5" stroke-dasharray="6,4" fill="none"/>
+
+          <!-- ── Right: Flowchart (ALGORITHM) ── -->
+          <g filter="url(#roughen-p01-d1)">
+            <!-- INPUT box -->
+            <rect x="376" y="40"  width="144" height="34" rx="3" stroke="#E8E0D0" stroke-width="1.5" fill="rgba(232,224,208,0.06)"/>
+            <!-- STEP 1 box -->
+            <rect x="376" y="102" width="144" height="34" rx="3" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.08)"/>
+            <!-- STEP 2 box -->
+            <rect x="376" y="164" width="144" height="34" rx="3" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.08)"/>
+            <!-- STEP 3 box -->
+            <rect x="376" y="226" width="144" height="34" rx="3" stroke="#00BFA5" stroke-width="1.5" fill="rgba(0,191,165,0.08)"/>
+            <!-- OUTPUT box -->
+            <rect x="376" y="288" width="144" height="34" rx="3" stroke="#F5A623" stroke-width="2" fill="rgba(245,166,35,0.08)"/>
+
+            <!-- Arrows -->
+            <path d="M 448 75  C 447 82, 449 89, 448 99"  stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round" marker-end="url(#arr-p01)"/>
+            <path d="M 448 137 C 447 144, 449 151, 448 161" stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round" marker-end="url(#arr-p01)"/>
+            <path d="M 448 199 C 449 206, 447 213, 448 223" stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round" marker-end="url(#arr-p01)"/>
+            <path d="M 448 261 C 447 268, 449 275, 448 285" stroke="#F5A623" stroke-width="1.5" fill="none" stroke-linecap="round" marker-end="url(#arr-gold-p01)"/>
+          </g>
+
+          <!-- Right text labels -->
+          <text x="448" y="28"  text-anchor="middle" font-family="Caveat, cursive" font-size="19" font-weight="700" fill="#F5A623">ALGORITHM</text>
+          <text x="448" y="62"  text-anchor="middle" font-family="Caveat, cursive" font-size="15" fill="#E8E0D0">INPUT</text>
+          <text x="448" y="124" text-anchor="middle" font-family="Caveat, cursive" font-size="15" fill="#E8E0D0">STEP 1</text>
+          <text x="448" y="186" text-anchor="middle" font-family="Caveat, cursive" font-size="15" fill="#E8E0D0">STEP 2</text>
+          <text x="448" y="248" text-anchor="middle" font-family="Caveat, cursive" font-size="15" fill="#E8E0D0">STEP 3</text>
+          <text x="448" y="310" text-anchor="middle" font-family="Caveat, cursive" font-size="15" fill="#F5A623">OUTPUT</text>
+          <text x="448" y="328" text-anchor="middle" font-family="Caveat, cursive" font-size="13" fill="#64748B">the instructions</text>
+        </svg>
+      </div>
+      <span class="diagram-caption">Fig. 1 — A data structure organises information; an algorithm is the recipe that acts on it</span>
+    </div>
+  </div>
+
+  <!-- ── Teaching Content ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      The Core Concepts
+    </h2>
+
+    <h3 class="subsection-title">What is a Data Structure?</h3>
+    <p>A <strong>data structure</strong> is a way of organising and storing data in memory so that it can be accessed and modified efficiently. It is not about the data itself — it is about the <em>container</em> and the <em>rules</em> of that container. An array stores items in a numbered sequence. A linked list chains items together with pointers. A hash map pairs keys to values for near-instant lookup. Each structure is a different promise about how the data will behave when you interact with it.</p>
+    <p>Choosing the right data structure is often the most important engineering decision in a program. Use the wrong one and a simple operation becomes needlessly expensive. Use the right one and complex problems can feel almost trivial.</p>
+
+    <h3 class="subsection-title">What is an Algorithm?</h3>
+    <p>An <strong>algorithm</strong> is a finite, ordered sequence of well-defined instructions that transforms an input into a desired output. The word comes from the name of the 9th-century Persian mathematician Muhammad ibn Musa al-Khwarizmi. Crucially, an algorithm must always terminate — it cannot run forever — and for the same input it must always produce the same output.</p>
+    <p>Algorithms are language-agnostic. The same binary search algorithm can be implemented in Python, JavaScript, Rust, or written in pseudocode. The language is a detail. The logic is the algorithm.</p>
+
+    <h3 class="subsection-title">Why They Are Inseparable</h3>
+    <p>Data structures and algorithms are two sides of the same coin. An algorithm operates on a data structure — and the choice of data structure determines which algorithms are efficient and which are not. You cannot analyse an algorithm in isolation without knowing what it is operating on. Binary search is O(log n) <em>only</em> on a sorted array. It becomes meaningless on a linked list. Understanding both together is what gives you real power as an engineer.</p>
+
+    <h3 class="subsection-title">Four Qualities of a Good Algorithm</h3>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="concept-card-title">Correctness</div>
+        <p class="concept-card-body">It must produce the right output for every valid input, including edge cases like empty arrays, single elements, or duplicate values.</p>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card-title">Efficiency</div>
+        <p class="concept-card-body">It should use the minimum necessary time and memory. An algorithm that works but takes 10 minutes is not useful in production.</p>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card-title">Clarity</div>
+        <p class="concept-card-body">Another engineer should be able to read and understand it without a long explanation. Clever code that is hard to read is a liability.</p>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card-title">Finiteness</div>
+        <p class="concept-card-body">It must terminate for any valid input. An algorithm that could run indefinitely is not an algorithm — it is an infinite loop waiting to happen.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Pseudocode ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      Pseudocode
+    </h2>
+    <div class="pseudo-wrap">
+      <span class="pseudo-label">Pseudocode</span>
+      <div class="pseudo"><span class="pc">// Find the maximum number in a list</span>
+<span class="pk">FUNCTION</span> findMax(list):
+    <span class="pk">IF</span> list is empty:
+        <span class="pk">RETURN</span> null
+
+    max <span class="op">←</span> list[0]          <span class="pc">// assume first element is the max</span>
+
+    <span class="pk">FOR EACH</span> element in list:
+        <span class="pk">IF</span> element &gt; max:
+            max <span class="op">←</span> element   <span class="pc">// found a new maximum</span>
+
+    <span class="pk">RETURN</span> max
+
+<span class="pc">// Time:  O(n) — must check every element</span>
+<span class="pc">// Space: O(1) — only one extra variable (max)</span></div>
+    </div>
+  </div>
+
+  <!-- ── Code Tabs ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Implementation
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="p01-js">JavaScript</button>
+        <button class="tab-btn" data-pane="p01-ts">TypeScript</button>
+      </div>
+
+      <!-- JS Tab -->
+      <div class="tab-pane" id="p01-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body">
+<pre><span class="cm">/**
+ * findMax — Returns the largest number in an array.
+ * Time:  O(n) — single pass through every element
+ * Space: O(1) — only a single variable regardless of input size
+ */</span>
+<span class="kw">function</span> <span class="fn">findMax</span>(arr) {
+  <span class="kw">if</span> (arr.length <span class="op">===</span> <span class="num">0</span>) <span class="kw">return</span> <span class="kw">null</span>;   <span class="cm">// guard: empty input</span>
+
+  <span class="kw">let</span> max <span class="op">=</span> arr[<span class="num">0</span>];                     <span class="cm">// step 1: assume first is largest</span>
+
+  <span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="num">1</span>; i <span class="op">&lt;</span> arr.length; i<span class="op">++</span>) { <span class="cm">// step 2: walk the array</span>
+    <span class="kw">if</span> (arr[i] <span class="op">&gt;</span> max) {               <span class="cm">// step 3: update if bigger</span>
+      max <span class="op">=</span> arr[i];
+    }
+  }
+
+  <span class="kw">return</span> max;                          <span class="cm">// step 4: return the winner</span>
+}
+
+<span class="cm">// ── Usage ──────────────────────────────────────────────</span>
+<span class="kw">const</span> scores  <span class="op">=</span> [<span class="num">42</span>, <span class="num">7</span>, <span class="num">98</span>, <span class="num">31</span>, <span class="num">55</span>, <span class="num">6</span>];
+<span class="kw">const</span> highest <span class="op">=</span> <span class="fn">findMax</span>(scores);
+console.<span class="fn">log</span>(highest); <span class="cm">// 98</span>
+
+console.<span class="fn">log</span>(<span class="fn">findMax</span>([]));         <span class="cm">// null  — empty array</span>
+console.<span class="fn">log</span>(<span class="fn">findMax</span>([<span class="num">-5</span>, <span class="num">-1</span>, <span class="num">-8</span>])); <span class="cm">// -1   — all negative</span>
+console.<span class="fn">log</span>(<span class="fn">findMax</span>([<span class="num">3</span>]));         <span class="cm">// 3    — single element</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- TS Tab -->
+      <div class="tab-pane" id="p01-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body">
+<pre><span class="cm">/**
+ * findMax — Returns the largest number in an array.
+ * Time:  O(n) — single pass through every element
+ * Space: O(1) — only a single variable regardless of input size
+ */</span>
+<span class="kw">function</span> <span class="fn">findMax</span>(arr<span class="op">:</span> <span class="tp">number</span>[])<span class="op">:</span> <span class="tp">number</span> <span class="op">|</span> <span class="kw">null</span> {
+  <span class="kw">if</span> (arr.length <span class="op">===</span> <span class="num">0</span>) <span class="kw">return</span> <span class="kw">null</span>;   <span class="cm">// guard: empty input</span>
+
+  <span class="kw">let</span> max<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> arr[<span class="num">0</span>];             <span class="cm">// step 1: assume first is largest</span>
+
+  <span class="kw">for</span> (<span class="kw">let</span> i<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">1</span>; i <span class="op">&lt;</span> arr.length; i<span class="op">++</span>) {
+    <span class="kw">if</span> (arr[i] <span class="op">&gt;</span> max) {               <span class="cm">// step 2: update if bigger</span>
+      max <span class="op">=</span> arr[i];
+    }
+  }
+
+  <span class="kw">return</span> max;
+}
+
+<span class="cm">// ── Usage ──────────────────────────────────────────────</span>
+<span class="kw">const</span> scores<span class="op">:</span> <span class="tp">number</span>[] <span class="op">=</span> [<span class="num">42</span>, <span class="num">7</span>, <span class="num">98</span>, <span class="num">31</span>, <span class="num">55</span>, <span class="num">6</span>];
+<span class="kw">const</span> highest<span class="op">:</span> <span class="tp">number</span> <span class="op">|</span> <span class="kw">null</span> <span class="op">=</span> <span class="fn">findMax</span>(scores);
+console.<span class="fn">log</span>(highest); <span class="cm">// 98</span>
+
+<span class="cm">// TypeScript catches misuse at compile time:</span>
+<span class="cm">// findMax(['a', 'b']); // Error: string[] not assignable to number[]</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Complexity Table ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Complexity of findMax
+    </h2>
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr>
+            <th>Operation</th>
+            <th>Time</th>
+            <th>Space</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Access arr[0]</td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td>Direct index access, no traversal needed</td>
+          </tr>
+          <tr>
+            <td>Single comparison</td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td>One operation, independent of input size</td>
+          </tr>
+          <tr>
+            <td>Full findMax pass</td>
+            <td><span class="badge badge-on">O(n)</span></td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td>Must visit every element once; only stores <code>max</code></td>
+          </tr>
+          <tr>
+            <td>Best case (max is first)</td>
+            <td><span class="badge badge-on">O(n)</span></td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td>Still must verify no larger element exists later</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Real-world Cards ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Where You'll See This in the Real World
+    </h2>
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <div class="rw-card-title">Google Search</div>
+        <p class="rw-card-desc">Inverted index (data structure) + PageRank (algorithm) together retrieve the most relevant result from billions of pages in milliseconds.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+        <div class="rw-card-title">GPS Routing</div>
+        <p class="rw-card-desc">A graph (data structure) represents roads and junctions. Dijkstra's algorithm (algorithm) finds the shortest path between any two nodes.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <div class="rw-card-title">Social Media Feed</div>
+        <p class="rw-card-desc">A priority queue (data structure) holds posts ranked by engagement score. A ranking algorithm re-orders them each time you refresh.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <div class="rw-card-title">Bank Transactions</div>
+        <p class="rw-card-desc">A B-tree (data structure) indexes millions of records. A ledger reconciliation algorithm verifies balance consistency across distributed systems.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

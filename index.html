@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rise Academy — Lesson 11: DSA Foundations</title>
+  <meta name="description" content="A comprehensive, interactive guide to Data Structures and Algorithms fundamentals." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/diagrams.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       MOBILE: Hamburger button (tablet/mobile)
+  ══════════════════════════════════════════ -->
+  <button id="menu-btn" aria-label="Open navigation menu">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" viewBox="0 0 24 24">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+
+  <!-- ══════════════════════════════════════════
+       MOBILE: Top bar
+  ══════════════════════════════════════════ -->
+  <div id="top-bar" role="banner">
+    <span class="top-bar-title">Rise Academy &middot; Lesson 11</span>
+    <span class="top-bar-progress">1 / 10</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       OVERLAY (mobile sidebar backdrop)
+  ══════════════════════════════════════════ -->
+  <div id="overlay" role="presentation"></div>
+
+  <!-- Desktop re-open tab (shown when sidebar is collapsed) -->
+  <button id="sb-reopen" aria-label="Open navigation">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+
+  <!-- ══════════════════════════════════════════
+       SIDEBAR
+  ══════════════════════════════════════════ -->
+  <nav id="sidebar" role="navigation" aria-label="Lesson navigation">
+
+    <!-- Brand -->
+    <div class="sb-brand">
+      <div class="sb-brand-academy">Rise Academy</div>
+      <div class="sb-brand-title">DSA Foundations</div>
+      <div class="sb-brand-sub">Lesson 11</div>
+
+      <!-- Collapse button (desktop only) -->
+      <button class="sb-collapse" id="sb-collapse-btn" aria-label="Collapse navigation">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+
+      <!-- Close button (mobile only) -->
+      <button class="sb-close" aria-label="Close navigation">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" viewBox="0 0 24 24">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Navigation Items -->
+    <div class="sb-nav" role="list">
+
+      <!-- Section: Introduction -->
+      <div class="sb-section-label">Introduction</div>
+
+      <div class="sb-nav-item" data-page="page-01" role="listitem" tabindex="0" aria-label="Page 01 — What is DSA?">
+        <span class="sb-num">01</span>
+        <span class="sb-label">What is DSA?</span>
+      </div>
+
+      <div class="sb-nav-item" data-page="page-02" role="listitem" tabindex="0" aria-label="Page 02 — Why DSA Matters">
+        <span class="sb-num">02</span>
+        <span class="sb-label">Why DSA Matters</span>
+      </div>
+
+      <!-- Section: Complexity -->
+      <div class="sb-section-label">Complexity</div>
+
+      <div class="sb-nav-item" data-page="page-03" role="listitem" tabindex="0" aria-label="Page 03 — Complexity Analysis">
+        <span class="sb-num">03</span>
+        <span class="sb-label">Complexity Analysis</span>
+      </div>
+
+      <div class="sb-nav-item" data-page="page-04" role="listitem" tabindex="0" aria-label="Page 04 — Big O Notation">
+        <span class="sb-num">04</span>
+        <span class="sb-label">Big O Notation</span>
+      </div>
+
+      <div class="sb-nav-item" data-page="page-05" role="listitem" tabindex="0" aria-label="Page 05 — Space vs Time">
+        <span class="sb-num">05</span>
+        <span class="sb-label">Space vs Time</span>
+      </div>
+
+      <!-- Section: Data Structures -->
+      <div class="sb-section-label">Data Structures</div>
+
+      <div class="sb-nav-item" data-page="page-06" role="listitem" tabindex="0" aria-label="Page 06 — Arrays">
+        <span class="sb-num">06</span>
+        <span class="sb-label">Arrays</span>
+      </div>
+
+      <div class="sb-nav-item" data-page="page-07" role="listitem" tabindex="0" aria-label="Page 07 — Strings">
+        <span class="sb-num">07</span>
+        <span class="sb-label">Strings</span>
+      </div>
+
+      <div class="sb-nav-item" data-page="page-08" role="listitem" tabindex="0" aria-label="Page 08 — Linked Lists">
+        <span class="sb-num">08</span>
+        <span class="sb-label">Linked Lists</span>
+      </div>
+
+      <div class="sb-nav-item" data-page="page-09" role="listitem" tabindex="0" aria-label="Page 09 — Stacks">
+        <span class="sb-num">09</span>
+        <span class="sb-label">Stacks</span>
+      </div>
+
+      <div class="sb-nav-item" data-page="page-10" role="listitem" tabindex="0" aria-label="Page 10 — Queues">
+        <span class="sb-num">10</span>
+        <span class="sb-label">Queues</span>
+      </div>
+
+    </div><!-- /.sb-nav -->
+
+    <!-- Progress -->
+    <div class="sb-progress">
+      <div class="sb-progress-label">
+        <span>Progress</span>
+        <span class="sb-progress-count">1/10</span>
+      </div>
+      <div class="sb-progress-bar">
+        <div class="sb-progress-fill"></div>
+      </div>
+    </div>
+
+  </nav><!-- /#sidebar -->
+
+  <!-- ══════════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════════ -->
+  <main id="main" role="main">
+    <!-- All page fragments are injected here by app.js -->
+    <div id="page-container"></div>
+  </main>
+
+  <!-- ══════════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════════ -->
+  <script src="js/tabs.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

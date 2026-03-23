@@ -1,0 +1,120 @@
+/* ============================================================
+   DIAGRAMS — Hand-drawn sketch diagram wrappers & styles
+   ============================================================ */
+
+/* ── Diagram Wrapper ── */
+.diagram-wrap {
+  background: var(--sketch-bg);
+  border: 1px solid #2A3050;
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  margin: 32px 0;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle dot-grid texture */
+.diagram-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  border-radius: var(--radius-lg);
+}
+
+/* ── Figure label (top-left corner) ── */
+.diagram-fig-label {
+  font-family: var(--font-sketch);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  display: block;
+  letter-spacing: 0.3px;
+}
+
+/* ── SVG Container ── */
+.diagram-svg-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-2) transparent;
+}
+
+.diagram-svg-wrap::-webkit-scrollbar { height: 4px; }
+.diagram-svg-wrap::-webkit-scrollbar-track { background: transparent; }
+.diagram-svg-wrap::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
+
+.diagram-svg-wrap svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Caption ── */
+.diagram-caption {
+  font-family: var(--font-sketch);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 16px;
+  display: block;
+  letter-spacing: 0.2px;
+}
+
+/* ── Sketch text defaults (applied via SVG text attrs) ── */
+/* These CSS classes can be applied to SVG <text> elements */
+.sk-label {
+  font-family: 'Caveat', cursive;
+  fill: var(--sketch-line);
+}
+
+.sk-label-teal {
+  font-family: 'Caveat', cursive;
+  fill: var(--sketch-teal);
+}
+
+.sk-label-gold {
+  font-family: 'Caveat', cursive;
+  fill: var(--sketch-gold);
+}
+
+.sk-label-muted {
+  font-family: 'Caveat', cursive;
+  fill: #64748B;
+}
+
+.sk-label-red {
+  font-family: 'Caveat', cursive;
+  fill: var(--sketch-red);
+}
+
+/* ── Responsive diagram scaling ── */
+@media (max-width: 767px) {
+  .diagram-wrap {
+    padding: 20px 16px;
+    margin: 24px 0;
+    border-radius: var(--radius-md);
+  }
+
+  .diagram-caption {
+    font-size: 13px;
+  }
+}
+
+/* ── Multi-diagram layout ── */
+.diagram-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 32px 0;
+}
+
+@media (max-width: 900px) {
+  .diagram-row {
+    grid-template-columns: 1fr;
+  }
+}

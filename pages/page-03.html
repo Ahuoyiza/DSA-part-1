@@ -1,0 +1,333 @@
+<!-- ══════════════════════════════════════════
+     PAGE 03 — Complexity Analysis
+══════════════════════════════════════════ -->
+
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+    Lesson 03
+  </div>
+  <h1 class="page-title">Complexity Analysis</h1>
+  <div class="page-definition">
+    <p>"Complexity analysis measures algorithm efficiency in terms of operations relative to input size — not in seconds or milliseconds."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Analogy ── -->
+  <div class="content-section">
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14.5"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">Two runners race a marathon. Runner A has newer shoes and runs on a faster track — but uses a terrible route. Runner B has older gear — but took a masterclass in optimal routing. At 5km, A is ahead. At 42km, B wins by an hour. A faster machine running a slow algorithm always loses to a slower machine running a brilliant one — at scale.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Sketch Diagram ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Growth Rate Curves
+    </h2>
+
+    <div class="diagram-wrap">
+      <span class="diagram-fig-label">fig. 03 — As n grows, how fast do operations grow?</span>
+      <div class="diagram-svg-wrap">
+        <svg viewBox="0 0 580 310" xmlns="http://www.w3.org/2000/svg" style="min-width:320px;width:100%;max-width:580px" aria-label="Graph showing growth curves for O(1), O(log n), O(n), and O(n squared)">
+          <defs>
+            <filter id="roughen-p03" x="-5%" y="-5%" width="110%" height="110%">
+              <feTurbulence type="turbulence" baseFrequency="0.025" numOctaves="2" seed="11" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.6" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <marker id="arr-p03" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+              <path d="M 0 1 L 8 4 L 0 7" stroke="#E8E0D0" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+            <clipPath id="chart-clip-p03">
+              <rect x="62" y="18" width="458" height="240"/>
+            </clipPath>
+          </defs>
+
+          <!-- Axes -->
+          <g filter="url(#roughen-p03)">
+            <path d="M 62 265 C 200 266, 380 265, 524 265" stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#arr-p03)"/>
+            <path d="M 62 265 C 62 180, 61 90, 62 18" stroke="#E8E0D0" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#arr-p03)"/>
+            <!-- Tick marks on Y -->
+            <path d="M 55 210 L 68 210" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 55 160 L 68 160" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 55 110 L 68 110" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 55 60  L 68 60"  stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- Tick marks on X -->
+            <path d="M 160 258 L 160 272" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 260 258 L 260 272" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 360 258 L 360 272" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M 460 258 L 460 272" stroke="#E8E0D0" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          </g>
+
+          <!-- Axis labels -->
+          <text x="300" y="292" text-anchor="middle" font-family="Caveat, cursive" font-size="15" fill="#64748B">n (input size) →</text>
+          <text x="28" y="148" text-anchor="middle" font-family="Caveat, cursive" font-size="15" fill="#64748B" transform="rotate(-90,28,148)">operations →</text>
+
+          <!-- Curves (clipped to chart area) -->
+          <g clip-path="url(#chart-clip-p03)">
+
+            <!-- O(n²) — steep, exits top: #FF5252 -->
+            <path d="M 70 262 C 130 258, 190 236, 240 200 C 280 168, 315 120, 348 70 C 362 48, 372 30, 382 18"
+                  stroke="#FF5252" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+            <!-- O(n) — diagonal: #F5A623 -->
+            <path d="M 70 262 C 180 240, 330 170, 520 65"
+                  stroke="#F5A623" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+            <!-- O(log n) — gentle: #00BFA5 -->
+            <path d="M 70 258 C 140 238, 240 218, 380 204 C 450 198, 490 194, 520 191"
+                  stroke="#00BFA5" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+            <!-- O(1) — flat: #4CAF7D -->
+            <path d="M 70 250 C 200 249, 380 250, 520 249"
+                  stroke="#4CAF7D" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </g>
+
+          <!-- Curve labels (outside clip so always visible) -->
+          <text x="390" y="16" font-family="Caveat, cursive" font-size="15" font-weight="700" fill="#FF5252">O(n²)</text>
+          <text x="525" y="62"  font-family="Caveat, cursive" font-size="15" font-weight="700" fill="#F5A623">O(n)</text>
+          <text x="525" y="190" font-family="Caveat, cursive" font-size="15" font-weight="700" fill="#00BFA5">O(log n)</text>
+          <text x="525" y="252" font-family="Caveat, cursive" font-size="15" font-weight="700" fill="#4CAF7D">O(1)</text>
+
+          <!-- Annotation arrow pointing at O(n²) going off chart -->
+          <path d="M 410 32 C 418 28, 425 26, 435 28" stroke="#FF5252" stroke-width="1" fill="none" stroke-linecap="round" stroke-dasharray="3,2"/>
+          <text x="438" y="30" font-family="Caveat, cursive" font-size="12" fill="#FF5252">exits chart →</text>
+
+          <!-- Annotation: O(1) explanation -->
+          <path d="M 290 244 C 285 230, 280 220, 270 215" stroke="#4CAF7D" stroke-width="1" fill="none" stroke-linecap="round" stroke-dasharray="3,2"/>
+          <text x="258" y="210" text-anchor="middle" font-family="Caveat, cursive" font-size="12" fill="#4CAF7D">never grows</text>
+        </svg>
+      </div>
+      <span class="diagram-caption">Fig. 3 — Four fundamental growth patterns — the gap between them widens dramatically as n increases</span>
+    </div>
+  </div>
+
+  <!-- ── Teaching Content ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      How Complexity Analysis Works
+    </h2>
+
+    <h3 class="subsection-title">Why Not Just Measure in Seconds?</h3>
+    <p>Timing an algorithm in seconds is machine-dependent. Your laptop runs the same function three times faster than a Raspberry Pi and ten times slower than a data-centre server. The measurement changes every time you upgrade your hardware, switch languages, or run the code under different system load. It tells you nothing portable or predictable.</p>
+    <p>Complexity analysis instead counts <strong>abstract operations</strong> — comparisons, assignments, index accesses — and expresses how that count grows relative to the input size. This number is machine-independent, language-independent, and holds true forever.</p>
+
+    <h3 class="subsection-title">What "n" Means</h3>
+    <p>The variable <strong>n</strong> represents the size of the input your algorithm operates on. If you pass an array of 100 elements, n = 100. If you pass 1,000,000 elements, n = 1,000,000. The goal of complexity analysis is to describe the relationship between n and the number of operations your algorithm performs. Does doubling n double the work? Square it? Leave it unchanged? That relationship is the complexity.</p>
+
+    <div class="callout callout-insight">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Key Insight</div>
+        <p class="callout-text">n is not always an array length. For a string, n is the number of characters. For a graph, n might be the number of nodes or edges. For a matrix, n might be rows × columns. Always ask: what is the primary input dimension this algorithm scales with?</p>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Best, Worst, and Average Case</h3>
+    <p>Any given algorithm can behave differently depending on the structure of its input. Consider searching for a value in an unsorted array. If the target is the very first element, you find it in one step — that is the <strong>best case</strong>. If it is the last element or not present at all, you check every element — that is the <strong>worst case</strong>. The <strong>average case</strong> assumes random distribution and calculates the expected number of steps across all possible inputs.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="concept-card-title">Best Case — Ω (Omega)</div>
+        <p class="concept-card-body">The minimum number of operations under the most favourable input. Rarely the focus — best case is almost never guaranteed in production.</p>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card-title">Worst Case — O (Big O)</div>
+        <p class="concept-card-body">The maximum operations under the most unfavourable input. This is what we design and optimise for. If the worst case is acceptable, everything else is.</p>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card-title">Average Case — Θ (Theta)</div>
+        <p class="concept-card-body">Expected operations averaged across all valid inputs. Useful for probabilistic analysis but harder to calculate. Quicksort is O(n²) worst but O(n log n) average.</p>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Why We Always Design for the Worst Case</h3>
+    <p>In systems that serve real users, you do not get to choose which inputs arrive. A malicious actor, an unexpected data shape, or simply a large dataset can all trigger worst-case behaviour at any moment. Designing for average case is designing for a world where everything goes well — which is not the world software runs in.</p>
+    <p>When a senior engineer says "this function is O(n)," they mean its <em>worst-case</em> behaviour is linear. That guarantee is what lets you reason safely about how a system will behave under load.</p>
+  </div>
+
+  <!-- ── Pseudocode ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      Pseudocode — Linear Search with Operation Counts
+    </h2>
+    <div class="pseudo-wrap">
+      <span class="pseudo-label">Pseudocode</span>
+      <div class="pseudo"><span class="pk">FUNCTION</span> linearSearch(arr, target):
+    i <span class="op">←</span> 0                           <span class="pc">// 1 operation — assignment</span>
+
+    <span class="pk">WHILE</span> i &lt; arr.length:           <span class="pc">// n+1 comparisons (loop condition)</span>
+        <span class="pk">IF</span> arr[i] == target:         <span class="pc">// n comparisons (worst case)</span>
+            <span class="pk">RETURN</span> i               <span class="pc">// 1 operation — best case exit</span>
+        i <span class="op">←</span> i + 1                   <span class="pc">// n operations — increment</span>
+
+    <span class="pk">RETURN</span> -1                        <span class="pc">// 1 operation — not found</span>
+
+<span class="pc">// Total: 3n + 3 operations in worst case</span>
+<span class="pc">// Drop constants and coefficients → O(n)</span>
+<span class="pc">// Space: O(1) — no extra data structures used</span></div>
+    </div>
+  </div>
+
+  <!-- ── Code Tabs ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Implementation
+    </h2>
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="p03-js">JavaScript</button>
+        <button class="tab-btn" data-pane="p03-ts">TypeScript</button>
+      </div>
+
+      <div class="tab-pane" id="p03-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body">
+<pre><span class="cm">/**
+ * linearSearch — Find the index of target in arr.
+ *
+ * Complexity breakdown:
+ *   - Initialise i:       1 op
+ *   - Loop condition:     n+1 comparisons
+ *   - Element comparison: n comparisons (worst case)
+ *   - Increment i:        n additions
+ *   Total: 3n + 2 → O(n) time, O(1) space
+ */</span>
+<span class="kw">function</span> <span class="fn">linearSearch</span>(arr, target) {
+  <span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> arr.length; i<span class="op">++</span>) { <span class="cm">// n iterations worst case</span>
+    <span class="kw">if</span> (arr[i] <span class="op">===</span> target) {              <span class="cm">// O(1) per comparison</span>
+      <span class="kw">return</span> i;                           <span class="cm">// best case: O(1) if target is arr[0]</span>
+    }
+  }
+  <span class="kw">return</span> <span class="op">-</span><span class="num">1</span>;                              <span class="cm">// not found</span>
+}
+
+<span class="cm">// ── Cases ───────────────────────────────────────────────</span>
+<span class="kw">const</span> data <span class="op">=</span> [<span class="num">4</span>, <span class="num">11</span>, <span class="num">2</span>, <span class="num">88</span>, <span class="num">7</span>, <span class="num">3</span>, <span class="num">42</span>];
+
+<span class="cm">// Best case  — O(1): target is at index 0</span>
+console.<span class="fn">log</span>(<span class="fn">linearSearch</span>(data, <span class="num">4</span>));   <span class="cm">// 0  — 1 comparison</span>
+
+<span class="cm">// Worst case — O(n): target is last or absent</span>
+console.<span class="fn">log</span>(<span class="fn">linearSearch</span>(data, <span class="num">42</span>));  <span class="cm">// 6  — 7 comparisons</span>
+console.<span class="fn">log</span>(<span class="fn">linearSearch</span>(data, <span class="num">99</span>));  <span class="cm">// -1 — 7 comparisons</span>
+
+<span class="cm">// We say the function is O(n) because Big O</span>
+<span class="cm">// always describes the WORST case.</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="p03-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body">
+<pre><span class="cm">/**
+ * linearSearch — Find the index of target in arr.
+ * Time: O(n) | Space: O(1)
+ */</span>
+<span class="kw">function</span> <span class="fn">linearSearch</span>&lt;<span class="tp">T</span>&gt;(arr<span class="op">:</span> <span class="tp">T</span>[], target<span class="op">:</span> <span class="tp">T</span>)<span class="op">:</span> <span class="tp">number</span> {
+  <span class="kw">for</span> (<span class="kw">let</span> i<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> arr.length; i<span class="op">++</span>) {
+    <span class="kw">if</span> (arr[i] <span class="op">===</span> target) <span class="kw">return</span> i;
+  }
+  <span class="kw">return</span> <span class="op">-</span><span class="num">1</span>;
+}
+
+<span class="cm">// Generic version works on any comparable type</span>
+<span class="kw">const</span> nums<span class="op">:</span> <span class="tp">number</span>[] <span class="op">=</span> [<span class="num">4</span>, <span class="num">11</span>, <span class="num">2</span>, <span class="num">88</span>, <span class="num">7</span>];
+<span class="kw">const</span> words<span class="op">:</span> <span class="tp">string</span>[] <span class="op">=</span> [<span class="str">'apple'</span>, <span class="str">'banana'</span>, <span class="str">'cherry'</span>];
+
+console.<span class="fn">log</span>(<span class="fn">linearSearch</span>(nums,  <span class="num">88</span>));        <span class="cm">// 3</span>
+console.<span class="fn">log</span>(<span class="fn">linearSearch</span>(words, <span class="str">'banana'</span>)); <span class="cm">// 1</span>
+
+<span class="cm">// TypeScript enforces type consistency — prevents:</span>
+<span class="cm">// linearSearch(nums, 'hello'); // Error: string not assignable to number</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Complexity Table ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      linearSearch — Case Analysis
+    </h2>
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Case</th><th>Time</th><th>Space</th><th>When it happens</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Best case</td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td>Target is the very first element</td>
+          </tr>
+          <tr>
+            <td>Average case</td>
+            <td><span class="badge badge-on">O(n/2) → O(n)</span></td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td>Target at random position — we drop the ½ constant</td>
+          </tr>
+          <tr>
+            <td>Worst case</td>
+            <td><span class="badge badge-on">O(n)</span></td>
+            <td><span class="badge badge-o1">O(1)</span></td>
+            <td>Target is last element or not present at all</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Real-world Cards ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Where You'll See This in the Real World
+    </h2>
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><ellipse cx="12" cy="6" rx="8" ry="2.5"/><path d="M4 6v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5V6"/><path d="M4 11v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5v-5"/></svg>
+        <div class="rw-card-title">Database Query Planning</div>
+        <p class="rw-card-desc">PostgreSQL's query planner performs complexity analysis on every query to decide whether to use a sequential scan O(n) or index scan O(log n).</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div class="rw-card-title">React Render Optimisation</div>
+        <p class="rw-card-desc">React's reconciliation algorithm is O(n) by design — it compares the virtual DOM in a single pass. Earlier approaches were O(n³) and made large UIs unusable.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <div class="rw-card-title">API Rate Limiting</div>
+        <p class="rw-card-desc">A sliding-window rate limiter must check request counts in O(1) or O(log n). An O(n) check per request would itself become the bottleneck under load.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <div class="rw-card-title">Compiler Analysis</div>
+        <p class="rw-card-desc">Compilers analyse the complexity of loops and inline or unroll code based on whether the loop is O(1) (constant iterations) or O(n) — automatic optimisation at build time.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

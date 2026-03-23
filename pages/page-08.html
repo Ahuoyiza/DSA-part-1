@@ -1,0 +1,508 @@
+<!-- PAGE 08 — Linked Lists -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+    Lesson 08
+  </div>
+  <h1 class="page-title">Linked Lists</h1>
+  <div class="page-definition">
+    <p>"A linked list is a chain of nodes where each node holds a value and a pointer to the next. Unlike arrays, nodes live anywhere in memory — giving O(1) insert/delete but O(n) access."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Section 1: Node Structure ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      The Node — Building Block
+    </h2>
+
+    <p>Every linked list is made of <strong>nodes</strong>. Each node is a small object with two fields: a <code>value</code> (the data) and a <code>next</code> pointer (the memory address of the next node). The last node's <code>next</code> is <code>null</code> — that's the end of the list.</p>
+
+    <!-- Node anatomy diagram -->
+    <div class="sketch-wrap" style="margin:32px 0;">
+      <svg viewBox="0 0 620 200" width="100%" style="max-width:620px;display:block;margin:0 auto;" role="img" aria-label="Linked list node structure">
+        <defs>
+          <filter id="ll-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="9" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="ll-arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L9,3 z" fill="#00BFA5"/>
+          </marker>
+          <marker id="ll-null" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L9,3 z" fill="#EF4444"/>
+          </marker>
+        </defs>
+
+        <text x="310" y="20" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 8A — A singly linked list: 3 → 7 → 12 → null</text>
+
+        <!-- Node 1 -->
+        <g filter="url(#ll-rough)">
+          <rect x="30" y="50" width="120" height="70" rx="6" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.8"/>
+          <line x1="30" y1="85" x2="90" y2="85" stroke="#00BFA5" stroke-width="1"/>
+          <line x1="90" y1="50" x2="90" y2="120" stroke="#00BFA5" stroke-width="1"/>
+        </g>
+        <text x="60"  y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="20" font-weight="bold" fill="#E8E0D0">3</text>
+        <text x="60"  y="110" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">value</text>
+        <text x="115" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#00BFA5">→</text>
+        <text x="115" y="110" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">next</text>
+
+        <!-- Arrow 1→2 -->
+        <line x1="155" y1="85" x2="208" y2="85" stroke="#00BFA5" stroke-width="1.5" marker-end="url(#ll-arrow)" stroke-dasharray="4 2"/>
+
+        <!-- Node 2 -->
+        <g filter="url(#ll-rough)">
+          <rect x="210" y="50" width="120" height="70" rx="6" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.8"/>
+          <line x1="210" y1="85" x2="270" y2="85" stroke="#00BFA5" stroke-width="1"/>
+          <line x1="270" y1="50" x2="270" y2="120" stroke="#00BFA5" stroke-width="1"/>
+        </g>
+        <text x="240" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="20" font-weight="bold" fill="#E8E0D0">7</text>
+        <text x="240" y="110" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">value</text>
+        <text x="295" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#00BFA5">→</text>
+        <text x="295" y="110" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">next</text>
+
+        <!-- Arrow 2→3 -->
+        <line x1="335" y1="85" x2="388" y2="85" stroke="#00BFA5" stroke-width="1.5" marker-end="url(#ll-arrow)" stroke-dasharray="4 2"/>
+
+        <!-- Node 3 -->
+        <g filter="url(#ll-rough)">
+          <rect x="390" y="50" width="120" height="70" rx="6" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.8"/>
+          <line x1="390" y1="85" x2="450" y2="85" stroke="#00BFA5" stroke-width="1"/>
+          <line x1="450" y1="50" x2="450" y2="120" stroke="#00BFA5" stroke-width="1"/>
+        </g>
+        <text x="420" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="20" font-weight="bold" fill="#E8E0D0">12</text>
+        <text x="420" y="110" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">value</text>
+        <text x="475" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#EF4444">∅</text>
+        <text x="475" y="110" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">next</text>
+
+        <!-- null indicator -->
+        <line x1="518" y1="85" x2="560" y2="85" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <text x="575" y="89" font-family="Caveat,cursive" font-size="14" fill="#EF4444">null</text>
+
+        <!-- head label -->
+        <text x="90" y="145" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#F5A623">↑ head</text>
+
+        <!-- Scattered memory addresses -->
+        <text x="60"  y="165" text-anchor="middle" font-family="Caveat,cursive" font-size="10" fill="#2A3A50">0x1020</text>
+        <text x="240" y="165" text-anchor="middle" font-family="Caveat,cursive" font-size="10" fill="#2A3A50">0x30F8</text>
+        <text x="420" y="165" text-anchor="middle" font-family="Caveat,cursive" font-size="10" fill="#2A3A50">0x8C44</text>
+        <text x="310" y="182" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#2A3A50">← nodes live at random addresses; no contiguous block needed</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">A linked list is like a treasure hunt. Each clue (node) tells you the location of the next clue (next pointer). To find clue #5, you must follow clues 1→2→3→4 first. That's why access is O(n), not O(1).</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 2: Singly vs Doubly ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+      Singly vs Doubly Linked
+    </h2>
+
+    <p>A <strong>singly linked list</strong> has one pointer per node (<code>next</code>). A <strong>doubly linked list</strong> adds a <code>prev</code> pointer — doubling memory per node, but enabling O(1) backward traversal and making deletion easier when you already have a reference to the node.</p>
+
+    <!-- Doubly linked diagram -->
+    <div class="sketch-wrap" style="margin:32px 0;">
+      <svg viewBox="0 0 580 160" width="100%" style="max-width:580px;display:block;margin:0 auto;" role="img" aria-label="Doubly linked list with prev and next pointers">
+        <defs>
+          <filter id="dll-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="3" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="dll-fwd" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#00BFA5"/>
+          </marker>
+          <marker id="dll-bwd" markerWidth="8" markerHeight="8" refX="2" refY="3" orient="auto-start-reverse">
+            <path d="M8,0 L8,6 L0,3 z" fill="#F5A623"/>
+          </marker>
+        </defs>
+
+        <text x="290" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 8B — Doubly linked: prev ← node → next</text>
+
+        <!-- Nodes -->
+        <g filter="url(#dll-rough)">
+          <rect x="30"  y="36" width="120" height="76" rx="6" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.8"/>
+          <rect x="220" y="36" width="120" height="76" rx="6" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.8"/>
+          <rect x="410" y="36" width="120" height="76" rx="6" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.8"/>
+        </g>
+
+        <!-- Values -->
+        <text x="90"  y="82" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="20" font-weight="bold" fill="#E8E0D0">A</text>
+        <text x="280" y="82" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="20" font-weight="bold" fill="#E8E0D0">B</text>
+        <text x="470" y="82" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="20" font-weight="bold" fill="#E8E0D0">C</text>
+
+        <!-- next arrows (teal, top) -->
+        <line x1="153" y1="58" x2="218" y2="58" stroke="#00BFA5" stroke-width="1.5" marker-end="url(#dll-fwd)"/>
+        <line x1="343" y1="58" x2="408" y2="58" stroke="#00BFA5" stroke-width="1.5" marker-end="url(#dll-fwd)"/>
+        <text x="186" y="52" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#00BFA5">next</text>
+        <text x="376" y="52" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#00BFA5">next</text>
+
+        <!-- prev arrows (gold, bottom) -->
+        <line x1="218" y1="96" x2="153" y2="96" stroke="#F5A623" stroke-width="1.5" marker-end="url(#dll-bwd)"/>
+        <line x1="408" y1="96" x2="343" y2="96" stroke="#F5A623" stroke-width="1.5" marker-end="url(#dll-bwd)"/>
+        <text x="186" y="112" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#F5A623">prev</text>
+        <text x="376" y="112" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#F5A623">prev</text>
+
+        <!-- null labels -->
+        <text x="22" y="82" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#EF4444">null</text>
+        <text x="548" y="82" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#EF4444">null</text>
+
+        <text x="290" y="148" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">Each node = 2× memory but O(1) deletion if you hold a reference</text>
+      </svg>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-col-title" style="color:var(--teal);">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/></svg>
+          Singly Linked
+        </div>
+        <ul>
+          <li>One pointer per node (<code>next</code>)</li>
+          <li>Less memory overhead</li>
+          <li>Deletion requires previous node reference</li>
+          <li>Forward traversal only</li>
+          <li>Stack, simple queues</li>
+        </ul>
+      </div>
+      <div class="compare-col">
+        <div class="compare-col-title" style="color:var(--gold);">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          Doubly Linked
+        </div>
+        <ul>
+          <li>Two pointers per node (<code>prev</code> + <code>next</code>)</li>
+          <li>2× memory per node</li>
+          <li>O(1) deletion with just a node reference</li>
+          <li>Forward and backward traversal</li>
+          <li>Deque, browser history, LRU cache</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 3: Insert / Delete ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      O(1) Insert — Why It's Fast
+    </h2>
+
+    <p>Inserting a new node between two existing nodes only requires <strong>re-wiring two pointers</strong> — no shifting of elements like arrays. The catch: you first need a pointer to the node <em>before</em> the insertion point, which takes O(n) to find by traversal.</p>
+
+    <!-- Insert operation diagram -->
+    <div class="sketch-wrap" style="margin:32px 0;">
+      <svg viewBox="0 0 620 260" width="100%" style="max-width:620px;display:block;margin:0 auto;" role="img" aria-label="Linked list insert operation — rewiring pointers">
+        <defs>
+          <filter id="ins-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="17" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="ins-arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#00BFA5"/>
+          </marker>
+          <marker id="ins-new" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#F5A623"/>
+          </marker>
+          <marker id="ins-old" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#EF4444"/>
+          </marker>
+        </defs>
+
+        <text x="310" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 8C — Insert node X between A and B: only 2 pointer changes</text>
+
+        <!-- BEFORE -->
+        <text x="20" y="52" font-family="Caveat,cursive" font-size="13" fill="#4A6080">Before:</text>
+        <g filter="url(#ins-rough)">
+          <rect x="80"  y="36" width="90" height="54" rx="5" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="290" y="36" width="90" height="54" rx="5" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="500" y="36" width="90" height="54" rx="5" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+        </g>
+        <text x="125" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="18" font-weight="bold" fill="#E8E0D0">A</text>
+        <text x="335" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="18" font-weight="bold" fill="#E8E0D0">B</text>
+        <text x="545" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="18" font-weight="bold" fill="#E8E0D0">C</text>
+        <!-- old A→B arrow -->
+        <line x1="172" y1="63" x2="288" y2="63" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ins-old)"/>
+        <text x="230" y="56" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#EF4444">A.next = B (old)</text>
+        <line x1="382" y1="63" x2="498" y2="63" stroke="#00BFA5" stroke-width="1.5" marker-end="url(#ins-arr)"/>
+
+        <!-- AFTER -->
+        <text x="20" y="168" font-family="Caveat,cursive" font-size="13" fill="#4A6080">After:</text>
+        <g filter="url(#ins-rough)">
+          <rect x="40"  y="152" width="90" height="54" rx="5" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+          <!-- new node X -->
+          <rect x="220" y="148" width="90" height="62" rx="5" fill="rgba(245,166,35,0.18)" stroke="#F5A623" stroke-width="2"/>
+          <rect x="400" y="152" width="90" height="54" rx="5" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="510" y="152" width="90" height="54" rx="5" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.5"/>
+        </g>
+        <text x="85"  y="183" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="18" font-weight="bold" fill="#E8E0D0">A</text>
+        <text x="265" y="183" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="18" font-weight="bold" fill="#F5A623">X</text>
+        <text x="445" y="183" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="18" font-weight="bold" fill="#E8E0D0">B</text>
+        <text x="555" y="183" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="18" font-weight="bold" fill="#E8E0D0">C</text>
+
+        <!-- step 1: A.next = X -->
+        <path d="M133 172 Q180 135 218 172" stroke="#F5A623" stroke-width="1.5" fill="none" marker-end="url(#ins-new)" stroke-dasharray="4 2"/>
+        <text x="180" y="140" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#F5A623">① A.next = X</text>
+        <!-- step 2: X.next = B -->
+        <line x1="312" y1="179" x2="397" y2="179" stroke="#F5A623" stroke-width="1.5" marker-end="url(#ins-new)"/>
+        <text x="355" y="171" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#F5A623">② X.next = B</text>
+        <!-- B→C arrow -->
+        <line x1="492" y1="179" x2="508" y2="179" stroke="#00BFA5" stroke-width="1.5" marker-end="url(#ins-arr)"/>
+
+        <text x="310" y="240" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#00BFA5">Only 2 pointer updates — O(1) once you have a reference to A</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-tip">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 3.87-2.69 5.9-3.5 9H8.5C7.69 14.9 5 12.87 5 9a7 7 0 017-7z"/><line x1="9" y1="22" x2="15" y2="22"/><line x1="9" y1="18" x2="15" y2="18"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Interview tip</div>
+        <p class="callout-text">When asked "insert a node in O(1)", always clarify: O(1) requires <strong>already having a pointer to the predecessor node</strong>. Finding that node first is O(n). The insert itself — the pointer rewiring — is O(1).</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 4: Code ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Implementing a Linked List
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="ll-js">JavaScript</button>
+        <button class="tab-btn" data-pane="ll-ts">TypeScript</button>
+        <button class="tab-btn" data-pane="ll-py">Python</button>
+      </div>
+
+      <div class="tab-pane" id="ll-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> <span class="tp">Node</span> {
+  <span class="fn">constructor</span>(val) {
+    <span class="kw">this</span>.val  <span class="op">=</span> val;
+    <span class="kw">this</span>.next <span class="op">=</span> <span class="kw">null</span>;
+  }
+}
+
+<span class="kw">class</span> <span class="tp">LinkedList</span> {
+  <span class="fn">constructor</span>() {
+    <span class="kw">this</span>.head <span class="op">=</span> <span class="kw">null</span>;
+    <span class="kw">this</span>.size <span class="op">=</span> <span class="num">0</span>;
+  }
+
+  <span class="cm">// O(1) — prepend to front</span>
+  <span class="fn">prepend</span>(val) {
+    <span class="kw">const</span> node <span class="op">=</span> <span class="kw">new</span> <span class="fn">Node</span>(val);
+    node.next  <span class="op">=</span> <span class="kw">this</span>.head;
+    <span class="kw">this</span>.head  <span class="op">=</span> node;
+    <span class="kw">this</span>.size<span class="op">++</span>;
+  }
+
+  <span class="cm">// O(n) — traverse and find</span>
+  <span class="fn">find</span>(val) {
+    <span class="kw">let</span> curr <span class="op">=</span> <span class="kw">this</span>.head;
+    <span class="kw">while</span> (curr) {
+      <span class="kw">if</span> (curr.val <span class="op">===</span> val) <span class="kw">return</span> curr;
+      curr <span class="op">=</span> curr.next;
+    }
+    <span class="kw">return</span> <span class="kw">null</span>;
+  }
+
+  <span class="cm">// O(n) — delete by value</span>
+  <span class="fn">delete</span>(val) {
+    <span class="kw">if</span> (<span class="op">!</span><span class="kw">this</span>.head) <span class="kw">return</span>;
+    <span class="kw">if</span> (<span class="kw">this</span>.head.val <span class="op">===</span> val) {
+      <span class="kw">this</span>.head <span class="op">=</span> <span class="kw">this</span>.head.next;
+      <span class="kw">this</span>.size<span class="op">--</span>;
+      <span class="kw">return</span>;
+    }
+    <span class="kw">let</span> prev <span class="op">=</span> <span class="kw">this</span>.head;
+    <span class="kw">while</span> (prev.next) {
+      <span class="kw">if</span> (prev.next.val <span class="op">===</span> val) {
+        prev.next <span class="op">=</span> prev.next.next;  <span class="cm">// skip over it</span>
+        <span class="kw">this</span>.size<span class="op">--</span>;
+        <span class="kw">return</span>;
+      }
+      prev <span class="op">=</span> prev.next;
+    }
+  }
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="ll-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> <span class="tp">ListNode</span>&lt;<span class="tp">T</span>&gt; {
+  val<span class="op">:</span>  <span class="tp">T</span>;
+  next<span class="op">:</span> <span class="tp">ListNode</span>&lt;<span class="tp">T</span>&gt; <span class="op">|</span> <span class="kw">null</span> <span class="op">=</span> <span class="kw">null</span>;
+  <span class="fn">constructor</span>(val<span class="op">:</span> <span class="tp">T</span>) { <span class="kw">this</span>.val <span class="op">=</span> val; }
+}
+
+<span class="kw">class</span> <span class="tp">LinkedList</span>&lt;<span class="tp">T</span>&gt; {
+  <span class="kw">private</span> head<span class="op">:</span> <span class="tp">ListNode</span>&lt;<span class="tp">T</span>&gt; <span class="op">|</span> <span class="kw">null</span> <span class="op">=</span> <span class="kw">null</span>;
+  <span class="kw">private</span> size<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">0</span>;
+
+  <span class="fn">prepend</span>(val<span class="op">:</span> <span class="tp">T</span>)<span class="op">:</span> <span class="tp">void</span> {
+    <span class="kw">const</span> node <span class="op">=</span> <span class="kw">new</span> <span class="fn">ListNode</span>(val);
+    node.next  <span class="op">=</span> <span class="kw">this</span>.head;
+    <span class="kw">this</span>.head  <span class="op">=</span> node;
+    <span class="kw">this</span>.size<span class="op">++</span>;
+  }
+
+  <span class="fn">toArray</span>()<span class="op">:</span> <span class="tp">T</span>[] {
+    <span class="kw">const</span> result<span class="op">:</span> <span class="tp">T</span>[] <span class="op">=</span> [];
+    <span class="kw">let</span> curr <span class="op">=</span> <span class="kw">this</span>.head;
+    <span class="kw">while</span> (curr) {
+      result.<span class="fn">push</span>(curr.val);
+      curr <span class="op">=</span> curr.next;
+    }
+    <span class="kw">return</span> result;
+  }
+
+  <span class="cm">// Reverse in-place — O(n) time, O(1) space</span>
+  <span class="fn">reverse</span>()<span class="op">:</span> <span class="tp">void</span> {
+    <span class="kw">let</span> prev<span class="op">:</span> <span class="tp">ListNode</span>&lt;<span class="tp">T</span>&gt; <span class="op">|</span> <span class="kw">null</span> <span class="op">=</span> <span class="kw">null</span>;
+    <span class="kw">let</span> curr <span class="op">=</span> <span class="kw">this</span>.head;
+    <span class="kw">while</span> (curr) {
+      <span class="kw">const</span> next <span class="op">=</span> curr.next;
+      curr.next  <span class="op">=</span> prev;
+      prev       <span class="op">=</span> curr;
+      curr       <span class="op">=</span> next;
+    }
+    <span class="kw">this</span>.head <span class="op">=</span> prev;
+  }
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="ll-py">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">Python</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> <span class="tp">Node</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, val):
+        self.val  <span class="op">=</span> val
+        self.next <span class="op">=</span> <span class="kw">None</span>
+
+<span class="kw">class</span> <span class="tp">LinkedList</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self.head <span class="op">=</span> <span class="kw">None</span>
+
+    <span class="cm"># O(1) prepend</span>
+    <span class="kw">def</span> <span class="fn">prepend</span>(self, val):
+        node      <span class="op">=</span> <span class="fn">Node</span>(val)
+        node.next <span class="op">=</span> self.head
+        self.head <span class="op">=</span> node
+
+    <span class="cm"># O(n) traversal</span>
+    <span class="kw">def</span> <span class="fn">to_list</span>(self):
+        result, curr <span class="op">=</span> [], self.head
+        <span class="kw">while</span> curr:
+            result.<span class="fn">append</span>(curr.val)
+            curr <span class="op">=</span> curr.next
+        <span class="kw">return</span> result
+
+    <span class="cm"># O(n) — detect cycle (Floyd's algorithm)</span>
+    <span class="kw">def</span> <span class="fn">has_cycle</span>(self):
+        slow <span class="op">=</span> fast <span class="op">=</span> self.head
+        <span class="kw">while</span> fast <span class="kw">and</span> fast.next:
+            slow <span class="op">=</span> slow.next
+            fast <span class="op">=</span> fast.next.next
+            <span class="kw">if</span> slow <span class="kw">is</span> fast:
+                <span class="kw">return</span> <span class="kw">True</span>
+        <span class="kw">return</span> <span class="kw">False</span></pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 5: Complexity ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Complexity: Array vs Linked List
+    </h2>
+
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Operation</th><th>Array</th><th>Linked List</th><th>Winner</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Access by index</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-on">O(n)</span></td><td>Array</td></tr>
+          <tr><td>Search</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-on">O(n)</span></td><td>Tie</td></tr>
+          <tr><td>Insert at front</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Linked List</td></tr>
+          <tr><td>Insert at middle</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)*</span></td><td>Linked List*</td></tr>
+          <tr><td>Insert at end</td><td><span class="badge badge-o1">O(1)*</span></td><td><span class="badge badge-on">O(n)</span></td><td>Array*</td></tr>
+          <tr><td>Delete at front</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Linked List</td></tr>
+          <tr><td>Memory layout</td><td colspan="2" style="color:var(--text-muted);font-size:12px;">Array: contiguous &nbsp;|&nbsp; Linked: scattered (pointer overhead)</td><td>Array (cache)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:13px;color:var(--text-muted);margin-top:12px;">* Insert at middle requires finding the predecessor first (O(n) traversal). Insert marked O(1) assumes pointer already held. Array end-insert is amortised O(1).</p>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 6: Real world ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      Real-World Uses
+    </h2>
+
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 00-4-4H4"/></svg>
+        <div class="rw-card-title">Browser history</div>
+        <p class="rw-card-desc">Each page visit is a node in a doubly linked list. Back/forward buttons are O(1) pointer moves — no shifting, no copying.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <div class="rw-card-title">Text editor undo</div>
+        <p class="rw-card-desc">Undo/redo stacks are often linked lists of "change records." Each undo is an O(1) pointer follow — the prior state doesn't need to be recomputed.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        <div class="rw-card-title">OS memory allocator</div>
+        <p class="rw-card-desc">Free memory blocks are tracked in a linked list. When you call <code>malloc</code>, the allocator finds a suitable block in O(n) and unlinks it in O(1).</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 8 22 16 16 16"/><polyline points="2 16 2 8 8 8"/><path d="M2 8l10 9L22 8"/></svg>
+        <div class="rw-card-title">LRU Cache</div>
+        <p class="rw-card-desc">A doubly linked list + hash map implements an LRU cache with O(1) get and put. The list tracks recency; the map gives O(1) node access for relinking.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
