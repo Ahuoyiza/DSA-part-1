@@ -5,24 +5,62 @@
 /* ── Callout Boxes ── */
 .callout {
   display: flex;
-  gap: 18px;
-  padding: 22px 26px;
-  border-radius: var(--radius-lg);
-  border-left: 3px solid;
+  gap: 16px;
+  padding: 22px 24px;
+  border-radius: var(--radius-xl);
+  border: 1.5px solid;
   margin: 32px 0;
-  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
-.callout-icon { flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px; }
-.callout-body { flex: 1; }
+.callout:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
 
+/* Decorative glow circle — top-right corner */
+.callout::before {
+  content: '';
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  opacity: 0.10;
+  pointer-events: none;
+}
+
+/* Icon bubble */
+.callout-icon {
+  flex-shrink: 0;
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  align-self: flex-start;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.callout-body { flex: 1; min-width: 0; }
+
+/* Pill label */
 .callout-label {
   font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 2px;
+  font-size: 9.5px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  font-weight: 500;
-  margin-bottom: 7px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px 3px 8px;
+  border-radius: 20px;
+  border: 1px solid;
 }
 
 .callout-text {
@@ -33,26 +71,52 @@
   max-width: none;
 }
 
-/* Variants */
-.callout-analogy  { background: linear-gradient(135deg, #EDFAF8, #F5FFFE); border-color: var(--teal); }
-.callout-analogy  .callout-label { color: #009E87; }
-.callout-analogy  .callout-text  { color: var(--text-dim); }
-.callout-analogy  .callout-icon  { color: var(--teal); }
+/* ── Variants ── */
 
-.callout-insight  { background: linear-gradient(135deg, #FFFBF0, #FFFDE9); border-color: var(--gold); }
-.callout-insight  .callout-label { color: #C07D00; }
-.callout-insight  .callout-text  { color: var(--text-dim); }
-.callout-insight  .callout-icon  { color: var(--gold); }
+/* Analogy — teal */
+.callout-analogy {
+  background: linear-gradient(135deg, #E2F8F4 0%, #F0FFFD 100%);
+  border-color: rgba(0,191,165,0.30);
+}
+.callout-analogy::before       { background: var(--teal); }
+.callout-analogy .callout-icon { background: linear-gradient(135deg, #00BFA5, #00D4B8); color: #fff; }
+.callout-analogy .callout-label{ background: rgba(0,191,165,0.12); color: #006E5F; border-color: rgba(0,191,165,0.30); }
+.callout-analogy .callout-text { color: #174039; }
 
-.callout-warning  { background: linear-gradient(135deg, #FFF5F5, #FFF8F8); border-color: var(--red); }
-.callout-warning  .callout-label { color: #C73535; }
-.callout-warning  .callout-text  { color: var(--text-dim); }
-.callout-warning  .callout-icon  { color: var(--red); }
+/* Insight — amber */
+.callout-insight {
+  background: linear-gradient(135deg, #FFF4D6 0%, #FFFBEE 100%);
+  border-color: rgba(245,166,35,0.35);
+}
+.callout-insight::before       { background: var(--gold); }
+.callout-insight .callout-icon { background: linear-gradient(135deg, #F5A623, #FFBE4D); color: #fff; }
+.callout-insight .callout-label{ background: rgba(245,166,35,0.15); color: #8A5000; border-color: rgba(245,166,35,0.35); }
+.callout-insight .callout-text { color: #3D2400; }
 
-.callout-tip      { background: linear-gradient(135deg, #F5F3FF, #FAF8FF); border-color: var(--purple); }
-.callout-tip      .callout-label { color: #6D3FCB; }
-.callout-tip      .callout-text  { color: var(--text-dim); }
-.callout-tip      .callout-icon  { color: var(--purple); }
+/* Warning — red */
+.callout-warning {
+  background: linear-gradient(135deg, #FFECEC 0%, #FFF5F5 100%);
+  border-color: rgba(239,68,68,0.30);
+}
+.callout-warning::before       { background: var(--red); }
+.callout-warning .callout-icon { background: linear-gradient(135deg, #EF4444, #F87171); color: #fff; }
+.callout-warning .callout-label{ background: rgba(239,68,68,0.10); color: #991B1B; border-color: rgba(239,68,68,0.28); }
+.callout-warning .callout-text { color: #3D0808; }
+
+/* Tip — purple */
+.callout-tip {
+  background: linear-gradient(135deg, #EDE9FF 0%, #F7F5FF 100%);
+  border-color: rgba(139,92,246,0.30);
+}
+.callout-tip::before       { background: var(--purple); }
+.callout-tip .callout-icon { background: linear-gradient(135deg, #8B5CF6, #A78BFA); color: #fff; }
+.callout-tip .callout-label{ background: rgba(139,92,246,0.10); color: #4C1D95; border-color: rgba(139,92,246,0.28); }
+.callout-tip .callout-text { color: #1E0A40; }
+
+@media (max-width: 767px) {
+  .callout { padding: 18px 16px; gap: 14px; }
+  .callout-icon { width: 36px; height: 36px; padding: 8px; }
+}
 
 /* ── Real-world Cards ── */
 .rw-card {
