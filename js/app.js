@@ -95,22 +95,62 @@
     var div = document.createElement('div');
     div.id = pageId;
     div.className = 'page';
-    div.innerHTML = '<div id="page-loader"><div class="loader-spinner"></div>Loading...</div>';
+    div.innerHTML =
+      '<div id="page-loader">' +
+        '<div class="skeleton-hero-wrap">' +
+          '<div class="skeleton skeleton-badge"></div>' +
+          '<div class="skeleton skeleton-title"></div>' +
+          '<div class="skeleton skeleton-title w-40"></div>' +
+          '<div class="skeleton skeleton-defn"></div>' +
+        '</div>' +
+        '<div class="skeleton-body-wrap">' +
+          '<div class="skeleton-section">' +
+            '<div class="skeleton-label"></div>' +
+            '<div class="skeleton-card"></div>' +
+          '</div>' +
+          '<div class="skeleton-section">' +
+            '<div class="skeleton-section-heading"></div>' +
+            '<div class="skeleton-line w-full"></div>' +
+            '<div class="skeleton-line w-85"></div>' +
+            '<div class="skeleton-line w-65"></div>' +
+          '</div>' +
+          '<div class="skeleton-section">' +
+            '<div class="skeleton-card"></div>' +
+            '<div class="skeleton-card"></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
     container.appendChild(div);
   }
 
   function showError(pageId, message) {
     var slot = document.getElementById(pageId);
-    if (slot) {
-      slot.innerHTML =
-        '<div class="page-error">' +
-          '<p class="page-error-title">Failed to load page</p>' +
-          '<p class="page-error-desc">' + message + '</p>' +
-          '<p class="page-error-desc" style="margin-top:12px;color:var(--text-muted)">' +
-            'Run <code>node build.js</code> and open <code>dist/index.html</code>, ' +
-            'or serve with: <code>python3 -m http.server 8080</code>' +
-          '</p>' +
-        '</div>';
+    if (!slot) return;
+    slot.innerHTML =
+      '<div class="page-error">' +
+        '<div class="page-error-icon">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+            '<circle cx="12" cy="12" r="10"/>' +
+            '<line x1="12" y1="8" x2="12" y2="12"/>' +
+            '<line x1="12" y1="16" x2="12.01" y2="16"/>' +
+          '</svg>' +
+        '</div>' +
+        '<p class="page-error-title">Couldn\'t load this page</p>' +
+        '<p class="page-error-desc">Something went wrong while fetching the content. Check your connection and try again.</p>' +
+        '<button class="page-error-retry" data-retry="' + pageId + '">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>' +
+          'Try again' +
+        '</button>' +
+        '<p class="page-error-hint">Or run <code>node build.js</code> → open <code>dist/index.html</code></p>' +
+      '</div>';
+
+    var retryBtn = slot.querySelector('[data-retry]');
+    if (retryBtn) {
+      retryBtn.addEventListener('click', function() {
+        var parent = slot.parentNode;
+        if (parent) parent.removeChild(slot);
+        loadAndActivate(pageId);
+      });
     }
   }
 
