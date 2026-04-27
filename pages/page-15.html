@@ -1,0 +1,415 @@
+<!-- PAGE 15 — Graphs -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    Lesson 15
+  </div>
+  <h1 class="page-title">Graphs</h1>
+  <div class="page-definition">
+    <p>"A graph is a set of nodes (vertices) connected by edges — the most general data structure, capable of modelling any relationship between any entities."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Section 1: What is a Graph ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      What is a Graph?
+    </h2>
+
+    <p>A graph consists of <strong>vertices</strong> (nodes) and <strong>edges</strong> (connections between nodes). Unlike trees, graphs have no root, no parent-child hierarchy, and edges can form <strong>cycles</strong>. A graph can be <strong>directed</strong> (edges have direction, like a one-way street) or <strong>undirected</strong> (edges go both ways). Edges can also carry <strong>weights</strong> — a number representing cost, distance, or time.</p>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 230" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Undirected graph with 5 nodes and 6 edges">
+        <defs>
+          <filter id="graph-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.038" numOctaves="3" seed="4" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="graph-dir" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#00BFA5"/>
+          </marker>
+        </defs>
+
+        <text x="320" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 15A — Undirected weighted graph: 5 vertices, 6 edges</text>
+
+        <!-- Edges (undirected) -->
+        <g filter="url(#graph-rough)">
+          <line x1="160" y1="80"  x2="320" y2="48"  stroke="#00BFA5" stroke-width="1.8"/>
+          <line x1="160" y1="80"  x2="240" y2="185" stroke="#00BFA5" stroke-width="1.8"/>
+          <line x1="320" y1="48"  x2="480" y2="80"  stroke="#00BFA5" stroke-width="1.8"/>
+          <line x1="320" y1="48"  x2="240" y2="185" stroke="#00BFA5" stroke-width="1.8"/>
+          <line x1="480" y1="80"  x2="400" y2="185" stroke="#00BFA5" stroke-width="1.8"/>
+          <line x1="240" y1="185" x2="400" y2="185" stroke="#00BFA5" stroke-width="1.8"/>
+        </g>
+
+        <!-- Edge weight labels -->
+        <text x="232" y="56"  text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#F5A623">4</text>
+        <text x="192" y="140" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#F5A623">7</text>
+        <text x="402" y="56"  text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#F5A623">2</text>
+        <text x="274" y="125" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#F5A623">9</text>
+        <text x="448" y="140" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#F5A623">3</text>
+        <text x="320" y="200" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#F5A623">5</text>
+
+        <!-- Nodes -->
+        <g filter="url(#graph-rough)">
+          <circle cx="160" cy="80"  r="24" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="2"/>
+          <circle cx="320" cy="48"  r="24" fill="rgba(245,166,35,0.20)" stroke="#F5A623" stroke-width="2"/>
+          <circle cx="480" cy="80"  r="24" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="2"/>
+          <circle cx="240" cy="185" r="24" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="2"/>
+          <circle cx="400" cy="185" r="24" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="2"/>
+        </g>
+
+        <!-- Vertex labels -->
+        <text x="160" y="86"  text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E0D0" font-weight="bold">A</text>
+        <text x="320" y="54"  text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#F5A623" font-weight="bold">B</text>
+        <text x="480" y="86"  text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E0D0" font-weight="bold">C</text>
+        <text x="240" y="191" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E0D0" font-weight="bold">D</text>
+        <text x="400" y="191" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E0D0" font-weight="bold">E</text>
+
+        <!-- Legend -->
+        <line x1="520" y1="180" x2="545" y2="180" stroke="#00BFA5" stroke-width="1.8"/>
+        <text x="550" y="184" font-family="Caveat,cursive" font-size="12" fill="#4A6080">edge (undirected)</text>
+        <text x="520" y="204" font-family="Caveat,cursive" font-size="12" fill="#F5A623">numbers = weights</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">A graph is a city road map. Intersections are vertices, roads are edges, and distances are weights. A one-way street is a directed edge. A motorway connecting two cities symmetrically is undirected. Every routing problem — Google Maps, flight paths, package delivery — is a graph problem at its core.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 2: Adjacency List vs Matrix ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+      Adjacency List vs Adjacency Matrix
+    </h2>
+
+    <p>Every graph needs a representation. The two dominant choices trade off <strong>memory</strong> against <strong>edge-lookup speed</strong>. For most real-world graphs (which are <em>sparse</em> — few edges relative to possible edges), the adjacency list wins on space. For dense graphs where you frequently ask "is there an edge from A to B?", the matrix wins.</p>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 230" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Adjacency list on left versus adjacency matrix on right for same 5-node graph">
+        <defs>
+          <filter id="graph-rough2" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.038" numOctaves="3" seed="17" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.3" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+
+        <!-- LEFT: Adjacency List -->
+        <text x="140" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#00BFA5">Adjacency List — O(V+E) space</text>
+
+        <g filter="url(#graph-rough2)">
+          <rect x="20" y="30" width="240" height="185" rx="6" fill="rgba(0,191,165,0.05)" stroke="#00BFA5" stroke-width="1.4"/>
+        </g>
+
+        <!-- List rows -->
+        <text x="36" y="58"  font-family="IBM Plex Mono,monospace" font-size="12" fill="#F5A623">A</text>
+        <text x="56" y="58"  font-family="Caveat,cursive" font-size="12" fill="#4A6080">→</text>
+        <text x="70" y="58"  font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">[ B, D ]</text>
+
+        <text x="36" y="82"  font-family="IBM Plex Mono,monospace" font-size="12" fill="#F5A623">B</text>
+        <text x="56" y="82"  font-family="Caveat,cursive" font-size="12" fill="#4A6080">→</text>
+        <text x="70" y="82"  font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">[ A, C, D ]</text>
+
+        <text x="36" y="106" font-family="IBM Plex Mono,monospace" font-size="12" fill="#F5A623">C</text>
+        <text x="56" y="106" font-family="Caveat,cursive" font-size="12" fill="#4A6080">→</text>
+        <text x="70" y="106" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">[ B, E ]</text>
+
+        <text x="36" y="130" font-family="IBM Plex Mono,monospace" font-size="12" fill="#F5A623">D</text>
+        <text x="56" y="130" font-family="Caveat,cursive" font-size="12" fill="#4A6080">→</text>
+        <text x="70" y="130" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">[ A, B, E ]</text>
+
+        <text x="36" y="154" font-family="IBM Plex Mono,monospace" font-size="12" fill="#F5A623">E</text>
+        <text x="56" y="154" font-family="Caveat,cursive" font-size="12" fill="#4A6080">→</text>
+        <text x="70" y="154" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">[ C, D ]</text>
+
+        <text x="140" y="205" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">edge lookup: O(degree)</text>
+        <text x="140" y="220" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#00BFA5">great for sparse graphs</text>
+
+        <!-- Divider -->
+        <line x1="310" y1="20" x2="310" y2="215" stroke="#2A3F5A" stroke-width="1" stroke-dasharray="5 4"/>
+
+        <!-- RIGHT: Matrix -->
+        <text x="490" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#EF4444">Adjacency Matrix — O(V²) space</text>
+
+        <!-- Column headers -->
+        <text x="375" y="44" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#F5A623">A</text>
+        <text x="405" y="44" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#F5A623">B</text>
+        <text x="435" y="44" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#F5A623">C</text>
+        <text x="465" y="44" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#F5A623">D</text>
+        <text x="495" y="44" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#F5A623">E</text>
+
+        <!-- Row headers -->
+        <text x="348" y="70"  font-family="IBM Plex Mono,monospace" font-size="11" fill="#F5A623">A</text>
+        <text x="348" y="98"  font-family="IBM Plex Mono,monospace" font-size="11" fill="#F5A623">B</text>
+        <text x="348" y="126" font-family="IBM Plex Mono,monospace" font-size="11" fill="#F5A623">C</text>
+        <text x="348" y="154" font-family="IBM Plex Mono,monospace" font-size="11" fill="#F5A623">D</text>
+        <text x="348" y="182" font-family="IBM Plex Mono,monospace" font-size="11" fill="#F5A623">E</text>
+
+        <!-- Matrix cells (5x5) -->
+        <g filter="url(#graph-rough2)" opacity="0.9">
+          <!-- Row A -->
+          <rect x="360" y="53" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <rect x="388" y="53" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <rect x="416" y="53" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <rect x="444" y="53" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <rect x="472" y="53" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <!-- Row B -->
+          <rect x="360" y="81" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <rect x="388" y="81" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <rect x="416" y="81" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <rect x="444" y="81" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <rect x="472" y="81" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <!-- Row C -->
+          <rect x="360" y="109" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <rect x="388" y="109" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <rect x="416" y="109" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <rect x="444" y="109" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <rect x="472" y="109" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <!-- Row D -->
+          <rect x="360" y="137" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <rect x="388" y="137" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <rect x="416" y="137" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <rect x="444" y="137" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <rect x="472" y="137" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <!-- Row E -->
+          <rect x="360" y="165" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <rect x="388" y="165" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+          <rect x="416" y="165" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <rect x="444" y="165" width="28" height="26" rx="2" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.2"/>
+          <rect x="472" y="165" width="28" height="26" rx="2" fill="rgba(0,191,165,0.05)" stroke="#2A3F5A" stroke-width="1"/>
+        </g>
+
+        <!-- Cell values -->
+        <!-- Row A: 0,1,0,1,0 -->
+        <text x="374" y="71" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <text x="402" y="71" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <text x="430" y="71" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <text x="458" y="71" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <text x="486" y="71" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <!-- Row B: 1,0,1,1,0 -->
+        <text x="374" y="99" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <text x="402" y="99" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <text x="430" y="99" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <text x="458" y="99" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <text x="486" y="99" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <!-- Row C: 0,1,0,0,1 -->
+        <text x="374" y="127" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <text x="402" y="127" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <text x="430" y="127" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <text x="458" y="127" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <text x="486" y="127" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <!-- Row D: 1,1,0,0,1 -->
+        <text x="374" y="155" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <text x="402" y="155" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <text x="430" y="155" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <text x="458" y="155" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <text x="486" y="155" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <!-- Row E: 0,0,1,1,0 -->
+        <text x="374" y="183" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <text x="402" y="183" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+        <text x="430" y="183" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <text x="458" y="183" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5" font-weight="bold">1</text>
+        <text x="486" y="183" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#4A6080">0</text>
+
+        <text x="490" y="205" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">edge lookup: O(1)</text>
+        <text x="490" y="220" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#EF4444">wastes space for sparse graphs</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-warning">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Watch out</div>
+        <p class="callout-text">A social network with 1 billion users would need a 1 billion × 1 billion adjacency matrix — roughly 10<sup>18</sup> entries. Since each user averages ~300 friends, the matrix is 99.999997% zeros. Facebook uses an adjacency list (and a distributed graph database) for exactly this reason.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 3: Code ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Graph with Adjacency List
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="graph-js">JavaScript</button>
+        <button class="tab-btn" data-pane="graph-ts">TypeScript</button>
+        <button class="tab-btn" data-pane="graph-py">Python</button>
+      </div>
+
+      <div class="tab-pane" id="graph-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> <span class="tp">Graph</span> {
+  <span class="fn">constructor</span>() {
+    <span class="kw">this</span>.list <span class="op">=</span> <span class="kw">new</span> <span class="fn">Map</span>();  <span class="cm">// vertex → [neighbours]</span>
+  }
+
+  <span class="fn">addVertex</span>(v) {
+    <span class="kw">if</span> (!<span class="kw">this</span>.list.<span class="fn">has</span>(v)) <span class="kw">this</span>.list.<span class="fn">set</span>(v, []);
+  }
+
+  <span class="fn">addEdge</span>(u, v, weight <span class="op">=</span> <span class="num">1</span>) {   <span class="cm">// undirected</span>
+    <span class="kw">this</span>.list.<span class="fn">get</span>(u).<span class="fn">push</span>({ node: v, weight });
+    <span class="kw">this</span>.list.<span class="fn">get</span>(v).<span class="fn">push</span>({ node: u, weight });
+  }
+
+  <span class="fn">neighbours</span>(v) {
+    <span class="kw">return this</span>.list.<span class="fn">get</span>(v) <span class="op">??</span> [];
+  }
+
+  <span class="fn">hasEdge</span>(u, v) {                <span class="cm">// O(degree)</span>
+    <span class="kw">return this</span>.<span class="fn">neighbours</span>(u).<span class="fn">some</span>(e <span class="op">=></span> e.node <span class="op">===</span> v);
+  }
+}
+
+<span class="kw">const</span> g <span class="op">=</span> <span class="kw">new</span> <span class="fn">Graph</span>();
+[<span class="str">'A'</span>, <span class="str">'B'</span>, <span class="str">'C'</span>].<span class="fn">forEach</span>(v <span class="op">=></span> g.<span class="fn">addVertex</span>(v));
+g.<span class="fn">addEdge</span>(<span class="str">'A'</span>, <span class="str">'B'</span>, <span class="num">4</span>);
+g.<span class="fn">addEdge</span>(<span class="str">'B'</span>, <span class="str">'C'</span>, <span class="num">2</span>);</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="graph-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">type</span> <span class="tp">Edge</span> <span class="op">=</span> { node<span class="op">:</span> <span class="tp">string</span>; weight<span class="op">:</span> <span class="tp">number</span> };
+
+<span class="kw">class</span> Graph {
+  <span class="kw">private</span> list <span class="op">=</span> <span class="kw">new</span> Map<span class="op">&lt;</span><span class="tp">string</span>, <span class="tp">Edge</span>[]<span class="op">&gt;</span>();
+
+  <span class="fn">addVertex</span>(v<span class="op">:</span> <span class="tp">string</span>)<span class="op">:</span> <span class="tp">void</span> {
+    <span class="kw">if</span> (!<span class="kw">this</span>.list.<span class="fn">has</span>(v)) <span class="kw">this</span>.list.<span class="fn">set</span>(v, []);
+  }
+
+  <span class="fn">addEdge</span>(u<span class="op">:</span> <span class="tp">string</span>, v<span class="op">:</span> <span class="tp">string</span>, weight<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">1</span>)<span class="op">:</span> <span class="tp">void</span> {
+    <span class="kw">this</span>.list.<span class="fn">get</span>(u)<span class="op">!</span>.<span class="fn">push</span>({ node: v, weight });
+    <span class="kw">this</span>.list.<span class="fn">get</span>(v)<span class="op">!</span>.<span class="fn">push</span>({ node: u, weight });
+  }
+
+  <span class="fn">neighbours</span>(v<span class="op">:</span> <span class="tp">string</span>)<span class="op">:</span> <span class="tp">Edge</span>[] {
+    <span class="kw">return this</span>.list.<span class="fn">get</span>(v) <span class="op">??</span> [];
+  }
+
+  <span class="fn">hasEdge</span>(u<span class="op">:</span> <span class="tp">string</span>, v<span class="op">:</span> <span class="tp">string</span>)<span class="op">:</span> <span class="tp">boolean</span> {
+    <span class="kw">return this</span>.<span class="fn">neighbours</span>(u).<span class="fn">some</span>(e <span class="op">=></span> e.node <span class="op">===</span> v);
+  }
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="graph-py">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">Python</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">from</span> collections <span class="kw">import</span> defaultdict
+
+<span class="kw">class</span> <span class="tp">Graph</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>):
+        <span class="kw">self</span>.list <span class="op">=</span> <span class="fn">defaultdict</span>(<span class="tp">list</span>)
+
+    <span class="kw">def</span> <span class="fn">add_edge</span>(<span class="kw">self</span>, u, v, weight<span class="op">=</span><span class="num">1</span>):  <span class="cm"># undirected</span>
+        <span class="kw">self</span>.list[u].<span class="fn">append</span>((v, weight))
+        <span class="kw">self</span>.list[v].<span class="fn">append</span>((u, weight))
+
+    <span class="kw">def</span> <span class="fn">neighbours</span>(<span class="kw">self</span>, v):
+        <span class="kw">return self</span>.list[v]
+
+    <span class="kw">def</span> <span class="fn">has_edge</span>(<span class="kw">self</span>, u, v):          <span class="cm"># O(degree)</span>
+        <span class="kw">return</span> <span class="fn">any</span>(node <span class="op">==</span> v <span class="kw">for</span> node, _ <span class="kw">in</span> <span class="kw">self</span>.list[u])
+
+g <span class="op">=</span> <span class="fn">Graph</span>()
+g.<span class="fn">add_edge</span>(<span class="str">'A'</span>, <span class="str">'B'</span>, <span class="num">4</span>)
+g.<span class="fn">add_edge</span>(<span class="str">'A'</span>, <span class="str">'D'</span>, <span class="num">7</span>)
+g.<span class="fn">add_edge</span>(<span class="str">'B'</span>, <span class="str">'C'</span>, <span class="num">2</span>)
+
+<span class="kw">for</span> neighbour, w <span class="kw">in</span> g.<span class="fn">neighbours</span>(<span class="str">'A'</span>):
+    <span class="fn">print</span>(<span class="str">f'A → {neighbour}  (weight {w})'</span>)</pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 4: Complexity ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Complexity Summary
+    </h2>
+
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Operation</th><th>Adj. List</th><th>Adj. Matrix</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Add vertex</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-on">O(V²)</span></td><td>Matrix must be resized</td></tr>
+          <tr><td>Add edge</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>List: push; Matrix: set cell</td></tr>
+          <tr><td>Remove edge</td><td><span class="badge badge-on">O(E)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>List must scan neighbours</td></tr>
+          <tr><td>Edge exists?</td><td><span class="badge badge-on">O(degree)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Matrix wins for dense graphs</td></tr>
+          <tr><td>Get all neighbours</td><td><span class="badge badge-on">O(degree)</span></td><td><span class="badge badge-on">O(V)</span></td><td>List wins for sparse graphs</td></tr>
+          <tr><td>Space</td><td><span class="badge badge-on">O(V+E)</span></td><td><span class="badge badge-on">O(V²)</span></td><td>List dominates for real graphs</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 5: Real World ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      Where Graphs Show Up
+    </h2>
+
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        <div class="rw-card-title">Google Maps</div>
+        <p class="rw-card-desc">Every intersection is a vertex, every road is a weighted edge. Maps runs Dijkstra's (or A*) on this graph to find the shortest path — processing millions of vertices in under a second.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <div class="rw-card-title">Social Networks</div>
+        <p class="rw-card-desc">Instagram, LinkedIn, and Twitter are directed graphs. Followers are directed edges. "Degrees of separation" is a BFS traversal. Friend recommendations use graph clustering algorithms.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        <div class="rw-card-title">Internet Routing</div>
+        <p class="rw-card-desc">The internet is a massive weighted graph. BGP (Border Gateway Protocol) runs a distributed shortest-path algorithm across autonomous systems to route your packets from Lagos to London.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <div class="rw-card-title">Dependency Resolution</div>
+        <p class="rw-card-desc">npm, pip, and cargo all model packages as a directed acyclic graph (DAG). Installing a package runs topological sort to determine the correct installation order without circular dependencies.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

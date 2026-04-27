@@ -1,0 +1,371 @@
+<!-- PAGE 14 — Heaps & Priority Queues -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Lesson 14
+  </div>
+  <h1 class="page-title">Heaps &amp; Priority Queues</h1>
+  <div class="page-definition">
+    <p>"A heap is a complete binary tree satisfying the heap property — max-heap: every parent ≥ its children; min-heap: every parent ≤ its children. It is the engine behind the priority queue."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Section 1: What is a Heap ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      What is a Heap?
+    </h2>
+
+    <p>A heap is a <strong>complete binary tree</strong> — every level is fully filled except possibly the last, which fills left-to-right. It enforces one rule: the <strong>heap property</strong>. In a <strong>max-heap</strong>, every parent is greater than or equal to its children, so the largest value always sits at the root. A <strong>min-heap</strong> is the mirror: smallest at the root. This guarantees O(1) access to the extremum and O(log n) insert and extract.</p>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 240" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Max-heap tree diagram showing parent is always greater than or equal to children">
+        <defs>
+          <filter id="heap-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.038" numOctaves="3" seed="6" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+
+        <text x="320" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 14A — Max-heap: parent ≥ children at every node</text>
+
+        <!-- Edges -->
+        <g filter="url(#heap-rough)">
+          <line x1="320" y1="60" x2="192" y2="118" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="320" y1="60" x2="448" y2="118" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="192" y1="138" x2="128" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="192" y1="138" x2="256" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="448" y1="138" x2="384" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="448" y1="138" x2="512" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+        </g>
+
+        <!-- Nodes -->
+        <g filter="url(#heap-rough)">
+          <circle cx="320" cy="48"  r="26" fill="rgba(245,166,35,0.25)" stroke="#F5A623" stroke-width="2.2"/>
+          <circle cx="192" cy="128" r="22" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.8"/>
+          <circle cx="448" cy="128" r="22" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.8"/>
+          <circle cx="128" cy="204" r="20" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.6"/>
+          <circle cx="256" cy="204" r="20" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.6"/>
+          <circle cx="384" cy="204" r="20" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.6"/>
+          <circle cx="512" cy="204" r="20" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.6"/>
+        </g>
+
+        <!-- Values -->
+        <text x="320" y="55"  text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#F5A623" font-weight="bold">100</text>
+        <text x="192" y="134" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">90</text>
+        <text x="448" y="134" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">80</text>
+        <text x="128" y="210" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#A0AEC0">70</text>
+        <text x="256" y="210" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#A0AEC0">60</text>
+        <text x="384" y="210" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#A0AEC0">50</text>
+        <text x="512" y="210" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#A0AEC0">40</text>
+
+        <!-- Labels -->
+        <text x="358" y="38"  font-family="Caveat,cursive" font-size="12" fill="#F5A623">max (root) — O(1) peek</text>
+        <text x="36"  y="208" font-family="Caveat,cursive" font-size="11" fill="#4A6080">leaves</text>
+        <text x="540" y="132" font-family="Caveat,cursive" font-size="11" fill="#4A6080">100≥80≥50 ✓</text>
+        <text x="14"  y="132" font-family="Caveat,cursive" font-size="11" fill="#4A6080">100≥90≥70 ✓</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">Think of a hospital A&amp;E triage queue. Patients don't wait in arrival order — the most critical case always goes to the front. When a new patient arrives, a nurse places them at the correct priority level. That's a min-heap: the lowest (most urgent) value always surfaces to the top for O(1) access.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 2: Heap as Array ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+      Stored as an Array — No Pointers Needed
+    </h2>
+
+    <p>Because a heap is a <strong>complete</strong> binary tree, it maps perfectly onto a flat array — no left/right pointers required. For any node at index <code>i</code>, its children and parent are always at predictable offsets, computable with arithmetic alone.</p>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 190" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Heap stored as array with index math annotations">
+        <defs>
+          <filter id="heap-rough2" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.038" numOctaves="3" seed="13" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.4" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="heap-arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#F5A623"/>
+          </marker>
+        </defs>
+
+        <text x="320" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 14B — Max-heap [100, 90, 80, 70, 60, 50, 40] as flat array</text>
+
+        <!-- Cells -->
+        <g filter="url(#heap-rough2)">
+          <rect x="30"  y="44" width="76" height="52" rx="3" fill="rgba(245,166,35,0.20)" stroke="#F5A623" stroke-width="2"/>
+          <rect x="106" y="44" width="76" height="52" rx="3" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.6"/>
+          <rect x="182" y="44" width="76" height="52" rx="3" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.6"/>
+          <rect x="258" y="44" width="76" height="52" rx="3" fill="rgba(0,191,165,0.07)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="334" y="44" width="76" height="52" rx="3" fill="rgba(0,191,165,0.07)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="410" y="44" width="76" height="52" rx="3" fill="rgba(0,191,165,0.07)" stroke="#00BFA5" stroke-width="1.5"/>
+          <rect x="486" y="44" width="76" height="52" rx="3" fill="rgba(0,191,165,0.07)" stroke="#00BFA5" stroke-width="1.5"/>
+        </g>
+
+        <!-- Values -->
+        <text x="68"  y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#F5A623" font-weight="bold">100</text>
+        <text x="144" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">90</text>
+        <text x="220" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">80</text>
+        <text x="296" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">70</text>
+        <text x="372" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">60</text>
+        <text x="448" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">50</text>
+        <text x="524" y="76" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#E8E0D0">40</text>
+
+        <!-- Index labels -->
+        <text x="68"  y="112" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#F5A623">[0]</text>
+        <text x="144" y="112" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[1]</text>
+        <text x="220" y="112" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[2]</text>
+        <text x="296" y="112" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[3]</text>
+        <text x="372" y="112" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[4]</text>
+        <text x="448" y="112" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[5]</text>
+        <text x="524" y="112" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080">[6]</text>
+
+        <!-- Formulas -->
+        <text x="320" y="140" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#8A9FBF">For node at index i :</text>
+        <text x="160" y="160" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#00BFA5">left  = 2i + 1</text>
+        <text x="320" y="160" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#00BFA5">right = 2i + 2</text>
+        <text x="490" y="160" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#F5A623">parent = ⌊(i-1)/2⌋</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-insight">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Insight</div>
+        <p class="callout-text">Because the heap is stored in a contiguous array, it benefits from CPU cache locality — sequential memory access is much faster than chasing pointers. This is why heap-based priority queues outperform pointer-based tree implementations in practice, even when theoretical complexity is identical.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 3: Code ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Min-Heap Implementation
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="heap-js">JavaScript</button>
+        <button class="tab-btn" data-pane="heap-ts">TypeScript</button>
+        <button class="tab-btn" data-pane="heap-py">Python</button>
+      </div>
+
+      <div class="tab-pane" id="heap-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> <span class="tp">MinHeap</span> {
+  <span class="fn">constructor</span>() { <span class="kw">this</span>.heap <span class="op">=</span> []; }
+
+  <span class="fn">peek</span>()  { <span class="kw">return this</span>.heap[<span class="num">0</span>]; }          <span class="cm">// O(1)</span>
+  <span class="fn">size</span>()  { <span class="kw">return this</span>.heap.length; }
+
+  <span class="fn">push</span>(val) {                               <span class="cm">// O(log n)</span>
+    <span class="kw">this</span>.heap.<span class="fn">push</span>(val);
+    <span class="kw">this</span>.<span class="fn">_siftUp</span>(<span class="kw">this</span>.heap.length <span class="op">-</span> <span class="num">1</span>);
+  }
+
+  <span class="fn">pop</span>() {                                   <span class="cm">// O(log n)</span>
+    <span class="kw">const</span> min  <span class="op">=</span> <span class="kw">this</span>.heap[<span class="num">0</span>];
+    <span class="kw">const</span> last <span class="op">=</span> <span class="kw">this</span>.heap.<span class="fn">pop</span>();
+    <span class="kw">if</span> (<span class="kw">this</span>.heap.length) {
+      <span class="kw">this</span>.heap[<span class="num">0</span>] <span class="op">=</span> last;
+      <span class="kw">this</span>.<span class="fn">_siftDown</span>(<span class="num">0</span>);
+    }
+    <span class="kw">return</span> min;
+  }
+
+  <span class="fn">_siftUp</span>(i) {
+    <span class="kw">while</span> (i <span class="op">&gt;</span> <span class="num">0</span>) {
+      <span class="kw">const</span> p <span class="op">=</span> Math.<span class="fn">floor</span>((i <span class="op">-</span> <span class="num">1</span>) <span class="op">/</span> <span class="num">2</span>);
+      <span class="kw">if</span> (<span class="kw">this</span>.heap[p] <span class="op">&lt;=</span> <span class="kw">this</span>.heap[i]) <span class="kw">break</span>;
+      [<span class="kw">this</span>.heap[p], <span class="kw">this</span>.heap[i]] <span class="op">=</span> [<span class="kw">this</span>.heap[i], <span class="kw">this</span>.heap[p]];
+      i <span class="op">=</span> p;
+    }
+  }
+
+  <span class="fn">_siftDown</span>(i) {
+    <span class="kw">const</span> n <span class="op">=</span> <span class="kw">this</span>.heap.length;
+    <span class="kw">while</span> (<span class="kw">true</span>) {
+      <span class="kw">let</span> min <span class="op">=</span> i;
+      <span class="kw">const</span> l <span class="op">=</span> <span class="num">2</span> <span class="op">*</span> i <span class="op">+</span> <span class="num">1</span>, r <span class="op">=</span> <span class="num">2</span> <span class="op">*</span> i <span class="op">+</span> <span class="num">2</span>;
+      <span class="kw">if</span> (l <span class="op">&lt;</span> n <span class="op">&amp;&amp;</span> <span class="kw">this</span>.heap[l] <span class="op">&lt;</span> <span class="kw">this</span>.heap[min]) min <span class="op">=</span> l;
+      <span class="kw">if</span> (r <span class="op">&lt;</span> n <span class="op">&amp;&amp;</span> <span class="kw">this</span>.heap[r] <span class="op">&lt;</span> <span class="kw">this</span>.heap[min]) min <span class="op">=</span> r;
+      <span class="kw">if</span> (min <span class="op">===</span> i) <span class="kw">break</span>;
+      [<span class="kw">this</span>.heap[min], <span class="kw">this</span>.heap[i]] <span class="op">=</span> [<span class="kw">this</span>.heap[i], <span class="kw">this</span>.heap[min]];
+      i <span class="op">=</span> min;
+    }
+  }
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="heap-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> MinHeap<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> {
+  <span class="kw">private</span> heap<span class="op">:</span> <span class="tp">T</span>[] <span class="op">=</span> [];
+
+  <span class="fn">peek</span>()<span class="op">:</span> <span class="tp">T</span> <span class="op">|</span> <span class="tp">undefined</span> { <span class="kw">return this</span>.heap[<span class="num">0</span>]; }
+  <span class="fn">size</span>()<span class="op">:</span> <span class="tp">number</span>        { <span class="kw">return this</span>.heap.length; }
+
+  <span class="fn">push</span>(val<span class="op">:</span> <span class="tp">T</span>)<span class="op">:</span> <span class="tp">void</span> {
+    <span class="kw">this</span>.heap.<span class="fn">push</span>(val);
+    <span class="kw">this</span>.<span class="fn">_siftUp</span>(<span class="kw">this</span>.heap.length <span class="op">-</span> <span class="num">1</span>);
+  }
+
+  <span class="fn">pop</span>()<span class="op">:</span> <span class="tp">T</span> <span class="op">|</span> <span class="tp">undefined</span> {
+    <span class="kw">const</span> min  <span class="op">=</span> <span class="kw">this</span>.heap[<span class="num">0</span>];
+    <span class="kw">const</span> last <span class="op">=</span> <span class="kw">this</span>.heap.<span class="fn">pop</span>()!;
+    <span class="kw">if</span> (<span class="kw">this</span>.heap.length) {
+      <span class="kw">this</span>.heap[<span class="num">0</span>] <span class="op">=</span> last;
+      <span class="kw">this</span>.<span class="fn">_siftDown</span>(<span class="num">0</span>);
+    }
+    <span class="kw">return</span> min;
+  }
+
+  <span class="kw">private</span> <span class="fn">_siftUp</span>(i<span class="op">:</span> <span class="tp">number</span>)<span class="op">:</span> <span class="tp">void</span> {
+    <span class="kw">while</span> (i <span class="op">&gt;</span> <span class="num">0</span>) {
+      <span class="kw">const</span> p <span class="op">=</span> Math.<span class="fn">floor</span>((i <span class="op">-</span> <span class="num">1</span>) <span class="op">/</span> <span class="num">2</span>);
+      <span class="kw">if</span> (<span class="kw">this</span>.heap[p] <span class="op">&lt;=</span> <span class="kw">this</span>.heap[i]) <span class="kw">break</span>;
+      [<span class="kw">this</span>.heap[p], <span class="kw">this</span>.heap[i]] <span class="op">=</span> [<span class="kw">this</span>.heap[i], <span class="kw">this</span>.heap[p]];
+      i <span class="op">=</span> p;
+    }
+  }
+
+  <span class="kw">private</span> <span class="fn">_siftDown</span>(i<span class="op">:</span> <span class="tp">number</span>)<span class="op">:</span> <span class="tp">void</span> {
+    <span class="kw">const</span> n <span class="op">=</span> <span class="kw">this</span>.heap.length;
+    <span class="kw">while</span> (<span class="kw">true</span>) {
+      <span class="kw">let</span> min <span class="op">=</span> i;
+      <span class="kw">const</span> l <span class="op">=</span> <span class="num">2</span> <span class="op">*</span> i <span class="op">+</span> <span class="num">1</span>, r <span class="op">=</span> <span class="num">2</span> <span class="op">*</span> i <span class="op">+</span> <span class="num">2</span>;
+      <span class="kw">if</span> (l <span class="op">&lt;</span> n <span class="op">&amp;&amp;</span> <span class="kw">this</span>.heap[l] <span class="op">&lt;</span> <span class="kw">this</span>.heap[min]) min <span class="op">=</span> l;
+      <span class="kw">if</span> (r <span class="op">&lt;</span> n <span class="op">&amp;&amp;</span> <span class="kw">this</span>.heap[r] <span class="op">&lt;</span> <span class="kw">this</span>.heap[min]) min <span class="op">=</span> r;
+      <span class="kw">if</span> (min <span class="op">===</span> i) <span class="kw">break</span>;
+      [<span class="kw">this</span>.heap[min], <span class="kw">this</span>.heap[i]] <span class="op">=</span> [<span class="kw">this</span>.heap[i], <span class="kw">this</span>.heap[min]];
+      i <span class="op">=</span> min;
+    }
+  }
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="heap-py">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">Python</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">import</span> heapq
+
+<span class="cm"># Python's heapq is always a min-heap</span>
+heap <span class="op">=</span> []
+
+<span class="cm"># O(log n) — push</span>
+heapq.<span class="fn">heappush</span>(heap, <span class="num">5</span>)
+heapq.<span class="fn">heappush</span>(heap, <span class="num">1</span>)
+heapq.<span class="fn">heappush</span>(heap, <span class="num">3</span>)
+
+<span class="cm"># O(log n) — pop minimum</span>
+min_val <span class="op">=</span> heapq.<span class="fn">heappop</span>(heap)    <span class="cm"># 1</span>
+
+<span class="cm"># O(1) — peek minimum</span>
+top <span class="op">=</span> heap[<span class="num">0</span>]
+
+<span class="cm"># O(n) — build heap from existing list</span>
+nums <span class="op">=</span> [<span class="num">4</span>, <span class="num">8</span>, <span class="num">2</span>, <span class="num">7</span>, <span class="num">1</span>]
+heapq.<span class="fn">heapify</span>(nums)              <span class="cm"># in-place, O(n)</span>
+
+<span class="cm"># Max-heap trick: negate all values</span>
+max_heap <span class="op">=</span> []
+heapq.<span class="fn">heappush</span>(max_heap, <span class="op">-</span><span class="num">10</span>)
+heapq.<span class="fn">heappush</span>(max_heap, <span class="op">-</span><span class="num">5</span>)
+max_val <span class="op">=</span> <span class="op">-</span>heapq.<span class="fn">heappop</span>(max_heap) <span class="cm"># 10</span>
+
+<span class="cm"># K smallest elements — O(n log k)</span>
+result <span class="op">=</span> heapq.<span class="fn">nsmallest</span>(<span class="num">3</span>, [<span class="num">9</span>,<span class="num">1</span>,<span class="num">7</span>,<span class="num">2</span>,<span class="num">5</span>]) <span class="cm"># [1,2,5]</span></pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 4: Complexity ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Complexity Summary
+    </h2>
+
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Operation</th><th>Time</th><th>Space</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Peek min/max</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Always at index 0</td></tr>
+          <tr><td>Push (insert)</td><td><span class="badge badge-ologn">O(log n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Append then sift up</td></tr>
+          <tr><td>Pop (extract min/max)</td><td><span class="badge badge-ologn">O(log n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Swap root with last, sift down</td></tr>
+          <tr><td>Build from array</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Floyd's heapify — faster than n inserts</td></tr>
+          <tr><td>Search</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>No ordering beyond parent/child</td></tr>
+          <tr><td>Total space</td><td>—</td><td><span class="badge badge-on">O(n)</span></td><td>Flat array, no pointers</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 5: Real World ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      Where Heaps Show Up
+    </h2>
+
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        <div class="rw-card-title">OS Process Scheduling</div>
+        <p class="rw-card-desc">Linux's Completely Fair Scheduler uses a red-black tree (a heap-like structure) to always run the process with the least CPU time — O(log n) schedule, O(1) pick-next.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div class="rw-card-title">Dijkstra's Algorithm</div>
+        <p class="rw-card-desc">Google Maps finds shortest paths using Dijkstra's algorithm, which processes cities in order of tentative distance — implemented with a min-heap that gives O((V+E) log V) total complexity.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div class="rw-card-title">Heap Sort</div>
+        <p class="rw-card-desc">Build a max-heap in O(n), then repeatedly extract the max in O(log n). The result is a sorted array in O(n log n) with O(1) extra space — no allocations beyond the input array.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        <div class="rw-card-title">Merge K Sorted Streams</div>
+        <p class="rw-card-desc">Log aggregation tools merge thousands of sorted log streams by putting the current minimum of each stream in a min-heap — extracting in order across all streams in O(n log k).</p>
+      </div>
+    </div>
+  </div>
+
+</div>
