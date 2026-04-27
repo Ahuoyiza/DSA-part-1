@@ -135,7 +135,7 @@ function buildHTML() {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rise Academy — Lesson 11: DSA Foundations</title>
+  <title>Rise Academy — Lesson 11: DSA</title>
   <meta name="description" content="A comprehensive, interactive guide to Data Structures and Algorithms fundamentals." />
 ${favicon}
 
@@ -174,7 +174,7 @@ ${sprite}
   <nav id="sidebar" role="navigation" aria-label="Lesson navigation">
     <div class="sb-brand">
       <div class="sb-brand-academy">Rise Academy</div>
-      <div class="sb-brand-title">DSA Foundations</div>
+      <div class="sb-brand-title">DSA</div>
       <div class="sb-brand-sub">Lesson 11</div>
       <button class="sb-close" aria-label="Close navigation">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" viewBox="0 0 24 24">
