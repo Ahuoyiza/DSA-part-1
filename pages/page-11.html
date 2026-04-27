@@ -1,0 +1,322 @@
+<!-- PAGE 11 — Hash Tables -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+    Lesson 11
+  </div>
+  <h1 class="page-title">Hash Tables</h1>
+  <div class="page-definition">
+    <p>"A hash table maps keys to values using a hash function — turning any key into an array index for near-instant O(1) average lookup."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Section 1: What is a Hash Table ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+      What is a Hash Table?
+    </h2>
+
+    <p>A hash table stores <strong>key-value pairs</strong>. When you write a value, a hash function converts the key into a number — that number becomes the index in an underlying array where the value is stored. When you read it back, the same function runs again and jumps straight to that slot. No scanning, no searching.</p>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 210" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Hash table key to bucket diagram">
+        <defs>
+          <filter id="ht-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="5" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.4" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="ht-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#00BFA5"/>
+          </marker>
+        </defs>
+
+        <text x="320" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 11A — Key → hash function → bucket index</text>
+
+        <!-- Key pill -->
+        <g filter="url(#ht-rough)">
+          <rect x="24" y="52" width="112" height="44" rx="10" fill="rgba(245,166,35,0.15)" stroke="#F5A623" stroke-width="1.8"/>
+        </g>
+        <text x="80" y="70" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#F5A623">key:</text>
+        <text x="80" y="88" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#F5A623">"name"</text>
+
+        <!-- Arrow 1 -->
+        <line x1="138" y1="74" x2="190" y2="74" stroke="#00BFA5" stroke-width="1.5" marker-end="url(#ht-arrow)"/>
+
+        <!-- Hash fn box -->
+        <g filter="url(#ht-rough)">
+          <rect x="194" y="48" width="130" height="52" rx="8" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.8"/>
+        </g>
+        <text x="259" y="70" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#00BFA5">hash("name")</text>
+        <text x="259" y="88" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#00BFA5">→ 110011… → 3</text>
+
+        <!-- Arrow 2 -->
+        <line x1="326" y1="74" x2="378" y2="74" stroke="#00BFA5" stroke-width="1.5" marker-end="url(#ht-arrow)"/>
+
+        <!-- Buckets -->
+        <g filter="url(#ht-rough)">
+          <rect x="382" y="28" width="70" height="40" rx="3" fill="rgba(0,191,165,0.06)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="382" y="68" width="70" height="40" rx="3" fill="rgba(0,191,165,0.06)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="382" y="108" width="70" height="40" rx="3" fill="rgba(0,191,165,0.06)" stroke="#00BFA5" stroke-width="1.4"/>
+          <!-- highlighted bucket [3] -->
+          <rect x="380" y="148" width="74" height="44" rx="3" fill="rgba(245,166,35,0.18)" stroke="#F5A623" stroke-width="2"/>
+          <rect x="382" y="192" width="70" height="40" rx="3" fill="rgba(0,191,165,0.06)" stroke="#00BFA5" stroke-width="1.4"/>
+        </g>
+        <text x="417" y="53" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">[0]</text>
+        <text x="417" y="93" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">[1]</text>
+        <text x="417" y="133" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">[2]</text>
+        <text x="417" y="168" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#F5A623" font-weight="bold">[3]</text>
+        <text x="417" y="188" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#F5A623">"Amara"</text>
+        <text x="417" y="217" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">[4]</text>
+
+        <!-- Value label -->
+        <text x="470" y="165" font-family="Caveat,cursive" font-size="12" fill="#F5A623">← value stored here</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">Think of a coat check at a venue. You hand in your coat (the value) and receive a numbered ticket (the hash). To retrieve your coat, you don't search every rack — you hand back the ticket and go straight to slot #3. A hash table does exactly this, instantly, every time.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 2: Collisions & Chaining ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Collisions &amp; Chaining
+    </h2>
+
+    <p>Two different keys can produce the same bucket index — this is a <strong>collision</strong>. The most common fix is <strong>chaining</strong>: each bucket holds a linked list of all entries that hashed there. A good hash function distributes keys evenly so chains stay short — ideally length 1.</p>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 200" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Hash collision chaining diagram">
+        <defs>
+          <filter id="ht-rough2" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="9" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.4" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="ht-chain" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#EF4444"/>
+          </marker>
+        </defs>
+
+        <text x="320" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 11B — Collision: two keys hash to bucket [2], forming a chain</text>
+
+        <!-- Buckets -->
+        <g filter="url(#ht-rough2)">
+          <rect x="40" y="32" width="80" height="36" rx="3" fill="rgba(0,191,165,0.07)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="40" y="68" width="80" height="36" rx="3" fill="rgba(0,191,165,0.07)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="40" y="104" width="80" height="36" rx="3" fill="rgba(239,68,68,0.15)" stroke="#EF4444" stroke-width="1.8"/>
+          <rect x="40" y="140" width="80" height="36" rx="3" fill="rgba(0,191,165,0.07)" stroke="#00BFA5" stroke-width="1.4"/>
+        </g>
+        <text x="80" y="55" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">[0] empty</text>
+        <text x="80" y="91" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">[1] "city"→"Lagos"</text>
+        <text x="80" y="122" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#EF4444" font-weight="bold">[2] collision!</text>
+        <text x="80" y="163" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">[3] empty</text>
+
+        <!-- Chain node 1 -->
+        <g filter="url(#ht-rough2)">
+          <rect x="160" y="96" width="130" height="52" rx="6" fill="rgba(239,68,68,0.10)" stroke="#EF4444" stroke-width="1.6"/>
+        </g>
+        <text x="225" y="116" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">"name" → "Amara"</text>
+        <text x="225" y="136" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">next →</text>
+
+        <!-- Arrow chain -->
+        <line x1="122" y1="122" x2="157" y2="122" stroke="#EF4444" stroke-width="1.5" marker-end="url(#ht-chain)"/>
+
+        <!-- Chain node 2 -->
+        <g filter="url(#ht-rough2)">
+          <rect x="322" y="96" width="130" height="52" rx="6" fill="rgba(239,68,68,0.10)" stroke="#EF4444" stroke-width="1.6"/>
+        </g>
+        <text x="387" y="116" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">"nick" → "Bola"</text>
+        <text x="387" y="136" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">next → null</text>
+
+        <line x1="292" y1="122" x2="319" y2="122" stroke="#EF4444" stroke-width="1.5" marker-end="url(#ht-chain)"/>
+
+        <text x="320" y="185" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#EF4444">both "name" and "nick" hashed to [2]</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-warning">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Watch out</div>
+        <p class="callout-text">A poor hash function that clusters all keys into a few buckets degrades performance from O(1) to O(n) — as bad as a plain array scan. V8 (JavaScript's engine) detects degenerate access patterns and switches internal representation strategies automatically.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 3: Code ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Common Operations
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="ht-js">JavaScript</button>
+        <button class="tab-btn" data-pane="ht-ts">TypeScript</button>
+        <button class="tab-btn" data-pane="ht-py">Python</button>
+      </div>
+
+      <div class="tab-pane" id="ht-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body"><pre><span class="cm">// Map is the preferred hash table in JS</span>
+<span class="kw">const</span> map <span class="op">=</span> <span class="kw">new</span> <span class="fn">Map</span>();
+
+<span class="cm">// O(1) avg — set a key-value pair</span>
+map.<span class="fn">set</span>(<span class="str">'name'</span>, <span class="str">'Amara'</span>);
+map.<span class="fn">set</span>(<span class="str">'age'</span>, <span class="num">24</span>);
+
+<span class="cm">// O(1) avg — retrieve by key</span>
+<span class="kw">const</span> name <span class="op">=</span> map.<span class="fn">get</span>(<span class="str">'name'</span>);     <span class="cm">// 'Amara'</span>
+
+<span class="cm">// O(1) avg — check existence</span>
+map.<span class="fn">has</span>(<span class="str">'age'</span>);                   <span class="cm">// true</span>
+
+<span class="cm">// O(1) avg — delete a key</span>
+map.<span class="fn">delete</span>(<span class="str">'age'</span>);
+
+<span class="cm">// O(n) — iterate all entries</span>
+<span class="kw">for</span> (<span class="kw">const</span> [key, val] <span class="kw">of</span> map) {
+  console.<span class="fn">log</span>(key, val);
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="ht-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">const</span> map <span class="op">=</span> <span class="kw">new</span> Map<span class="op">&lt;</span><span class="tp">string</span>, <span class="tp">string</span> <span class="op">|</span> <span class="tp">number</span><span class="op">&gt;</span>();
+
+map.<span class="fn">set</span>(<span class="str">'name'</span>, <span class="str">'Amara'</span>);
+map.<span class="fn">set</span>(<span class="str">'age'</span>, <span class="num">24</span>);
+
+<span class="cm">// Type-safe retrieval (may be undefined)</span>
+<span class="kw">const</span> name<span class="op">:</span> <span class="tp">string</span> <span class="op">|</span> <span class="tp">number</span> <span class="op">|</span> <span class="tp">undefined</span> <span class="op">=</span> map.<span class="fn">get</span>(<span class="str">'name'</span>);
+
+<span class="cm">// Typed iteration</span>
+<span class="kw">for</span> (<span class="kw">const</span> [key, val] <span class="kw">of</span> map.<span class="fn">entries</span>()) {
+  console.<span class="fn">log</span>(<span class="str">`</span><span class="op">${</span>key<span class="op">}</span><span class="str">: </span><span class="op">${</span>val<span class="op">}</span><span class="str">`</span>);
+}
+
+<span class="cm">// Plain object with index signature</span>
+<span class="kw">const</span> scores<span class="op">:</span> Record<span class="op">&lt;</span><span class="tp">string</span>, <span class="tp">number</span><span class="op">&gt;</span> <span class="op">=</span> {};
+scores[<span class="str">'Amara'</span>] <span class="op">=</span> <span class="num">95</span>;
+scores[<span class="str">'Bola'</span>]  <span class="op">=</span> <span class="num">88</span>;</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="ht-py">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">Python</span>
+          </div>
+          <div class="code-body"><pre><span class="cm"># Python's dict IS a hash table</span>
+scores <span class="op">=</span> {}
+
+<span class="cm"># O(1) avg — set</span>
+scores[<span class="str">'Amara'</span>] <span class="op">=</span> <span class="num">95</span>
+scores[<span class="str">'Bola'</span>]  <span class="op">=</span> <span class="num">88</span>
+
+<span class="cm"># O(1) avg — get (with default)</span>
+val <span class="op">=</span> scores.<span class="fn">get</span>(<span class="str">'Kemi'</span>, <span class="num">0</span>)      <span class="cm"># 0 if key missing</span>
+
+<span class="cm"># O(1) avg — check existence</span>
+<span class="str">'Bola'</span> <span class="kw">in</span> scores               <span class="cm"># True</span>
+
+<span class="cm"># O(1) avg — delete</span>
+<span class="kw">del</span> scores[<span class="str">'Bola'</span>]
+
+<span class="cm"># O(n) — iterate</span>
+<span class="kw">for</span> key, val <span class="kw">in</span> scores.<span class="fn">items</span>():
+    <span class="fn">print</span>(key, val)
+
+<span class="cm"># defaultdict — auto-initialises missing keys</span>
+<span class="kw">from</span> collections <span class="kw">import</span> defaultdict
+freq <span class="op">=</span> <span class="fn">defaultdict</span>(<span class="tp">int</span>)
+<span class="kw">for</span> ch <span class="kw">in</span> <span class="str">'banana'</span>:
+    freq[ch] <span class="op">+=</span> <span class="num">1</span>               <span class="cm"># {'b':1,'a':3,'n':2}</span></pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 4: Complexity ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Complexity Summary
+    </h2>
+
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Operation</th><th>Average</th><th>Worst Case</th><th>Space</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Get (by key)</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Worst when all keys collide</td></tr>
+          <tr><td>Set</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Amortised over table resize</td></tr>
+          <tr><td>Delete</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Same caveat as get</td></tr>
+          <tr><td>Search (by value)</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Must scan all values</td></tr>
+          <tr><td>Total space</td><td>—</td><td>—</td><td><span class="badge badge-on">O(n)</span></td><td>n = number of stored entries</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 5: Real World ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      Where Hash Tables Show Up
+    </h2>
+
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <div class="rw-card-title">JavaScript Objects</div>
+        <p class="rw-card-desc">Every JS object is a hash table under the hood. Writing <code>obj.name</code> runs a hash lookup — O(1) property access is what makes dynamic languages usable at scale.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="2.5"/><path d="M4 6v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5V6"/><path d="M4 11v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5v-5"/></svg>
+        <div class="rw-card-title">Database Hash Joins</div>
+        <p class="rw-card-desc">PostgreSQL and MySQL build an in-memory hash table from the smaller table in a join. This turns a naïve O(n²) nested loop into an O(n) operation for large datasets.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        <div class="rw-card-title">DNS Caching</div>
+        <p class="rw-card-desc">Your browser stores domain→IP mappings in a hash table. Before making any network request, it checks this cache — turning a 50ms DNS lookup into a nanosecond O(1) hit.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <div class="rw-card-title">Password Hashing</div>
+        <p class="rw-card-desc">bcrypt and Argon2 apply a one-way hash function to passwords before storing them. The stored hash can't be reversed — authentication is O(1) compare, no plaintext ever saved.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

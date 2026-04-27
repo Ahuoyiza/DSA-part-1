@@ -1,0 +1,369 @@
+<!-- PAGE 12 — Trees & Binary Trees -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+    Lesson 12
+  </div>
+  <h1 class="page-title">Trees &amp; Binary Trees</h1>
+  <div class="page-definition">
+    <p>"A tree is a hierarchical data structure where each node has at most one parent and zero or more children — used wherever data has natural parent-child relationships."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Section 1: What is a Tree ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      What is a Tree?
+    </h2>
+
+    <p>A tree is a collection of <strong>nodes</strong> connected by <strong>edges</strong>, with one special node at the top called the <strong>root</strong>. Every node except the root has exactly one parent. Nodes with no children are called <strong>leaves</strong>. A <strong>binary tree</strong> adds one constraint: each node may have at most a <strong>left</strong> and a <strong>right</strong> child — no more.</p>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 260" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Labelled binary tree diagram showing root, internal nodes, leaves, height and depth">
+        <defs>
+          <filter id="tree-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="3" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="tree-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#4A6080"/>
+          </marker>
+        </defs>
+
+        <text x="320" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 12A — Anatomy of a binary tree</text>
+
+        <!-- Edges -->
+        <g filter="url(#tree-rough)">
+          <line x1="320" y1="60" x2="192" y2="120" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="320" y1="60" x2="448" y2="120" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="192" y1="140" x2="128" y2="200" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="192" y1="140" x2="256" y2="200" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="448" y1="140" x2="384" y2="200" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="448" y1="140" x2="512" y2="200" stroke="#4A6080" stroke-width="1.8"/>
+        </g>
+
+        <!-- Nodes -->
+        <g filter="url(#tree-rough)">
+          <!-- root -->
+          <circle cx="320" cy="48" r="22" fill="rgba(245,166,35,0.2)" stroke="#F5A623" stroke-width="2"/>
+          <!-- level 2 -->
+          <circle cx="192" cy="130" r="20" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.8"/>
+          <circle cx="448" cy="130" r="20" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.8"/>
+          <!-- leaves -->
+          <circle cx="128" cy="212" r="18" fill="rgba(99,102,241,0.12)" stroke="#818CF8" stroke-width="1.8"/>
+          <circle cx="256" cy="212" r="18" fill="rgba(99,102,241,0.12)" stroke="#818CF8" stroke-width="1.8"/>
+          <circle cx="384" cy="212" r="18" fill="rgba(99,102,241,0.12)" stroke="#818CF8" stroke-width="1.8"/>
+          <circle cx="512" cy="212" r="18" fill="rgba(99,102,241,0.12)" stroke="#818CF8" stroke-width="1.8"/>
+        </g>
+
+        <!-- Values -->
+        <text x="320" y="54" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#F5A623">50</text>
+        <text x="192" y="135" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">30</text>
+        <text x="448" y="135" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">70</text>
+        <text x="128" y="217" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#A0AEC0">20</text>
+        <text x="256" y="217" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#A0AEC0">40</text>
+        <text x="384" y="217" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#A0AEC0">60</text>
+        <text x="512" y="217" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#A0AEC0">80</text>
+
+        <!-- Labels -->
+        <text x="358" y="38" font-family="Caveat,cursive" font-size="12" fill="#F5A623">root</text>
+        <text x="466" y="126" font-family="Caveat,cursive" font-size="12" fill="#00BFA5">internal node</text>
+        <text x="526" y="210" font-family="Caveat,cursive" font-size="12" fill="#818CF8">leaf</text>
+
+        <!-- Height annotation -->
+        <line x1="588" y1="48" x2="588" y2="212" stroke="#4A6080" stroke-width="1" stroke-dasharray="4 3"/>
+        <line x1="582" y1="48" x2="594" y2="48" stroke="#4A6080" stroke-width="1"/>
+        <line x1="582" y1="212" x2="594" y2="212" stroke="#4A6080" stroke-width="1"/>
+        <text x="620" y="134" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#4A6080" transform="rotate(90,620,134)">height = 2</text>
+
+        <!-- Depth labels -->
+        <text x="20" y="52" font-family="Caveat,cursive" font-size="11" fill="#4A6080">depth 0</text>
+        <text x="20" y="134" font-family="Caveat,cursive" font-size="11" fill="#4A6080">depth 1</text>
+        <text x="20" y="215" font-family="Caveat,cursive" font-size="11" fill="#4A6080">depth 2</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">A tree is like a company org chart. The CEO (root) manages VPs (children), each VP manages managers, and individual contributors (leaves) are at the bottom. Information flows along edges — never sideways between peers at the same level.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 2: Tree Traversal ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
+      Tree Traversal
+    </h2>
+
+    <p>The order in which you visit nodes matters. There are three standard traversals for binary trees — each produces a different sequence from the exact same tree:</p>
+
+    <ul style="font-family:var(--font-body);font-size:16px;line-height:1.9;color:var(--text-muted);margin:16px 0 24px 24px;">
+      <li><strong style="color:var(--text)">In-order</strong> (Left → Node → Right) — produces sorted output on a BST</li>
+      <li><strong style="color:var(--text)">Pre-order</strong> (Node → Left → Right) — used to copy or serialise a tree</li>
+      <li><strong style="color:var(--text)">Post-order</strong> (Left → Right → Node) — used to safely delete a tree</li>
+    </ul>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 230" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="In-order traversal diagram showing visit order numbered on tree nodes">
+        <defs>
+          <filter id="tree-rough2" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="8" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.4" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="trav-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#00BFA5"/>
+          </marker>
+        </defs>
+
+        <text x="320" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 12B — In-order traversal: Left → Node → Right (gives sorted order)</text>
+
+        <!-- Edges -->
+        <g filter="url(#tree-rough2)">
+          <line x1="320" y1="62" x2="192" y2="122" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="320" y1="62" x2="448" y2="122" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="192" y1="142" x2="128" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="192" y1="142" x2="256" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="448" y1="142" x2="384" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="448" y1="142" x2="512" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+        </g>
+
+        <!-- Nodes -->
+        <g filter="url(#tree-rough2)">
+          <circle cx="320" cy="50" r="22" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="2"/>
+          <circle cx="192" cy="132" r="20" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.8"/>
+          <circle cx="448" cy="132" r="20" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.8"/>
+          <circle cx="128" cy="204" r="18" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.8"/>
+          <circle cx="256" cy="204" r="18" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.8"/>
+          <circle cx="384" cy="204" r="18" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.8"/>
+          <circle cx="512" cy="204" r="18" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.8"/>
+        </g>
+
+        <!-- Values -->
+        <text x="320" y="56" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E0D0">50</text>
+        <text x="192" y="137" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">30</text>
+        <text x="448" y="137" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">70</text>
+        <text x="128" y="209" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">20</text>
+        <text x="256" y="209" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">40</text>
+        <text x="384" y="209" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">60</text>
+        <text x="512" y="209" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">80</text>
+
+        <!-- Visit order badges -->
+        <circle cx="104" cy="186" r="10" fill="#F5A623"/>
+        <text x="104" y="190" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#0A1828" font-weight="bold">1</text>
+        <circle cx="168" cy="114" r="10" fill="#F5A623"/>
+        <text x="168" y="118" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#0A1828" font-weight="bold">2</text>
+        <circle cx="232" cy="186" r="10" fill="#F5A623"/>
+        <text x="232" y="190" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#0A1828" font-weight="bold">3</text>
+        <circle cx="296" cy="32" r="10" fill="#F5A623"/>
+        <text x="296" y="36" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#0A1828" font-weight="bold">4</text>
+        <circle cx="360" cy="186" r="10" fill="#F5A623"/>
+        <text x="360" y="190" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#0A1828" font-weight="bold">5</text>
+        <circle cx="424" cy="114" r="10" fill="#F5A623"/>
+        <text x="424" y="118" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#0A1828" font-weight="bold">6</text>
+        <circle cx="488" cy="186" r="10" fill="#F5A623"/>
+        <text x="488" y="190" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#0A1828" font-weight="bold">7</text>
+
+        <text x="320" y="228" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#F5A623">result: 20 → 30 → 40 → 50 → 60 → 70 → 80 (sorted!)</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-insight">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Insight</div>
+        <p class="callout-text">In-order traversal of a valid BST always produces a perfectly sorted sequence. This is the trick behind converting a BST to a sorted array in O(n) — and why interviewers ask you to verify a BST by checking that its in-order output is ascending.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 3: Code ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Tree Node &amp; Traversals
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="tree-js">JavaScript</button>
+        <button class="tab-btn" data-pane="tree-ts">TypeScript</button>
+        <button class="tab-btn" data-pane="tree-py">Python</button>
+      </div>
+
+      <div class="tab-pane" id="tree-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> <span class="tp">TreeNode</span> {
+  <span class="fn">constructor</span>(val) {
+    <span class="kw">this</span>.val   <span class="op">=</span> val;
+    <span class="kw">this</span>.left  <span class="op">=</span> <span class="kw">null</span>;
+    <span class="kw">this</span>.right <span class="op">=</span> <span class="kw">null</span>;
+  }
+}
+
+<span class="cm">// Left → Node → Right  (sorted output on BST)</span>
+<span class="kw">function</span> <span class="fn">inOrder</span>(node, result <span class="op">=</span> []) {
+  <span class="kw">if</span> (!node) <span class="kw">return</span> result;
+  <span class="fn">inOrder</span>(node.left, result);
+  result.<span class="fn">push</span>(node.val);
+  <span class="fn">inOrder</span>(node.right, result);
+  <span class="kw">return</span> result;
+}
+
+<span class="cm">// Node → Left → Right  (copy / serialise)</span>
+<span class="kw">function</span> <span class="fn">preOrder</span>(node, result <span class="op">=</span> []) {
+  <span class="kw">if</span> (!node) <span class="kw">return</span> result;
+  result.<span class="fn">push</span>(node.val);
+  <span class="fn">preOrder</span>(node.left, result);
+  <span class="fn">preOrder</span>(node.right, result);
+  <span class="kw">return</span> result;
+}
+
+<span class="cm">// Height of tree — O(n)</span>
+<span class="kw">function</span> <span class="fn">height</span>(node) {
+  <span class="kw">if</span> (!node) <span class="kw">return</span> <span class="num">0</span>;
+  <span class="kw">return</span> <span class="num">1</span> <span class="op">+</span> Math.<span class="fn">max</span>(<span class="fn">height</span>(node.left), <span class="fn">height</span>(node.right));
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tree-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> TreeNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> {
+  val<span class="op">:</span>   <span class="tp">T</span>;
+  left<span class="op">:</span>  TreeNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> <span class="op">|</span> <span class="tp">null</span> <span class="op">=</span> <span class="kw">null</span>;
+  right<span class="op">:</span> TreeNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> <span class="op">|</span> <span class="tp">null</span> <span class="op">=</span> <span class="kw">null</span>;
+  <span class="fn">constructor</span>(val<span class="op">:</span> <span class="tp">T</span>) { <span class="kw">this</span>.val <span class="op">=</span> val; }
+}
+
+<span class="kw">function</span> inOrder<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span>(
+  node<span class="op">:</span> TreeNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> <span class="op">|</span> <span class="tp">null</span>,
+  result<span class="op">:</span> <span class="tp">T</span>[] <span class="op">=</span> []
+)<span class="op">:</span> <span class="tp">T</span>[] {
+  <span class="kw">if</span> (!node) <span class="kw">return</span> result;
+  <span class="fn">inOrder</span>(node.left, result);
+  result.<span class="fn">push</span>(node.val);
+  <span class="fn">inOrder</span>(node.right, result);
+  <span class="kw">return</span> result;
+}
+
+<span class="kw">function</span> height<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span>(node<span class="op">:</span> TreeNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> <span class="op">|</span> <span class="tp">null</span>)<span class="op">:</span> <span class="tp">number</span> {
+  <span class="kw">if</span> (!node) <span class="kw">return</span> <span class="num">0</span>;
+  <span class="kw">return</span> <span class="num">1</span> <span class="op">+</span> Math.<span class="fn">max</span>(<span class="fn">height</span>(node.left), <span class="fn">height</span>(node.right));
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tree-py">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">Python</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> <span class="tp">TreeNode</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, val):
+        <span class="kw">self</span>.val   <span class="op">=</span> val
+        <span class="kw">self</span>.left  <span class="op">=</span> <span class="kw">None</span>
+        <span class="kw">self</span>.right <span class="op">=</span> <span class="kw">None</span>
+
+<span class="kw">def</span> <span class="fn">in_order</span>(node, result<span class="op">=</span><span class="kw">None</span>):
+    <span class="kw">if</span> result <span class="kw">is</span> <span class="kw">None</span>:
+        result <span class="op">=</span> []
+    <span class="kw">if not</span> node:
+        <span class="kw">return</span> result
+    <span class="fn">in_order</span>(node.left, result)
+    result.<span class="fn">append</span>(node.val)
+    <span class="fn">in_order</span>(node.right, result)
+    <span class="kw">return</span> result
+
+<span class="kw">def</span> <span class="fn">height</span>(node):
+    <span class="kw">if not</span> node:
+        <span class="kw">return</span> <span class="num">0</span>
+    <span class="kw">return</span> <span class="num">1</span> <span class="op">+</span> <span class="fn">max</span>(<span class="fn">height</span>(node.left), <span class="fn">height</span>(node.right))
+
+<span class="kw">def</span> <span class="fn">count_nodes</span>(node):
+    <span class="kw">if not</span> node:
+        <span class="kw">return</span> <span class="num">0</span>
+    <span class="kw">return</span> <span class="num">1</span> <span class="op">+</span> <span class="fn">count_nodes</span>(node.left) <span class="op">+</span> <span class="fn">count_nodes</span>(node.right)</pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 4: Complexity ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Complexity Summary
+    </h2>
+
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Operation</th><th>Time</th><th>Space</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Access / Search</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-ologn">O(h)</span></td><td>h = tree height; must scan all nodes</td></tr>
+          <tr><td>Insert (at known point)</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-ologn">O(h)</span></td><td>Finding the point is O(n)</td></tr>
+          <tr><td>Delete</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-ologn">O(h)</span></td><td>Must find node first</td></tr>
+          <tr><td>Traversal (any)</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-ologn">O(h)</span></td><td>Visits every node exactly once</td></tr>
+          <tr><td>Height calculation</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-ologn">O(h)</span></td><td>Call stack depth = h</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 5: Real World ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      Where Trees Show Up
+    </h2>
+
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <div class="rw-card-title">Browser DOM</div>
+        <p class="rw-card-desc">Every web page is a tree. The browser traverses it post-order to calculate layout (children must be sized before parents) and pre-order to paint (parents render before children).</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+        <div class="rw-card-title">File Systems</div>
+        <p class="rw-card-desc">Every directory tree on your computer is a tree. The Unix <code>find</code> command is DFS. macOS Spotlight indexes files by traversing this tree and building a hash index.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <div class="rw-card-title">Compiler ASTs</div>
+        <p class="rw-card-desc">Every line of code you write is parsed into an Abstract Syntax Tree. TypeScript, Babel, ESLint, and Prettier all walk this tree to transform, lint, or format your code.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <div class="rw-card-title">JSON Parsing</div>
+        <p class="rw-card-desc">JSON's nested objects form a tree. <code>JSON.parse()</code> builds an in-memory tree, and every <code>data.user.address.city</code> access traverses a path from root to leaf.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

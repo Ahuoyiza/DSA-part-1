@@ -1,0 +1,365 @@
+<!-- PAGE 13 — Binary Search Trees -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Lesson 13
+  </div>
+  <h1 class="page-title">Binary Search Trees</h1>
+  <div class="page-definition">
+    <p>"A BST is a binary tree where every left child is smaller than its parent and every right child is larger — enabling O(log n) search, insert, and delete on balanced trees."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Section 1: What is a BST ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      What is a Binary Search Tree?
+    </h2>
+
+    <p>A BST adds a single ordering rule on top of a binary tree: for every node with value <strong>V</strong>, all values in the <strong>left subtree are smaller than V</strong>, and all values in the <strong>right subtree are larger than V</strong>. This invariant means you can eliminate half the tree at every step — exactly like binary search on a sorted array, but structured as a tree.</p>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 260" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Binary search tree diagram showing left less than parent, right greater than parent">
+        <defs>
+          <filter id="bst-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.038" numOctaves="3" seed="11" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="bst-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#00BFA5"/>
+          </marker>
+        </defs>
+
+        <text x="320" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 13A — BST: left &lt; parent &lt; right at every node</text>
+
+        <!-- Shaded regions -->
+        <ellipse cx="192" cy="165" rx="130" ry="70" fill="rgba(99,102,241,0.07)" stroke="rgba(99,102,241,0.2)" stroke-width="1" stroke-dasharray="6 4"/>
+        <ellipse cx="448" cy="165" rx="130" ry="70" fill="rgba(0,191,165,0.07)" stroke="rgba(0,191,165,0.2)" stroke-width="1" stroke-dasharray="6 4"/>
+        <text x="100" y="230" font-family="Caveat,cursive" font-size="13" fill="#818CF8">all &lt; 50</text>
+        <text x="440" y="230" font-family="Caveat,cursive" font-size="13" fill="#00BFA5">all &gt; 50</text>
+
+        <!-- Edges -->
+        <g filter="url(#bst-rough)">
+          <line x1="320" y1="62" x2="192" y2="122" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="320" y1="62" x2="448" y2="122" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="192" y1="142" x2="128" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="192" y1="142" x2="256" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="448" y1="142" x2="384" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+          <line x1="448" y1="142" x2="512" y2="192" stroke="#4A6080" stroke-width="1.8"/>
+        </g>
+
+        <!-- Nodes -->
+        <g filter="url(#bst-rough)">
+          <circle cx="320" cy="50" r="24" fill="rgba(245,166,35,0.2)" stroke="#F5A623" stroke-width="2.2"/>
+          <circle cx="192" cy="132" r="20" fill="rgba(99,102,241,0.15)" stroke="#818CF8" stroke-width="1.8"/>
+          <circle cx="448" cy="132" r="20" fill="rgba(0,191,165,0.15)" stroke="#00BFA5" stroke-width="1.8"/>
+          <circle cx="128" cy="204" r="18" fill="rgba(99,102,241,0.10)" stroke="#818CF8" stroke-width="1.8"/>
+          <circle cx="256" cy="204" r="18" fill="rgba(99,102,241,0.10)" stroke="#818CF8" stroke-width="1.8"/>
+          <circle cx="384" cy="204" r="18" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.8"/>
+          <circle cx="512" cy="204" r="18" fill="rgba(0,191,165,0.10)" stroke="#00BFA5" stroke-width="1.8"/>
+        </g>
+
+        <!-- Values -->
+        <text x="320" y="57" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="15" fill="#F5A623" font-weight="bold">50</text>
+        <text x="192" y="137" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">30</text>
+        <text x="448" y="137" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">70</text>
+        <text x="128" y="209" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">20</text>
+        <text x="256" y="209" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">40</text>
+        <text x="384" y="209" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">60</text>
+        <text x="512" y="209" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#E8E0D0">80</text>
+
+        <!-- Search path for 60 -->
+        <text x="580" y="50" font-family="Caveat,cursive" font-size="12" fill="#F5A623">search(60):</text>
+        <text x="580" y="66" font-family="Caveat,cursive" font-size="11" fill="#4A6080">60 &gt; 50 → right</text>
+        <text x="580" y="130" font-family="Caveat,cursive" font-size="11" fill="#4A6080">60 &lt; 70 → left</text>
+        <text x="580" y="202" font-family="Caveat,cursive" font-size="11" fill="#00BFA5">found! ✓</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-analogy">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Analogy</div>
+        <p class="callout-text">Think of a phone book opened to the middle. If your name comes before the current page, you only search the left half — if after, only the right. A BST does this structurally: each node IS the midpoint of its subtree. Every comparison discards half the remaining possibilities.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 2: Balanced vs Unbalanced ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Balanced vs Unbalanced
+    </h2>
+
+    <p>The O(log n) guarantee only holds when the tree is <strong>balanced</strong> — meaning its height is approximately log n. If you insert already-sorted values (10, 20, 30, 40…), every new node goes to the right and the BST degenerates into a <strong>linked list</strong> with O(n) operations. Self-balancing trees (AVL, Red-Black) fix this automatically after every insert.</p>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 230" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Balanced BST versus degenerate skewed BST comparison">
+        <defs>
+          <filter id="bst-rough2" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.038" numOctaves="3" seed="14" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.4" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+
+        <!-- LEFT: balanced -->
+        <text x="155" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#00BFA5">Balanced — O(log n)</text>
+
+        <g filter="url(#bst-rough2)">
+          <line x1="155" y1="55" x2="95" y2="105" stroke="#00BFA5" stroke-width="1.6"/>
+          <line x1="155" y1="55" x2="215" y2="105" stroke="#00BFA5" stroke-width="1.6"/>
+          <line x1="95" y1="120" x2="65" y2="165" stroke="#00BFA5" stroke-width="1.6"/>
+          <line x1="95" y1="120" x2="125" y2="165" stroke="#00BFA5" stroke-width="1.6"/>
+          <line x1="215" y1="120" x2="185" y2="165" stroke="#00BFA5" stroke-width="1.6"/>
+          <line x1="215" y1="120" x2="245" y2="165" stroke="#00BFA5" stroke-width="1.6"/>
+
+          <circle cx="155" cy="44" r="18" fill="rgba(0,191,165,0.18)" stroke="#00BFA5" stroke-width="1.8"/>
+          <circle cx="95"  cy="112" r="16" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.6"/>
+          <circle cx="215" cy="112" r="16" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.6"/>
+          <circle cx="65"  cy="175" r="14" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <circle cx="125" cy="175" r="14" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <circle cx="185" cy="175" r="14" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+          <circle cx="245" cy="175" r="14" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.5"/>
+        </g>
+
+        <text x="155" y="49" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">40</text>
+        <text x="95"  y="117" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">20</text>
+        <text x="215" y="117" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">60</text>
+        <text x="65"  y="180" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#A0AEC0">10</text>
+        <text x="125" y="180" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#A0AEC0">30</text>
+        <text x="185" y="180" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#A0AEC0">50</text>
+        <text x="245" y="180" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#A0AEC0">70</text>
+        <text x="155" y="215" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#4A6080">height = 2, search in 3 steps</text>
+
+        <!-- Divider -->
+        <line x1="310" y1="20" x2="310" y2="210" stroke="#2A3F5A" stroke-width="1" stroke-dasharray="6 4"/>
+
+        <!-- RIGHT: degenerate -->
+        <text x="480" y="18" text-anchor="middle" font-family="Caveat,cursive" font-size="13" fill="#EF4444">Degenerate — O(n)</text>
+        <text x="480" y="32" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">(inserted: 10,20,30,40,50,60,70)</text>
+
+        <g filter="url(#bst-rough2)">
+          <line x1="340" y1="55" x2="370" y2="88" stroke="#EF4444" stroke-width="1.6" stroke-dasharray="3 2"/>
+          <line x1="370" y1="100" x2="400" y2="130" stroke="#EF4444" stroke-width="1.6" stroke-dasharray="3 2"/>
+          <line x1="400" y1="142" x2="430" y2="172" stroke="#EF4444" stroke-width="1.6" stroke-dasharray="3 2"/>
+          <line x1="430" y1="184" x2="460" y2="214" stroke="#EF4444" stroke-width="1.4" stroke-dasharray="3 2"/>
+
+          <circle cx="340" cy="44"  r="16" fill="rgba(239,68,68,0.12)" stroke="#EF4444" stroke-width="1.8"/>
+          <circle cx="370" cy="92"  r="16" fill="rgba(239,68,68,0.10)" stroke="#EF4444" stroke-width="1.6"/>
+          <circle cx="400" cy="136" r="16" fill="rgba(239,68,68,0.10)" stroke="#EF4444" stroke-width="1.6"/>
+          <circle cx="430" cy="178" r="16" fill="rgba(239,68,68,0.08)" stroke="#EF4444" stroke-width="1.5"/>
+          <circle cx="460" cy="218" r="14" fill="rgba(239,68,68,0.08)" stroke="#EF4444" stroke-width="1.5"/>
+        </g>
+
+        <text x="340" y="49" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">10</text>
+        <text x="370" y="97" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">20</text>
+        <text x="400" y="141" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">30</text>
+        <text x="430" y="183" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">40</text>
+        <text x="460" y="223" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#A0AEC0">…</text>
+        <text x="480" y="248" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#EF4444">height = n, it's just a linked list</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-warning">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Watch out</div>
+        <p class="callout-text">JavaScript's <code>Map</code> and Python's <code>dict</code> are hash tables, not BSTs. They give O(1) lookup but no sorted order. When you need sorted keys, range queries, or in-order iteration, use a BST-backed structure — in Python, <code>sortedcontainers.SortedList</code> fills this gap.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 3: Code ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Insert &amp; Search
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="bst-js">JavaScript</button>
+        <button class="tab-btn" data-pane="bst-ts">TypeScript</button>
+        <button class="tab-btn" data-pane="bst-py">Python</button>
+      </div>
+
+      <div class="tab-pane" id="bst-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> <span class="tp">BSTNode</span> {
+  <span class="fn">constructor</span>(val) {
+    <span class="kw">this</span>.val   <span class="op">=</span> val;
+    <span class="kw">this</span>.left  <span class="op">=</span> <span class="kw">null</span>;
+    <span class="kw">this</span>.right <span class="op">=</span> <span class="kw">null</span>;
+  }
+}
+
+<span class="cm">// O(log n) balanced / O(n) worst case</span>
+<span class="kw">function</span> <span class="fn">insert</span>(root, val) {
+  <span class="kw">if</span> (!root) <span class="kw">return new</span> <span class="fn">BSTNode</span>(val);
+  <span class="kw">if</span> (val <span class="op">&lt;</span> root.val)
+    root.left  <span class="op">=</span> <span class="fn">insert</span>(root.left, val);
+  <span class="kw">else if</span> (val <span class="op">&gt;</span> root.val)
+    root.right <span class="op">=</span> <span class="fn">insert</span>(root.right, val);
+  <span class="kw">return</span> root;
+}
+
+<span class="cm">// O(log n) balanced / O(n) worst case</span>
+<span class="kw">function</span> <span class="fn">search</span>(root, val) {
+  <span class="kw">if</span> (!root <span class="op">||</span> root.val <span class="op">===</span> val) <span class="kw">return</span> root;
+  <span class="kw">if</span> (val <span class="op">&lt;</span> root.val) <span class="kw">return</span> <span class="fn">search</span>(root.left, val);
+  <span class="kw">return</span> <span class="fn">search</span>(root.right, val);
+}
+
+<span class="cm">// Min is always the leftmost node</span>
+<span class="kw">function</span> <span class="fn">findMin</span>(root) {
+  <span class="kw">while</span> (root.left) root <span class="op">=</span> root.left;
+  <span class="kw">return</span> root.val;
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="bst-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> BSTNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> {
+  val<span class="op">:</span>   <span class="tp">T</span>;
+  left<span class="op">:</span>  BSTNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> <span class="op">|</span> <span class="tp">null</span> <span class="op">=</span> <span class="kw">null</span>;
+  right<span class="op">:</span> BSTNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> <span class="op">|</span> <span class="tp">null</span> <span class="op">=</span> <span class="kw">null</span>;
+  <span class="fn">constructor</span>(val<span class="op">:</span> <span class="tp">T</span>) { <span class="kw">this</span>.val <span class="op">=</span> val; }
+}
+
+<span class="kw">function</span> insert<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span>(
+  root<span class="op">:</span> BSTNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> <span class="op">|</span> <span class="tp">null</span>,
+  val<span class="op">:</span> <span class="tp">T</span>
+)<span class="op">:</span> BSTNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> {
+  <span class="kw">if</span> (!root) <span class="kw">return new</span> <span class="fn">BSTNode</span>(val);
+  <span class="kw">if</span> (val <span class="op">&lt;</span> root.val)
+    root.left  <span class="op">=</span> <span class="fn">insert</span>(root.left, val);
+  <span class="kw">else if</span> (val <span class="op">&gt;</span> root.val)
+    root.right <span class="op">=</span> <span class="fn">insert</span>(root.right, val);
+  <span class="kw">return</span> root;
+}
+
+<span class="kw">function</span> search<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span>(
+  root<span class="op">:</span> BSTNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> <span class="op">|</span> <span class="tp">null</span>,
+  val<span class="op">:</span> <span class="tp">T</span>
+)<span class="op">:</span> BSTNode<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;</span> <span class="op">|</span> <span class="tp">null</span> {
+  <span class="kw">if</span> (!root <span class="op">||</span> root.val <span class="op">===</span> val) <span class="kw">return</span> root;
+  <span class="kw">return</span> val <span class="op">&lt;</span> root.val
+    <span class="op">?</span> <span class="fn">search</span>(root.left, val)
+    <span class="op">:</span> <span class="fn">search</span>(root.right, val);
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="bst-py">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">Python</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">class</span> <span class="tp">BSTNode</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, val):
+        <span class="kw">self</span>.val   <span class="op">=</span> val
+        <span class="kw">self</span>.left  <span class="op">=</span> <span class="kw">None</span>
+        <span class="kw">self</span>.right <span class="op">=</span> <span class="kw">None</span>
+
+<span class="kw">def</span> <span class="fn">insert</span>(root, val):
+    <span class="kw">if not</span> root:
+        <span class="kw">return</span> <span class="fn">BSTNode</span>(val)
+    <span class="kw">if</span> val <span class="op">&lt;</span> root.val:
+        root.left  <span class="op">=</span> <span class="fn">insert</span>(root.left, val)
+    <span class="kw">elif</span> val <span class="op">&gt;</span> root.val:
+        root.right <span class="op">=</span> <span class="fn">insert</span>(root.right, val)
+    <span class="kw">return</span> root
+
+<span class="kw">def</span> <span class="fn">search</span>(root, val):
+    <span class="kw">if not</span> root <span class="kw">or</span> root.val <span class="op">==</span> val:
+        <span class="kw">return</span> root
+    <span class="kw">if</span> val <span class="op">&lt;</span> root.val:
+        <span class="kw">return</span> <span class="fn">search</span>(root.left, val)
+    <span class="kw">return</span> <span class="fn">search</span>(root.right, val)
+
+<span class="kw">def</span> <span class="fn">find_min</span>(root):
+    <span class="kw">while</span> root.left:
+        root <span class="op">=</span> root.left
+    <span class="kw">return</span> root.val</pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 4: Complexity ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Complexity Summary
+    </h2>
+
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Operation</th><th>Balanced</th><th>Degenerate</th><th>Space</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Search</td><td><span class="badge badge-ologn">O(log n)</span></td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-ologn">O(h)</span></td><td>h = height of tree</td></tr>
+          <tr><td>Insert</td><td><span class="badge badge-ologn">O(log n)</span></td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-ologn">O(h)</span></td><td>Find position, then link node</td></tr>
+          <tr><td>Delete</td><td><span class="badge badge-ologn">O(log n)</span></td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-ologn">O(h)</span></td><td>Replace with in-order successor</td></tr>
+          <tr><td>Min / Max</td><td><span class="badge badge-ologn">O(log n)</span></td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Leftmost / rightmost node</td></tr>
+          <tr><td>In-order traversal</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-ologn">O(h)</span></td><td>Always visits every node</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 5: Real World ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      Where BSTs Show Up
+    </h2>
+
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="2.5"/><path d="M4 6v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5V6"/><path d="M4 11v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5v-5"/></svg>
+        <div class="rw-card-title">Database Indexes</div>
+        <p class="rw-card-desc">MySQL and PostgreSQL use B-Trees (multi-way balanced BSTs) for every indexed column. Every <code>WHERE id = 5</code> query traverses one in O(log n) instead of scanning all rows.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        <div class="rw-card-title">std::map in C++</div>
+        <p class="rw-card-desc">C++'s <code>std::map</code> is a Red-Black tree — a self-balancing BST that guarantees O(log n) on all operations and maintains keys in sorted order at all times.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <div class="rw-card-title">Auto-complete</div>
+        <p class="rw-card-desc">Suggestions in IDEs and search bars are stored in BST-backed structures (or tries). Prefix searches walk left/right to find all words beginning with your typed characters in O(log n + k).</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+        <div class="rw-card-title">Git Pack Index</div>
+        <p class="rw-card-desc">Git's pack file index uses a sorted binary structure for O(log n) object lookup by SHA-1 hash. Every <code>git show abc123</code> command performs a binary search through this index.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
