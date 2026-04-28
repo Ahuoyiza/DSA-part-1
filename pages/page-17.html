@@ -1,0 +1,453 @@
+<!-- PAGE 17 — Sorting Algorithms -->
+<div class="page-hero">
+  <div class="page-num-badge">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    Lesson 17
+  </div>
+  <h1 class="page-title">Sorting Algorithms</h1>
+  <div class="page-definition">
+    <p>"Sorting rearranges a collection into a defined order — the choice of algorithm determines whether this costs O(n log n) or O(n²), a difference that compounds massively at scale."</p>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <!-- ── Section 1: The O(n²) sorts ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+      The Simple Sorts — O(n²)
+    </h2>
+
+    <p>Three elementary algorithms — <strong>bubble</strong>, <strong>selection</strong>, and <strong>insertion</strong> sort — all run in O(n²) and share one thing: they work by repeatedly comparing adjacent pairs or scanning for the next minimum. Easy to understand, correct, and completely impractical for large inputs. At n=10,000, they do 100 million comparisons; merge sort does roughly 130,000.</p>
+
+    <div class="callout callout-insight">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Insight</div>
+        <p class="callout-text"><strong>Insertion sort</strong> is the exception: on nearly-sorted data it runs in O(n) — it only shifts elements that are out of place. This is why V8 uses insertion sort for arrays shorter than ~64 elements, and Timsort (Python/Java's built-in) uses it for small runs within a larger merge-sort pass.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 2: Merge Sort ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 003-3 3 3 0 00-3-3z"/></svg>
+      Merge Sort — O(n log n) guaranteed
+    </h2>
+
+    <p>Merge sort follows <strong>divide and conquer</strong>: split the array in half recursively until each piece has one element (trivially sorted), then <strong>merge</strong> pairs back together in sorted order. It takes O(log n) splits and O(n) work at each merge level, giving O(n log n) always — no worst case degradation. The cost: O(n) extra memory for the merge step.</p>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 260" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Merge sort diagram showing split and merge phases">
+        <defs>
+          <filter id="sort-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="7" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.4" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="sort-arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#4A6080"/>
+          </marker>
+        </defs>
+
+        <text x="320" y="16" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 17A — Merge sort: split ↓ then merge ↑</text>
+
+        <!-- Helper: draw array cell -->
+        <!-- Row 1: [5, 2, 8, 1, 9, 3, 7, 4] -->
+        <text x="20" y="42" font-family="Caveat,cursive" font-size="12" fill="#4A6080">original:</text>
+        <g filter="url(#sort-rough)">
+          <rect x="100" y="28" width="36" height="30" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="136" y="28" width="36" height="30" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="172" y="28" width="36" height="30" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="208" y="28" width="36" height="30" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="244" y="28" width="36" height="30" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="280" y="28" width="36" height="30" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="316" y="28" width="36" height="30" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="352" y="28" width="36" height="30" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+        </g>
+        <text x="118" y="48" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">5</text>
+        <text x="154" y="48" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">2</text>
+        <text x="190" y="48" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">8</text>
+        <text x="226" y="48" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">1</text>
+        <text x="262" y="48" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">9</text>
+        <text x="298" y="48" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">3</text>
+        <text x="334" y="48" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">7</text>
+        <text x="370" y="48" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#E8E0D0">4</text>
+
+        <!-- Split arrow -->
+        <line x1="228" y1="60" x2="155" y2="82" stroke="#4A6080" stroke-width="1.3" marker-end="url(#sort-arr)"/>
+        <line x1="260" y1="60" x2="320" y2="82" stroke="#4A6080" stroke-width="1.3" marker-end="url(#sort-arr)"/>
+        <text x="240" y="76" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#4A6080">split</text>
+
+        <!-- Row 2: [5,2,8,1] | [9,3,7,4] -->
+        <g filter="url(#sort-rough)">
+          <rect x="60"  y="88" width="30" height="28" rx="3" fill="rgba(245,166,35,0.10)" stroke="#F5A623" stroke-width="1.4"/>
+          <rect x="90"  y="88" width="30" height="28" rx="3" fill="rgba(245,166,35,0.10)" stroke="#F5A623" stroke-width="1.4"/>
+          <rect x="120" y="88" width="30" height="28" rx="3" fill="rgba(245,166,35,0.10)" stroke="#F5A623" stroke-width="1.4"/>
+          <rect x="150" y="88" width="30" height="28" rx="3" fill="rgba(245,166,35,0.10)" stroke="#F5A623" stroke-width="1.4"/>
+          <rect x="260" y="88" width="30" height="28" rx="3" fill="rgba(99,102,241,0.10)" stroke="#818CF8" stroke-width="1.4"/>
+          <rect x="290" y="88" width="30" height="28" rx="3" fill="rgba(99,102,241,0.10)" stroke="#818CF8" stroke-width="1.4"/>
+          <rect x="320" y="88" width="30" height="28" rx="3" fill="rgba(99,102,241,0.10)" stroke="#818CF8" stroke-width="1.4"/>
+          <rect x="350" y="88" width="30" height="28" rx="3" fill="rgba(99,102,241,0.10)" stroke="#818CF8" stroke-width="1.4"/>
+        </g>
+        <text x="75"  y="107" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">5</text>
+        <text x="105" y="107" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">2</text>
+        <text x="135" y="107" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">8</text>
+        <text x="165" y="107" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">1</text>
+        <text x="275" y="107" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">9</text>
+        <text x="305" y="107" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">3</text>
+        <text x="335" y="107" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">7</text>
+        <text x="365" y="107" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#E8E0D0">4</text>
+
+        <!-- Row 3: single elements -->
+        <line x1="105" y1="118" x2="70"  y2="138" stroke="#4A6080" stroke-width="1" marker-end="url(#sort-arr)"/>
+        <line x1="120" y1="118" x2="140" y2="138" stroke="#4A6080" stroke-width="1" marker-end="url(#sort-arr)"/>
+        <line x1="295" y1="118" x2="270" y2="138" stroke="#4A6080" stroke-width="1" marker-end="url(#sort-arr)"/>
+        <line x1="325" y1="118" x2="340" y2="138" stroke="#4A6080" stroke-width="1" marker-end="url(#sort-arr)"/>
+
+        <g filter="url(#sort-rough)">
+          <rect x="44"  y="142" width="22" height="22" rx="3" fill="rgba(245,166,35,0.14)" stroke="#F5A623" stroke-width="1.2"/>
+          <rect x="68"  y="142" width="22" height="22" rx="3" fill="rgba(245,166,35,0.14)" stroke="#F5A623" stroke-width="1.2"/>
+          <rect x="112" y="142" width="22" height="22" rx="3" fill="rgba(245,166,35,0.14)" stroke="#F5A623" stroke-width="1.2"/>
+          <rect x="136" y="142" width="22" height="22" rx="3" fill="rgba(245,166,35,0.14)" stroke="#F5A623" stroke-width="1.2"/>
+          <rect x="248" y="142" width="22" height="22" rx="3" fill="rgba(99,102,241,0.12)" stroke="#818CF8" stroke-width="1.2"/>
+          <rect x="272" y="142" width="22" height="22" rx="3" fill="rgba(99,102,241,0.12)" stroke="#818CF8" stroke-width="1.2"/>
+          <rect x="316" y="142" width="22" height="22" rx="3" fill="rgba(99,102,241,0.12)" stroke="#818CF8" stroke-width="1.2"/>
+          <rect x="340" y="142" width="22" height="22" rx="3" fill="rgba(99,102,241,0.12)" stroke="#818CF8" stroke-width="1.2"/>
+        </g>
+        <text x="55"  y="157" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#E8E0D0">5</text>
+        <text x="79"  y="157" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#E8E0D0">2</text>
+        <text x="123" y="157" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#E8E0D0">8</text>
+        <text x="147" y="157" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#E8E0D0">1</text>
+        <text x="259" y="157" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#E8E0D0">9</text>
+        <text x="283" y="157" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#E8E0D0">3</text>
+        <text x="327" y="157" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#E8E0D0">7</text>
+        <text x="351" y="157" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#E8E0D0">4</text>
+
+        <!-- Merge arrows up -->
+        <line x1="66"  y1="166" x2="87"  y2="183" stroke="#00BFA5" stroke-width="1.3" marker-end="url(#sort-arr)"/>
+        <line x1="136" y1="166" x2="115" y2="183" stroke="#00BFA5" stroke-width="1.3" marker-end="url(#sort-arr)"/>
+        <line x1="270" y1="166" x2="290" y2="183" stroke="#00BFA5" stroke-width="1.3" marker-end="url(#sort-arr)"/>
+        <line x1="340" y1="166" x2="320" y2="183" stroke="#00BFA5" stroke-width="1.3" marker-end="url(#sort-arr)"/>
+        <text x="100" y="178" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#00BFA5">merge</text>
+        <text x="305" y="178" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#00BFA5">merge</text>
+
+        <!-- Row 4: merged pairs [2,5,8,1…] -->
+        <g filter="url(#sort-rough)">
+          <rect x="60"  y="188" width="30" height="28" rx="3" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="90"  y="188" width="30" height="28" rx="3" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="120" y="188" width="30" height="28" rx="3" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="150" y="188" width="30" height="28" rx="3" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="258" y="188" width="30" height="28" rx="3" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="288" y="188" width="30" height="28" rx="3" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="318" y="188" width="30" height="28" rx="3" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="348" y="188" width="30" height="28" rx="3" fill="rgba(0,191,165,0.12)" stroke="#00BFA5" stroke-width="1.4"/>
+        </g>
+        <text x="75"  y="207" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5">1</text>
+        <text x="105" y="207" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5">2</text>
+        <text x="135" y="207" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5">5</text>
+        <text x="165" y="207" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5">8</text>
+        <text x="273" y="207" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5">3</text>
+        <text x="303" y="207" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5">4</text>
+        <text x="333" y="207" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5">7</text>
+        <text x="363" y="207" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#00BFA5">9</text>
+
+        <!-- Final merge -->
+        <line x1="140" y1="218" x2="200" y2="236" stroke="#F5A623" stroke-width="1.3" marker-end="url(#sort-arr)"/>
+        <line x1="290" y1="218" x2="240" y2="236" stroke="#F5A623" stroke-width="1.3" marker-end="url(#sort-arr)"/>
+
+        <!-- Row 5: sorted -->
+        <g filter="url(#sort-rough)">
+          <rect x="100" y="240" width="288" height="14" rx="3" fill="rgba(245,166,35,0.15)" stroke="#F5A623" stroke-width="1.3"/>
+        </g>
+        <text x="244" y="251" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#F5A623">1  2  3  4  5  7  8  9  ✓</text>
+      </svg>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 3: Quick Sort ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Quick Sort — O(n log n) average
+    </h2>
+
+    <p>Quick sort picks a <strong>pivot</strong> element and <strong>partitions</strong> the array: everything smaller than the pivot goes left, everything larger goes right. Then it recursively sorts each side. In-place and cache-friendly, it outperforms merge sort in practice on random data — but degrades to O(n²) if the pivot is always the worst choice (e.g. smallest or largest element on a sorted array).</p>
+
+    <div class="sketch-wrap" style="margin: 32px 0;">
+      <svg viewBox="0 0 640 200" width="100%" style="max-width:640px;display:block;margin:0 auto;" role="img" aria-label="Quick sort partition diagram showing pivot and left-right split">
+        <defs>
+          <filter id="sort-rough2" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="15" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.3" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <marker id="qs-arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#4A6080"/>
+          </marker>
+        </defs>
+
+        <text x="320" y="16" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#8A9FBF">Fig. 17B — Quick sort: choose pivot 5, partition into &lt; 5 | 5 | &gt; 5</text>
+
+        <!-- Original array -->
+        <text x="20" y="46" font-family="Caveat,cursive" font-size="12" fill="#4A6080">before:</text>
+        <g filter="url(#sort-rough2)">
+          <rect x="80"  y="30" width="46" height="38" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="126" y="30" width="46" height="38" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="172" y="30" width="46" height="38" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="218" y="30" width="46" height="38" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="264" y="30" width="46" height="38" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <rect x="310" y="30" width="46" height="38" rx="3" fill="rgba(0,191,165,0.08)" stroke="#00BFA5" stroke-width="1.4"/>
+          <!-- Pivot highlighted -->
+          <rect x="356" y="26" width="50" height="46" rx="3" fill="rgba(245,166,35,0.22)" stroke="#F5A623" stroke-width="2"/>
+        </g>
+        <text x="103" y="54" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E0D0">8</text>
+        <text x="149" y="54" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E0D0">3</text>
+        <text x="195" y="54" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E0D0">1</text>
+        <text x="241" y="54" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E0D0">7</text>
+        <text x="287" y="54" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E0D0">2</text>
+        <text x="333" y="54" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#E8E0D0">6</text>
+        <text x="381" y="54" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#F5A623" font-weight="bold">5</text>
+        <text x="381" y="83" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#F5A623">pivot</text>
+
+        <!-- Partition arrows -->
+        <line x1="220" y1="72" x2="140" y2="110" stroke="#818CF8" stroke-width="1.4" marker-end="url(#qs-arr)"/>
+        <line x1="381" y1="76" x2="381" y2="110" stroke="#F5A623" stroke-width="1.4" marker-end="url(#qs-arr)"/>
+        <line x1="350" y1="72" x2="560" y2="110" stroke="#EF4444" stroke-width="1.4" marker-end="url(#qs-arr)"/>
+        <text x="80"  y="106" font-family="Caveat,cursive" font-size="12" fill="#818CF8">less than 5</text>
+        <text x="507" y="106" font-family="Caveat,cursive" font-size="12" fill="#EF4444">greater than 5</text>
+
+        <!-- After partition -->
+        <text x="20" y="138" font-family="Caveat,cursive" font-size="12" fill="#4A6080">after:</text>
+        <g filter="url(#sort-rough2)">
+          <!-- Left: [3,1,2] -->
+          <rect x="52"  y="118" width="38" height="34" rx="3" fill="rgba(99,102,241,0.12)" stroke="#818CF8" stroke-width="1.6"/>
+          <rect x="90"  y="118" width="38" height="34" rx="3" fill="rgba(99,102,241,0.12)" stroke="#818CF8" stroke-width="1.6"/>
+          <rect x="128" y="118" width="38" height="34" rx="3" fill="rgba(99,102,241,0.12)" stroke="#818CF8" stroke-width="1.6"/>
+          <!-- Pivot -->
+          <rect x="174" y="114" width="46" height="42" rx="3" fill="rgba(245,166,35,0.22)" stroke="#F5A623" stroke-width="2"/>
+          <!-- Right: [8,7,6] -->
+          <rect x="228" y="118" width="38" height="34" rx="3" fill="rgba(239,68,68,0.10)" stroke="#EF4444" stroke-width="1.6"/>
+          <rect x="266" y="118" width="38" height="34" rx="3" fill="rgba(239,68,68,0.10)" stroke="#EF4444" stroke-width="1.6"/>
+          <rect x="304" y="118" width="38" height="34" rx="3" fill="rgba(239,68,68,0.10)" stroke="#EF4444" stroke-width="1.6"/>
+        </g>
+        <text x="71"  y="140" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#818CF8">3</text>
+        <text x="109" y="140" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#818CF8">1</text>
+        <text x="147" y="140" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#818CF8">2</text>
+        <text x="197" y="140" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="14" fill="#F5A623" font-weight="bold">5</text>
+        <text x="247" y="140" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#EF4444">8</text>
+        <text x="285" y="140" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#EF4444">7</text>
+        <text x="323" y="140" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="13" fill="#EF4444">6</text>
+
+        <text x="197" y="170" text-anchor="middle" font-family="Caveat,cursive" font-size="12" fill="#F5A623">pivot in final position ✓</text>
+        <text x="80"  y="190" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#818CF8">recurse left</text>
+        <text x="285" y="190" text-anchor="middle" font-family="Caveat,cursive" font-size="11" fill="#EF4444">recurse right</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-warning">
+      <svg class="callout-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="callout-body">
+        <div class="callout-label">Watch out</div>
+        <p class="callout-text">Quick sort degrades to O(n²) when the pivot is always the minimum or maximum — which happens on already-sorted input with a naïve "pick last element" pivot. The fix: <strong>random pivot selection</strong> or the <strong>median-of-three</strong> strategy. Most production implementations use this.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 4: Code ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Merge Sort &amp; Quick Sort
+    </h2>
+
+    <div class="tabs">
+      <div class="tab-bar">
+        <button class="tab-btn" data-pane="sort-js">JavaScript</button>
+        <button class="tab-btn" data-pane="sort-ts">TypeScript</button>
+        <button class="tab-btn" data-pane="sort-py">Python</button>
+      </div>
+
+      <div class="tab-pane" id="sort-js">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">JavaScript</span>
+          </div>
+          <div class="code-body"><pre><span class="cm">// Merge Sort — O(n log n) guaranteed, O(n) space</span>
+<span class="kw">function</span> <span class="fn">mergeSort</span>(arr) {
+  <span class="kw">if</span> (arr.length <span class="op">&lt;=</span> <span class="num">1</span>) <span class="kw">return</span> arr;
+  <span class="kw">const</span> mid   <span class="op">=</span> Math.<span class="fn">floor</span>(arr.length <span class="op">/</span> <span class="num">2</span>);
+  <span class="kw">const</span> left  <span class="op">=</span> <span class="fn">mergeSort</span>(arr.<span class="fn">slice</span>(<span class="num">0</span>, mid));
+  <span class="kw">const</span> right <span class="op">=</span> <span class="fn">mergeSort</span>(arr.<span class="fn">slice</span>(mid));
+  <span class="kw">return</span> <span class="fn">merge</span>(left, right);
+}
+
+<span class="kw">function</span> <span class="fn">merge</span>(left, right) {
+  <span class="kw">const</span> out <span class="op">=</span> [];
+  <span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>, j <span class="op">=</span> <span class="num">0</span>;
+  <span class="kw">while</span> (i <span class="op">&lt;</span> left.length <span class="op">&amp;&amp;</span> j <span class="op">&lt;</span> right.length)
+    out.<span class="fn">push</span>(left[i] <span class="op">&lt;=</span> right[j] ? left[i++] : right[j++]);
+  <span class="kw">return</span> [...out, ...left.<span class="fn">slice</span>(i), ...right.<span class="fn">slice</span>(j)];
+}
+
+<span class="cm">// Quick Sort — O(n log n) avg, O(n²) worst, O(1) extra space</span>
+<span class="kw">function</span> <span class="fn">quickSort</span>(arr, lo <span class="op">=</span> <span class="num">0</span>, hi <span class="op">=</span> arr.length <span class="op">-</span> <span class="num">1</span>) {
+  <span class="kw">if</span> (lo <span class="op">&gt;=</span> hi) <span class="kw">return</span> arr;
+  <span class="kw">const</span> p <span class="op">=</span> <span class="fn">partition</span>(arr, lo, hi);
+  <span class="fn">quickSort</span>(arr, lo, p <span class="op">-</span> <span class="num">1</span>);
+  <span class="fn">quickSort</span>(arr, p <span class="op">+</span> <span class="num">1</span>, hi);
+  <span class="kw">return</span> arr;
+}
+
+<span class="kw">function</span> <span class="fn">partition</span>(arr, lo, hi) {
+  <span class="kw">const</span> pivot <span class="op">=</span> arr[hi];
+  <span class="kw">let</span> i <span class="op">=</span> lo <span class="op">-</span> <span class="num">1</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> j <span class="op">=</span> lo; j <span class="op">&lt;</span> hi; j++) {
+    <span class="kw">if</span> (arr[j] <span class="op">&lt;=</span> pivot)
+      [arr[<span class="op">++</span>i], arr[j]] <span class="op">=</span> [arr[j], arr[i]];
+  }
+  [arr[i <span class="op">+</span> <span class="num">1</span>], arr[hi]] <span class="op">=</span> [arr[hi], arr[i <span class="op">+</span> <span class="num">1</span>]];
+  <span class="kw">return</span> i <span class="op">+</span> <span class="num">1</span>;
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="sort-ts">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">TypeScript</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">function</span> mergeSort(arr<span class="op">:</span> <span class="tp">number</span>[])<span class="op">:</span> <span class="tp">number</span>[] {
+  <span class="kw">if</span> (arr.length <span class="op">&lt;=</span> <span class="num">1</span>) <span class="kw">return</span> arr;
+  <span class="kw">const</span> mid   <span class="op">=</span> Math.<span class="fn">floor</span>(arr.length <span class="op">/</span> <span class="num">2</span>);
+  <span class="kw">const</span> left  <span class="op">=</span> <span class="fn">mergeSort</span>(arr.<span class="fn">slice</span>(<span class="num">0</span>, mid));
+  <span class="kw">const</span> right <span class="op">=</span> <span class="fn">mergeSort</span>(arr.<span class="fn">slice</span>(mid));
+  <span class="kw">return</span> <span class="fn">merge</span>(left, right);
+}
+
+<span class="kw">function</span> merge(left<span class="op">:</span> <span class="tp">number</span>[], right<span class="op">:</span> <span class="tp">number</span>[])<span class="op">:</span> <span class="tp">number</span>[] {
+  <span class="kw">const</span> out<span class="op">:</span> <span class="tp">number</span>[] <span class="op">=</span> [];
+  <span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>, j <span class="op">=</span> <span class="num">0</span>;
+  <span class="kw">while</span> (i <span class="op">&lt;</span> left.length <span class="op">&amp;&amp;</span> j <span class="op">&lt;</span> right.length)
+    out.<span class="fn">push</span>(left[i] <span class="op">&lt;=</span> right[j] ? left[i++] : right[j++]);
+  <span class="kw">return</span> [...out, ...left.<span class="fn">slice</span>(i), ...right.<span class="fn">slice</span>(j)];
+}
+
+<span class="kw">function</span> quickSort(
+  arr<span class="op">:</span> <span class="tp">number</span>[],
+  lo<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> <span class="num">0</span>,
+  hi<span class="op">:</span> <span class="tp">number</span> <span class="op">=</span> arr.length <span class="op">-</span> <span class="num">1</span>
+)<span class="op">:</span> <span class="tp">number</span>[] {
+  <span class="kw">if</span> (lo <span class="op">&gt;=</span> hi) <span class="kw">return</span> arr;
+  <span class="kw">const</span> p <span class="op">=</span> <span class="fn">partition</span>(arr, lo, hi);
+  <span class="fn">quickSort</span>(arr, lo, p <span class="op">-</span> <span class="num">1</span>);
+  <span class="fn">quickSort</span>(arr, p <span class="op">+</span> <span class="num">1</span>, hi);
+  <span class="kw">return</span> arr;
+}</pre></div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="sort-py">
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots"><span class="code-dot red"></span><span class="code-dot gold"></span><span class="code-dot green"></span></div>
+            <span class="code-lang">Python</span>
+          </div>
+          <div class="code-body"><pre><span class="kw">def</span> <span class="fn">merge_sort</span>(arr):
+    <span class="kw">if</span> <span class="fn">len</span>(arr) <span class="op">&lt;=</span> <span class="num">1</span>:
+        <span class="kw">return</span> arr
+    mid   <span class="op">=</span> <span class="fn">len</span>(arr) <span class="op">//</span> <span class="num">2</span>
+    left  <span class="op">=</span> <span class="fn">merge_sort</span>(arr[:mid])
+    right <span class="op">=</span> <span class="fn">merge_sort</span>(arr[mid:])
+    <span class="kw">return</span> <span class="fn">_merge</span>(left, right)
+
+<span class="kw">def</span> <span class="fn">_merge</span>(left, right):
+    out, i, j <span class="op">=</span> [], <span class="num">0</span>, <span class="num">0</span>
+    <span class="kw">while</span> i <span class="op">&lt;</span> <span class="fn">len</span>(left) <span class="kw">and</span> j <span class="op">&lt;</span> <span class="fn">len</span>(right):
+        <span class="kw">if</span> left[i] <span class="op">&lt;=</span> right[j]:
+            out.<span class="fn">append</span>(left[i]); i <span class="op">+=</span> <span class="num">1</span>
+        <span class="kw">else</span>:
+            out.<span class="fn">append</span>(right[j]); j <span class="op">+=</span> <span class="num">1</span>
+    <span class="kw">return</span> out <span class="op">+</span> left[i:] <span class="op">+</span> right[j:]
+
+<span class="cm"># Python's built-in sort (Timsort) — always use this in production</span>
+nums <span class="op">=</span> [<span class="num">5</span>, <span class="num">2</span>, <span class="num">8</span>, <span class="num">1</span>, <span class="num">9</span>, <span class="num">3</span>]
+nums.<span class="fn">sort</span>()                        <span class="cm"># in-place, O(n log n)</span>
+sorted_nums <span class="op">=</span> <span class="fn">sorted</span>(nums)         <span class="cm"># returns new list</span>
+
+<span class="cm"># Sort with custom key — O(n log n)</span>
+words <span class="op">=</span> [<span class="str">'banana'</span>, <span class="str">'fig'</span>, <span class="str">'apple'</span>]
+words.<span class="fn">sort</span>(key<span class="op">=</span><span class="fn">len</span>)               <span class="cm"># ['fig','apple','banana']</span></pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 5: Complexity ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Complexity Summary
+    </h2>
+
+    <div class="table-scroll">
+      <table class="complexity-table">
+        <thead>
+          <tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Bubble Sort</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-on2">O(n²)</span></td><td><span class="badge badge-on2">O(n²)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Yes</td></tr>
+          <tr><td>Insertion Sort</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-on2">O(n²)</span></td><td><span class="badge badge-on2">O(n²)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>Yes</td></tr>
+          <tr><td>Selection Sort</td><td><span class="badge badge-on2">O(n²)</span></td><td><span class="badge badge-on2">O(n²)</span></td><td><span class="badge badge-on2">O(n²)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>No</td></tr>
+          <tr><td>Merge Sort</td><td><span class="badge badge-on">O(n log n)</span></td><td><span class="badge badge-on">O(n log n)</span></td><td><span class="badge badge-on">O(n log n)</span></td><td><span class="badge badge-on">O(n)</span></td><td>Yes</td></tr>
+          <tr><td>Quick Sort</td><td><span class="badge badge-on">O(n log n)</span></td><td><span class="badge badge-on">O(n log n)</span></td><td><span class="badge badge-on2">O(n²)</span></td><td><span class="badge badge-ologn">O(log n)</span></td><td>No</td></tr>
+          <tr><td>Heap Sort</td><td><span class="badge badge-on">O(n log n)</span></td><td><span class="badge badge-on">O(n log n)</span></td><td><span class="badge badge-on">O(n log n)</span></td><td><span class="badge badge-o1">O(1)</span></td><td>No</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ── Section 6: Real World ── -->
+  <div class="content-section">
+    <h2 class="section-title">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      Where Sorting Shows Up
+    </h2>
+
+    <div class="rw-grid">
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="2.5"/><path d="M4 6v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5V6"/><path d="M4 11v5c0 1.38 3.58 2.5 8 2.5s8-1.12 8-2.5v-5"/></svg>
+        <div class="rw-card-title">Database ORDER BY</div>
+        <p class="rw-card-desc">Every SQL <code>ORDER BY</code> triggers a sort. PostgreSQL uses quicksort for in-memory sorts and merge sort for external (disk-based) sorts — chosen depending on whether the data fits in RAM.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <div class="rw-card-title">Search Result Ranking</div>
+        <p class="rw-card-desc">Google ranks billions of pages by relevance score on every query. Sorting by score runs on distributed hardware — even a 1% speedup in the sort saves thousands of CPU-hours per day.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <div class="rw-card-title">JavaScript & Python Built-ins</div>
+        <p class="rw-card-desc">V8's <code>Array.prototype.sort()</code> uses Timsort (merge + insertion hybrid). Python's <code>list.sort()</code> also uses Timsort — <strong>O(n)</strong> on already-sorted data, O(n log n) otherwise. Always use built-ins.</p>
+      </div>
+      <div class="rw-card">
+        <svg class="rw-card-icon" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <div class="rw-card-title">Rendering Z-index</div>
+        <p class="rw-card-desc">The browser's compositor sorts DOM elements by z-index to determine paint order. On every reflow, a stable sort preserves the relative order of elements at the same z-level.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
